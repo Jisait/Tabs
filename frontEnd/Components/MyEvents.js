@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ChooseYourEvent() {
 
+    
 
 
     return (
@@ -19,6 +20,8 @@ export default function ChooseYourEvent() {
 
   }
       
+
+
   
 const styles = StyleSheet.create({
 
