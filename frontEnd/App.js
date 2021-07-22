@@ -2,6 +2,7 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';
+import Animated from 'react-native-reanimated';
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Header } from 'react-native-elements';
@@ -109,10 +110,9 @@ export default function App() {
                                },
                       }}>
      
- 
               <Tab.Screen name="Disco" component={Discover} />
-              <Tab.Screen name="Create" component={MyEvents} />
-              <Tab.Screen name="MyEvent" component={ChooseYourEvent} />
+              <Tab.Screen name="Create" component={ChooseYourEvent} />
+              <Tab.Screen name="MyEvent" component={MyEvents} />
           </Tab.Navigator>
     </NavigationContainer>
      

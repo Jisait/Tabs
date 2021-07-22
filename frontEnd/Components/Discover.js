@@ -33,9 +33,6 @@ export default function Discover() {
 /*   var Event :[{}] */
 
   const screen = Dimensions.get("screen");
-  console.log("screen", screen)
-
-  console.log("pourc", (6.5/10)*screen.height)
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -90,7 +87,6 @@ let changeLikeColor = () => {
                     position: 'absolute',
                     left: 0,
                     right: 0,
-                    
                     bottom:0,
                     height: '50%',
                     borderRadius: 28
@@ -109,16 +105,18 @@ let changeLikeColor = () => {
             <FontAwesome name="share-alt" size={26} color="white" />
           </View>
        
-
           <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
               <Text style={styles.text}>DANCE SHOW</Text>
           </View>
+
           <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
               <Text style={styles.subtext}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique.</Text>
           </View>
+
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
             <View style={styles.hairlineWhite} />
           </View>
+
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
               <View style={styles.hairlineBlack} />
           </View> 

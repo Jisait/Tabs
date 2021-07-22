@@ -1,81 +1,127 @@
 import React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import {
+    useFonts,
+    Poppins_100Thin,
+    Poppins_100Thin_Italic,
+    Poppins_200ExtraLight,
+    Poppins_200ExtraLight_Italic,
+    Poppins_300Light,
+    Poppins_300Light_Italic,
+    Poppins_400Regular,
+    Poppins_400Regular_Italic,
+    Poppins_500Medium,
+    Poppins_500Medium_Italic,
+    Poppins_600SemiBold,
+    Poppins_600SemiBold_Italic,
+    Poppins_700Bold,
+    Poppins_700Bold_Italic,
+    Poppins_800ExtraBold,
+    Poppins_800ExtraBold_Italic,
+    Poppins_900Black,
+    Poppins_900Black_Italic,
+  } from '@expo-google-fonts/poppins';
 
 
 
 export default function ChooseYourEvent() {
 
 
+    let [fontsLoaded] = useFonts({
+        Poppins_100Thin,
+      Poppins_100Thin_Italic,
+      Poppins_200ExtraLight,
+      Poppins_200ExtraLight_Italic,
+      Poppins_300Light,
+      Poppins_300Light_Italic,
+      Poppins_400Regular,
+      Poppins_400Regular_Italic,
+      Poppins_500Medium,
+      Poppins_500Medium_Italic,
+      Poppins_600SemiBold,
+      Poppins_600SemiBold_Italic,
+      Poppins_700Bold,
+      Poppins_700Bold_Italic,
+      Poppins_800ExtraBold,
+      Poppins_800ExtraBold_Italic,
+      Poppins_900Black,
+      Poppins_900Black_Italic,
+      });
+if (!fontsLoaded) {
+        return <AppLoading />;
+      } else {
+
+
 
     return (
-      <Text style={styles.text}>BONJOUR MY EVENTS</Text>
+        <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
+             <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', margin:(0.1/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+             <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderTopLeftRadius: 36,borderBottomRightRadius: 16}} style={ styles.imgBackground }>
+            
+             </ImageBackground>
+             <View style={{position: 'absolute'}}>
+             <Text style={styles.date}>Mercredi 8 octobre 2021 </Text>
+             <Text style={styles.title}>Dancing show </Text>
+             <Text style={styles.desc}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique</Text>
+             
+             </View>
+             <View style={styles.iconContainer}></View>
+          </View>
+        </View>
         
 
     );
 
-  }
+  }}
       
   
+const screen = Dimensions.get("screen"); 
+console.log("prout", (2/10)*screen.width)
 const styles = StyleSheet.create({
 
-rectangle: {
-    height: '94.5%',
-    width: '100%',
-    backgroundColor: 'salmon',
-    borderRadius: 28,
-    },
+date: {
+        fontSize: 12,
+        marginLeft : (2/10)*screen.width+60,
+        fontFamily: 'Poppins_500Medium',
+        marginTop: 10,
+        marginBottom: -8,
+        },
 
-text: {
-    flex: 1,
-    fontSize: 28,
-    color: 'white',
-    fontFamily: 'Poppins_400Regular',
-    textAlign: 'justify'
+title: {
+    fontSize: 23,
+    marginLeft : (2/10)*screen.width+9,
+    fontFamily: 'Poppins_500Medium',
+    marginTop: 5,
     },
-
-subtext: {
-    flex: 1,
-    marginBottom: 'auto',
-    fontSize: 16,
-    color: 'white',
-    lineHeight: 17,
-    fontFamily: 'Poppins_300Light'
-    },
-
-hairlineWhite: {
-    backgroundColor: 'white',
-    height: 118,
-    width: 1,
-    },
-
-adresse: {
-    fontSize: 16,
-    color: 'black',
-    fontFamily: 'Poppins_300Light',
-    },
-
-hairlineBlack: {
-    backgroundColor: 'black',
-    height: 20,
-    width: 1,
-    },
+    
+desc: {
+        fontSize: 15,
+        marginLeft : (2/10)*screen.width+9,
+        fontFamily: 'Poppins_300Light',
+        marginTop: -12,
+        lineHeight: 38 * 0.4,
+        paddingTop: 20 - (20 * 0.4),
+       
+        },
 
 imgBackground: {
     width: '100%',
     height: '100%',
     flex: 1 ,
+    width: (2/10)*screen.width
     },
 
-imgBackground2: {
-    position: 'absolute',
-    width: '100%',
-    height: '70%',
-    flex: 1 ,
-    },
+iconContainer: {
+    marginBottom: 'auto',
+    height: '20%', width: '100%',
+    backgroundColor: 'red'
+
+
+}
 
 });
 
