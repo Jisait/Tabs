@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -55,7 +55,9 @@ export default function Discover() {
   Poppins_900Black_Italic,
   });
 
-const [likeColor, setLikeColor] = useState('white')
+const [likeColor, setLikeColor] = useState('white');
+const [events, setEvents] = useState([]);
+
 
 let changeLikeColor = () => {
   if (likeColor === 'white')
@@ -63,6 +65,74 @@ let changeLikeColor = () => {
   else if (likeColor === '#FF0202')
             {setLikeColor('white')}
       }
+
+
+      useEffect(() => {
+
+        async function loadData(){
+    
+          // CHANGE POUR TON IP LORS DE RESR
+          const data = await fetch("http://192.168.43.161:3000/get-event")
+          var  eventData =  await data.json();
+          setEvents(eventData.events)
+
+        }
+        loadData()
+    
+      }, []);
+
+
+let discoverList = events.map((event) => {
+   return (
+    <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>     
+       <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
+              <LinearGradient
+                  colors={['transparent','rgba(0,0,0,0.8)']}
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    bottom:0,
+                    height: '50%',
+                    borderRadius: 28
+                  }}/>
+          </ImageBackground>
+          <View style={{position: 'absolute', right: 20, top: 45}}>
+            <FontAwesome onPress={() => changeLikeColor()} name="heart" size={30} color={likeColor} />
+          </View>
+          <View style={{position: 'absolute', left: 150, bottom: 166}}>
+            <FontAwesome name="share-alt" size={26} color="white" />
+          </View>
+          <View style={{position: 'absolute', left: 220, bottom: 166}}>
+            <Text style={styles.distance}>1,6 km</Text>
+          </View>
+          <View style={{position: 'absolute', left: 190, bottom: 166}}>
+            <FontAwesome5 name="map-marker-alt" size={26} color="white" />
+          </View>
+          <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
+              <Text style={styles.text}>DANCE SHOW</Text>
+          </View>
+          <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
+              <Text style={styles.subtext}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique.</Text>
+          </View>
+          <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
+            <View style={styles.hairlineWhite} />
+          </View>
+          <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
+              <View style={styles.hairlineBlack} />
+          </View> 
+          <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
+              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
+          </View>
+          <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
+              <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
+              <Text style={styles.pseudo}>Cool_Girl_75</Text>
+          </View>
+        </View>
+        );
+      });
+
+
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -135,7 +205,7 @@ let changeLikeColor = () => {
         </View>
         
      
-
+{discoverList}
         
 
         </ScrollView>

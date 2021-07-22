@@ -25,9 +25,15 @@ router.post('/add-event', async function(req, res, next){
     })
 
     var event = await newEvent.save();
-    
     res.json({event})
+})
 
+router.get('/get-event', async function(req, res, next){
+  console.log('on add events')
+
+  var events = await eventsModel.find();
+
+    res.json({events})
 })
 
 module.exports = router;
