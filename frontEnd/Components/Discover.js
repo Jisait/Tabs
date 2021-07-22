@@ -64,10 +64,6 @@ let changeLikeColor = () => {
             {setLikeColor('white')}
       }
 
-
-
-
-
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -100,11 +96,15 @@ let changeLikeColor = () => {
           </View>
 
           <View style={{position: 'absolute', left: 150, bottom: 166}}>
-            <FontAwesome5 name="map-marker-alt" size={26} color="white" />
+            <FontAwesome name="share-alt" size={26} color="white" />
+          </View>
+
+          <View style={{position: 'absolute', left: 220, bottom: 166}}>
+            <Text style={styles.distance}>1,6 km</Text>
           </View>
 
           <View style={{position: 'absolute', left: 190, bottom: 166}}>
-            <FontAwesome name="share-alt" size={26} color="white" />
+            <FontAwesome5 name="map-marker-alt" size={26} color="white" />
           </View>
        
           <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
@@ -126,7 +126,7 @@ let changeLikeColor = () => {
               <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
           </View>
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
-              <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ border: 'white', borderRadius: 50}} style={ styles.imgAvatar}/>
+              <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
               <Text style={styles.pseudo}>Cool_Girl_75</Text>
            
             
@@ -210,12 +210,18 @@ imgBackground2: {
     flex: 1
     },
 
-    pseudo: {
-      color: 'white',
-      marginLeft: 8,
-      fontFamily: 'Poppins_500Medium',
+pseudo: {
+    color: 'white',
+    marginLeft: 8,
+    fontFamily: 'Poppins_500Medium',
 
-    }
+    },
+
+distance: {
+  color:'white',
+  textAlign: 'right',
+  fontFamily: 'Poppins_500Medium',
+},
 
 });
 

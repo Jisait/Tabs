@@ -4,6 +4,7 @@ import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, Scroll
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons'; 
 import {
     useFonts,
     Poppins_100Thin,
@@ -53,15 +54,15 @@ export default function ChooseYourEvent() {
       Poppins_900Black_Italic,
       });
 if (!fontsLoaded) {
-        return <AppLoading />;
-      } else {
+    return <AppLoading />;
+        } else {
 
 
 
     return (
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
              <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', margin:(0.1/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
-             <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderTopLeftRadius: 36,borderBottomRightRadius: 16}} style={ styles.imgBackground }>
+             <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
             
              </ImageBackground>
              <View style={{position: 'absolute'}}>
@@ -69,9 +70,43 @@ if (!fontsLoaded) {
              <Text style={styles.title}>Dancing show </Text>
              <Text style={styles.desc}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique</Text>
              
+             
              </View>
-             <View style={styles.iconContainer}></View>
-          </View>
+                    <View style={styles.iconContainer}>
+                    <View style={{position: 'absolute', right: 22, top: 5}}>
+                    <Ionicons name="close-circle-outline" size={32} color="red" />
+                    </View>
+                    <View style={{position: 'absolute', right: 72, top: 5}}>
+                    <Ionicons name="checkmark-circle-outline" size={32} color="green" />
+                    </View>
+                    <View style={{position: 'absolute', left: 25, top: 5}}>
+                    <Ionicons name="chatbox-ellipses" size={32} color="black" />
+                    </View>
+                    </View>
+            </View>
+            <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', margin:(0.1/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+             <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
+            
+             </ImageBackground>
+             <View style={{position: 'absolute'}}>
+             <Text style={styles.date}>Mercredi 8 octobre 2021 </Text>
+             <Text style={styles.title}>Dancing show </Text>
+             <Text style={styles.desc}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique</Text>
+             
+             
+             </View>
+                    <View style={styles.iconContainer}>
+                    <View style={{position: 'absolute', right: 22, top: 5}}>
+                    <Ionicons name="close-circle-outline" size={32} color="red" />
+                    </View>
+                    <View style={{position: 'absolute', right: 72, top: 5}}>
+                    <Ionicons name="checkmark-circle-outline" size={32} color="green" />
+                    </View>
+                    <View style={{position: 'absolute', left: 25, top: 5}}>
+                    <Ionicons name="chatbox-ellipses" size={32} color="black" />
+                    </View>
+                    </View>
+            </View>
         </View>
         
 
@@ -102,14 +137,14 @@ title: {
     },
     
 desc: {
-        fontSize: 15,
-        marginLeft : (2/10)*screen.width+9,
-        fontFamily: 'Poppins_300Light',
-        marginTop: -12,
-        lineHeight: 38 * 0.4,
-        paddingTop: 20 - (20 * 0.4),
-       
-        },
+    fontSize: 15,
+    marginLeft : (2/10)*screen.width+9,
+    fontFamily: 'Poppins_300Light',
+    marginTop: -12,
+    lineHeight: 38 * 0.4,
+    paddingTop: 20 - (20 * 0.4),
+    
+    },
 
 imgBackground: {
     width: '100%',
@@ -120,11 +155,10 @@ imgBackground: {
 
 iconContainer: {
     marginBottom: 'auto',
-    height: '20%', width: '100%',
-    backgroundColor: 'red'
-
-
-}
+    height: '26%', width: '100%',
+    backgroundColor: '#FFD99F',
+    borderBottomRightRadius: 16
+            }
 
 });
 
