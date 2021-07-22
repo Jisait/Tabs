@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Discover from './Components/Discover';
 import ChooseYourEvent from './Components/ChooseYourEvent';
 import MyEvents from './Components/MyEvents';
+import CreateMyEvent from './Components/CreateMyEvent';
 import { Ionicons } from '@expo/vector-icons';
 import {
   useFonts,
@@ -40,7 +41,11 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-export default function App() {
+
+
+
+
+function TabNav() {
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -69,17 +74,8 @@ export default function App() {
 
   return (
 
-    <NavigationContainer>
-          <Header
-  placement="left"
-  leftComponent={{ icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12 }}
-  containerStyle={{
-    backgroundColor: '#011520',
-    justifyContent: 'space-around',
-    paddingBottom: 0
-  }}
-  rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}
-            />
+  
+          
           <Tab.Navigator 
               screenOptions={({ route }) => ({
                     tabBarIcon: ({ color }) => {
@@ -114,7 +110,57 @@ export default function App() {
               <Tab.Screen name="Create" component={ChooseYourEvent} />
               <Tab.Screen name="MyEvent" component={MyEvents} />
           </Tab.Navigator>
-    </NavigationContainer>
+           
+         
+  
      
   );
   }
+
+  export default function App() {
+    
+    
+    let [fontsLoaded] = useFonts({
+    Poppins_100Thin,
+  Poppins_100Thin_Italic,
+  Poppins_200ExtraLight,
+  Poppins_200ExtraLight_Italic,
+  Poppins_300Light,
+  Poppins_300Light_Italic,
+  Poppins_400Regular,
+  Poppins_400Regular_Italic,
+  Poppins_500Medium,
+  Poppins_500Medium_Italic,
+  Poppins_600SemiBold,
+  Poppins_600SemiBold_Italic,
+  Poppins_700Bold,
+  Poppins_700Bold_Italic,
+  Poppins_800ExtraBold,
+  Poppins_800ExtraBold_Italic,
+  Poppins_900Black,
+  Poppins_900Black_Italic,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else 
+
+  return (
+
+        <NavigationContainer>
+              <Header
+                placement="left"
+                leftComponent={{ icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12 }}
+                containerStyle={{
+                  backgroundColor: '#011520',
+                  justifyContent: 'space-around',
+                  paddingBottom: 0
+                }}
+                rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
+
+              <Stack.Navigator headerMode='none'>
+                <Stack.Screen name="TabNav" component={TabNav} />
+                <Stack.Screen name="CreateMyEvent" component={CreateMyEvent} />
+              </Stack.Navigator>
+        </NavigationContainer> 
+  );}

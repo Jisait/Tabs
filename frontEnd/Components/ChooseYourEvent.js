@@ -5,6 +5,8 @@ import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, Im
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   useFonts,
   Poppins_100Thin,
@@ -29,7 +31,7 @@ import {
 
 
 
-export default function ChooseYourEvent() {
+export default function ChooseYourEvent(props) {
 
   
   console.log((2/10)*screen.height)
@@ -77,7 +79,7 @@ export default function ChooseYourEvent() {
           <View style= {{height: (2.3/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
              <Text style= {styles.textExpliquatif}>Un évenement publique peut-etre publier à l'ensemble des utilisateurs de Tabs. !</Text>
               <View style={{marginTop: 'auto', marginBottom: 20}}>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={() => props.navigation.navigate('CreateMyEvent')}>
                         <Text style={styles.text}>PUBLIC EVENT</Text>
                 </Pressable>
               </View>
@@ -96,6 +98,7 @@ export default function ChooseYourEvent() {
         </View>
             );
           }}
+
 
 const screen = Dimensions.get("screen"); 
 const styles = StyleSheet.create({
