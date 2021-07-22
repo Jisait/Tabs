@@ -30,6 +30,7 @@ import {
 
 export default function ChooseYourEvent() {
 
+    
 
     let [fontsLoaded] = useFonts({
         Poppins_100Thin,
@@ -78,6 +79,8 @@ if (!fontsLoaded) {
 
   }}
       
+
+
   
 const screen = Dimensions.get("screen"); 
 console.log("prout", (2/10)*screen.width)
