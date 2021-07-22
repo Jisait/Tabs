@@ -75,7 +75,7 @@ let changeLikeColor = () => {
     return (
       <View style={{flex:1, alignItems: 'center'}}>
 
-<ScrollView style={{flex:1}} snapToInterval={(6.5/10)*screen.height} decelerationRate='fast'> git 
+<ScrollView style={{flex:1}} snapToInterval={(6.5/10)*screen.height} decelerationRate='fast'>  
       
       
       <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>
