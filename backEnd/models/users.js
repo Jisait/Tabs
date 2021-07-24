@@ -6,7 +6,6 @@ var userSchema = mongoose.Schema({
   email: String,
   password: String,
   token: String,
-  phone: Number,
   urlToProfilePic: String,
   myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
   });

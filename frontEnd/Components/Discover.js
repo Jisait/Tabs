@@ -73,7 +73,7 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://172.17.1.71:3000/get-event")
+          const data = await fetch("http://192.168.1.65:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
 

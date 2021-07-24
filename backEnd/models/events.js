@@ -2,7 +2,7 @@ var mongoose =require('mongoose');
 
 
 var eventSchema = mongoose.Schema({
-  adminID: String,
+  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'users'},
   Private: Boolean,
   Title: String,
   desc: String,
