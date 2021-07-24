@@ -3,6 +3,7 @@ import AppLoading from 'expo-app-loading';
 import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {
@@ -72,7 +73,7 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://192.168.43.161:3000/get-event")
+          const data = await fetch("http://172.17.1.71:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
 

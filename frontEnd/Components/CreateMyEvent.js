@@ -1,11 +1,14 @@
 import React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { CheckBox } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
+
 
 import {
   useFonts,
@@ -69,7 +72,19 @@ let changeLikeColor = () => {
   } else {
   
     return (
-      <View style={{flex:1, alignItems: 'center'}}>
+      <View style={{flex:1, alignItems: 'center',  backgroundColor: '#FFF1DC'}}>
+        
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            <Text style={styles.createText}>
+                {'create your '}
+            </Text>
+            <Text style={styles.createTextBold}>
+                {'private '}
+            </Text>
+            <Text style={styles.createText}>
+                {'event '}
+            </Text>
+        </View>
 
 <ScrollView style={{flex:1}} snapToInterval={(6.5/10)*screen.height} decelerationRate='fast'> 
       
@@ -78,7 +93,7 @@ let changeLikeColor = () => {
       
   
            
-       <ImageBackground position= 'relative' source={require("../assets/kart.jpg")} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
+       <ImageBackground position= 'relative' imageStyle={{ borderRadius: 28, marginBottom: 25}} style={styles.imgBackground}>
               <LinearGradient
                   colors={['transparent','rgba(0,0,0,0.8)']}
                   style={{
@@ -89,50 +104,30 @@ let changeLikeColor = () => {
                     height: '50%',
                     borderRadius: 28
                   }}/>
+                   <View style={{ top: 0, right: 0, bottom: 0, left: 0}}>
+          <Ionicons name="image-outline" size={110} color="black" style={{marginTop: 140, color: '#011520'}}/> 
+          </View>
           </ImageBackground>
+         
+        
 
-          <View style={{position: 'absolute', right: 20, top: 45}}>
-            <FontAwesome onPress={() => changeLikeColor()} name="heart" size={30} color={likeColor} />
-          </View>
-
-          <View style={{position: 'absolute', left: 150, bottom: 166}}>
-            <FontAwesome name="share-alt" size={26} color="white" />
-          </View>
-
-          <View style={{position: 'absolute', left: 220, bottom: 166}}>
-            <Text style={styles.distance}>1,6 km</Text>
+          <View style={{width: '85%', position: 'absolute', marginLeft: 24, bottom: 100, color: 'red'}}>
+          <TextInput style= {styles.inputEventName} placeholderTextColor="white" placeholder="Event's name" containerStyle={{ width: '70%' }}/>
+          <TextInput style= {styles.inputEventDesc} placeholderTextColor="white" placeholder="Event's name" containerStyle={{ width: '70%' }}/>
           </View>
 
-          <View style={{position: 'absolute', left: 190, bottom: 166}}>
-            <FontAwesome5 name="map-marker-alt" size={26} color="white" />
-          </View>
-       
-          <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
-              <Text style={styles.text}>DANCE SHOW</Text>
-          </View>
+          <View style={{width: '85%', marginLeft: 24,position: 'relative', color: 'red'}}>
+          <TextInput style= {styles.inputEventAddress} placeholderTextColor="black" placeholder="Event's address" containerStyle={{ width: '70%' }}/>
 
-          <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
-              <Text style={styles.subtext}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique.</Text>
-          </View>
-
-          <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
-            <View style={styles.hairlineWhite} />
-          </View>
-
-          <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
-              <View style={styles.hairlineBlack} />
-          </View> 
-          <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
-          </View>
-          <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
-              <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
-              <Text style={styles.pseudo}>Cool_Girl_75</Text>
-           
-            
-          </View>
+            </View>
     
         </View>
+        <CheckBox
+        title='sports'
+        checked={false}
+        containerStyle={{backgroundColor: 'transparent'}}
+        checkedColor='red'/>
+        
         
      
 
@@ -165,6 +160,49 @@ text: {
     textAlign: 'justify'
     },
 
+inputEventName: {
+  color: 'white',
+  borderBottomWidth: 1,
+  borderColor: 'white',
+
+  fontSize: 28,
+  fontFamily: 'Poppins_400Regular'},
+  
+
+inputEventDesc: {
+  color: 'white',
+  borderBottomWidth: 1,
+  borderColor: 'white',
+
+  fontSize: 16,
+  fontFamily: 'Poppins_400Regular'},
+
+inputEventAddress: {
+  color: 'black',
+  borderBottomWidth: 1,
+  borderColor: 'black',
+
+  fontSize: 16,
+  fontFamily: 'Poppins_400Regular'},
+
+createText: {
+    
+    fontSize: 24,
+    color: '#011520',
+    fontFamily: 'Poppins_400Regular',
+    textAlign: 'justify',
+    marginTop: 20
+    },
+
+createTextBold: {
+
+  fontSize: 24,
+  color: '#011520',
+  fontFamily: 'Poppins_600SemiBold',
+  textAlign: 'justify',
+  marginTop: 20
+  },
+
 subtext: {
     flex: 1,
     marginBottom: 'auto',
@@ -195,7 +233,12 @@ hairlineBlack: {
 imgBackground: {
     width: '100%',
     height: '100%',
+    
+    alignItems: 'center',
     flex: 1 ,
+    backgroundColor: '#FFD99F',
+    borderRadius: 28,
+    marginBottom: 10
     },
 
 imgAvatar: {
@@ -221,6 +264,12 @@ distance: {
   color:'white',
   textAlign: 'right',
   fontFamily: 'Poppins_500Medium',
+},
+
+input: {
+  height: 40,
+  margin: 12,
+  borderWidth: 1,
 },
 
 });

@@ -74,8 +74,6 @@ function TabNav() {
 
   return (
 
-  
-          
           <Tab.Navigator 
               screenOptions={({ route }) => ({
                     tabBarIcon: ({ color }) => {
@@ -156,7 +154,7 @@ function TabNav() {
                   justifyContent: 'space-around',
                   paddingBottom: 0
                 }}
-                rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
+                rightComponent={{ text: 'teub.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
 
               <Stack.Navigator headerMode='none'>
                 <Stack.Screen name="TabNav" component={TabNav} />
