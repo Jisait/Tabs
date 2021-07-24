@@ -82,6 +82,7 @@ export default function ChooseYourEvent() {
                 </Pressable>
               </View>
           </View>
+          
           <View style= {{height: (2.3/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
              <Text style= {styles.textExpliquatif}>Un évenement publique peut-etre publier à l'ensemble des utilisateurs de Tabs. !</Text>
               <View style={{marginTop: 'auto', marginBottom: 20}}>

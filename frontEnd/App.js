@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Discover from './Components/Discover';
 import ChooseYourEvent from './Components/ChooseYourEvent';
 import MyEvents from './Components/MyEvents';
+import Login from './Components/Login'
 import { Ionicons } from '@expo/vector-icons';
 import {
   useFonts,
@@ -91,6 +92,9 @@ export default function App() {
                             } else if (route.name === 'MyEvent') {
                               iconName = 'ios-heart-outline';
                             }
+                            else if (route.name === 'Login') {
+                              iconName = 'ios-heart-outline';
+                            }
                               return <Ionicons name={iconName} size={28} color={color} />;
                           },
                               })}
@@ -113,6 +117,8 @@ export default function App() {
               <Tab.Screen name="Disco" component={Discover} />
               <Tab.Screen name="Create" component={ChooseYourEvent} />
               <Tab.Screen name="MyEvent" component={MyEvents} />
+              <Tab.Screen name="Login" component={Login} />
+
           </Tab.Navigator>
     </NavigationContainer>
      
