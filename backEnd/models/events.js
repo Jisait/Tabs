@@ -3,8 +3,8 @@ var mongoose =require('mongoose');
 
 var eventSchema = mongoose.Schema({
   admin: { type: mongoose.Schema.Types.ObjectId, ref: 'users'},
-  Private: Boolean,
-  Title: String,
+  publique: Boolean,
+  title: String,
   desc: String,
   image: String,
   address: String,
@@ -12,7 +12,7 @@ var eventSchema = mongoose.Schema({
   latitude: Number,
   date: Date,
   Participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
-  Tags: Array
+  tags: Array
   
   });
   

@@ -73,9 +73,11 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://192.168.1.65:3000/get-event")
+          const data = await fetch("http://192.168.1.63:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
+
+          console.log("map", events)
 
         }
         loadData()
@@ -84,9 +86,11 @@ let changeLikeColor = () => {
 
 
 let discoverList = events.map((event) => {
+
+  console.log(event.image)
    return (
     <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>     
-       <ImageBackground position= 'relative' source={require("../assets/dance.jpg")} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
+       <ImageBackground position= 'relative' source={{uri:"http://res.cloudinary.com/dcp1qn8wv/image/upload/v1627210147/z0xht36exlu0wi44lcef.jpg"}} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
               <LinearGradient
                   colors={['transparent','rgba(0,0,0,0.8)']}
                   style={{
@@ -111,10 +115,10 @@ let discoverList = events.map((event) => {
             <FontAwesome5 name="map-marker-alt" size={26} color="white" />
           </View>
           <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
-              <Text style={styles.text}>DANCE SHOW</Text>
+              <Text style={styles.text}>{event.title.toUpperCase()}</Text>
           </View>
           <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
-              <Text style={styles.subtext}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique.</Text>
+              <Text style={styles.subtext}>{event.desc}</Text>
           </View>
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
             <View style={styles.hairlineWhite} />
@@ -123,7 +127,10 @@ let discoverList = events.map((event) => {
               <View style={styles.hairlineBlack} />
           </View> 
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
+              <Text style={styles.date}>{event.date} / 20h00</Text>
+          </View>
+          <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
+              <Text style={styles.adresse}>{event.address}</Text>
           </View>
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
               <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
@@ -193,17 +200,22 @@ let discoverList = events.map((event) => {
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
               <View style={styles.hairlineBlack} />
           </View> 
-          <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
-          </View>
+        
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
               <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
               <Text style={styles.pseudo}>Cool_Girl_75</Text>
            
             
           </View>
+       
     
         </View>
+        <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
+              <Text style={styles.date}>24 octobre 2021 / 20h00</Text>
+          </View>
+          <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
+              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
+          </View>
         
      
 {discoverList}
@@ -252,9 +264,20 @@ hairlineWhite: {
     },
 
 adresse: {
+    marginVertical: 0,
+    padding: 0,
     fontSize: 16,
     color: 'black',
     fontFamily: 'Poppins_300Light',
+
+    },
+    
+date: {
+    marginTop: 3,
+    fontSize: 18,
+    color: 'black',
+    fontFamily: 'Poppins_500Medium',
+
     },
 
 hairlineBlack: {
