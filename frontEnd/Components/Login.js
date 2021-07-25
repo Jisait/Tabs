@@ -41,7 +41,7 @@ const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
 var handleSubmitSignUp = async (email, username, password) => {
-    const data = await fetch('http://192.168.1.65:3000/sign-up', {
+    const data = await fetch('http://192.168.1.20:3000/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&username='+username+'&password='+password
@@ -51,7 +51,7 @@ var handleSubmitSignUp = async (email, username, password) => {
     }
 
 var handleSubmitSignIn = async (email, password) => {
-    const data = await fetch('http://192.168.1.65:3000/sign-in', {
+    const data = await fetch('http://192.168.1.20:3000/sign-in', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&password='+password

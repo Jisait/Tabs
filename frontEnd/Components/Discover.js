@@ -73,7 +73,7 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://192.168.1.65:3000/get-event")
+          const data = await fetch("http://192.168.1.20:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
 
@@ -82,7 +82,7 @@ let changeLikeColor = () => {
     
       }, []);
 
-
+console.log(events)
 let discoverList = events.map((event) => {
    return (
     <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>     
@@ -105,16 +105,16 @@ let discoverList = events.map((event) => {
             <FontAwesome name="share-alt" size={26} color="white" />
           </View>
           <View style={{position: 'absolute', left: 220, bottom: 166}}>
-            <Text style={styles.distance}>1,6 km</Text>
+            <Text style={styles.distance}>{event.latitude}</Text>
           </View>
           <View style={{position: 'absolute', left: 190, bottom: 166}}>
             <FontAwesome5 name="map-marker-alt" size={26} color="white" />
           </View>
           <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
-              <Text style={styles.text}>DANCE SHOW</Text>
+              <Text style={styles.text}>{event.title}</Text>
           </View>
           <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
-              <Text style={styles.subtext}>En cela, le spectacle vivant désigne de nombreux modes d'expression artistique.</Text>
+              <Text style={styles.subtext}>{event.desc}</Text>
           </View>
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
             <View style={styles.hairlineWhite} />
@@ -123,7 +123,7 @@ let discoverList = events.map((event) => {
               <View style={styles.hairlineBlack} />
           </View> 
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-              <Text style={styles.adresse}>101 boulevard Voltaire, 75011 Paris</Text>
+              <Text style={styles.adresse}>{event.address}</Text>
           </View>
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
               <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
