@@ -1,11 +1,11 @@
 import { LogBox } from 'react-native';
+import React, { useState, useEffect }  from 'react';
 LogBox.ignoreLogs(['Warning: ...']);
 import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';
 import Animated from 'react-native-reanimated';
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Pressable, StyleSheet, Text, View, SafeAreaView, Dimensions, Image } from 'react-native';
+import { Header, Button, Overlay  } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,6 +15,7 @@ import MyEvents from './Components/MyEvents';
 import Login from './Components/Login'
 import { Ionicons } from '@expo/vector-icons';
 import CreateMyEvent from './Components/CreateMyEvent';
+import * as ImagePicker from 'expo-image-picker';
 import {
   useFonts,
   Poppins_100Thin,
@@ -37,14 +38,9 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins'; 
 
-
+const screen = Dimensions.get("screen");
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-
-
-
-
 
 function TabNav() {
 
@@ -115,13 +111,53 @@ function TabNav() {
 
           </Tab.Navigator>
            
-         
+       
   
      
   );
   }
 
   export default function App() {
+
+    const [visible, setVisible] = useState(false);
+      const toggleOverlay = () => {
+        setVisible(!visible);
+      };
+
+  
+    const [image, setImage] = useState(null);
+    const [avatar, setAvatar] = useState(require('./assets/defaultAvatar.jpeg'))
+
+   useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+    
+    const pickAvatar = async () => {
+      let avatar = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [200, 200],
+        quality: 1,
+        base64: true
+      });
+    
+        if (!avatar.cancelled) {
+        setImage(avatar.uri);
+        setAvatar(avatar.uri)
+      }}
+
+var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
+
+if (image === null) {avatarView = <Image source={require('./assets/defaultAvatar.jpeg')} style={styles.avatar}/>}
+
+
     
     
     let [fontsLoaded] = useFonts({
@@ -152,9 +188,22 @@ function TabNav() {
   return (
 
         <NavigationContainer>
+          <Overlay isVisible={visible} onBackdropPress={toggleOverlay} backdropStyle={{backgroundColor: 'rgba(0,0,0,0.6)'}} overlayStyle={styles.overlay}>
+        <View style= {{justifyContent: 'center', alignItems: 'center'}}>
+        <Text style= {styles.title}>My account</Text>
+        <Text style= {styles.userName}>UserPseudo</Text>
+              <View style= {{position: 'relative', marginTop: 7}}>
+                              {avatarView}
+                    <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
+              </View>
+          <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
+          <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
+          <View style= {styles.hairline}></View>
+        </View>
+      </Overlay>
               <Header
                 placement="left"
-                leftComponent={{ icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12 }}
+                leftComponent={{  icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12, onPress: () => toggleOverlay() }}
                 containerStyle={{
                   backgroundColor: '#011520',
                   justifyContent: 'space-around',
@@ -168,3 +217,64 @@ function TabNav() {
               </Stack.Navigator>
         </NavigationContainer> 
   );}
+
+  const styles = StyleSheet.create({
+
+    overlay: {
+        height: (7/10)*screen.height,
+        width: (8/10)*screen.width,
+        backgroundColor: '#011520'
+              },
+
+    title: {
+      color: 'white',
+      fontFamily: 'Poppins_200ExtraLight',
+      fontSize : 12,
+      marginTop: 10
+    },
+
+    userName: {
+      color: 'white',
+      fontFamily: 'Poppins_400Regular',
+      fontSize : 20,
+      marginTop: 10
+    },
+
+    avatar: {
+      
+      height: 80,
+      width: 80,
+      borderRadius: 80,
+      position: 'absolute'
+    },
+
+    avatarChange:  {
+      backgroundColor: 'transparent',
+      height: 80,
+      width: 80,
+      borderRadius: 80,
+      
+    },
+
+    nbreEvent: {
+      color: 'white',
+      fontFamily: 'Poppins_400Regular',
+      fontSize : 12,
+      marginTop: 20
+      },
+    
+    nbreEventPresent: {
+      color: 'white',
+      fontFamily: 'Poppins_400Regular',
+      fontSize : 12,
+      marginTop: 2
+      },
+    
+    hairline: {
+      backgroundColor: 'white',
+      width: 210,
+      height: 1,
+      marginTop: 40
+    }
+
+      })
