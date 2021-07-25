@@ -11,6 +11,18 @@ var messageModel = require('../models/messages')
 var uid2 = require('uid2')
 var bcrypt = require('bcrypt')
 
+//HEBERGEMENT DES IMAGES SUR CLOUDINARY
+var uniqid = require("uniqid");
+var cloudinary = require('cloudinary').v2;
+var request = require('sync-request');
+var fs = require('fs');
+
+cloudinary.config({ 
+  cloud_name: 'dcp1qn8wv', 
+  api_key: '441498937782693', 
+  api_secret: 'GwA-DJUthpTuqXX2Xwo6PEZHbm0' 
+});
+
 
 
 
@@ -26,7 +38,7 @@ router.get('/', function(req, res, next) {
   //ADD AN EVENT
       router.post('/add-event', async function(req, res, next){
         var newEvent = new eventsModel({
-          private: req.body.private,
+          publique: req.body.publique,
           title: req.body.title,
           desc: req.body.desc,
           image: req.body.image,
@@ -37,8 +49,34 @@ router.get('/', function(req, res, next) {
           tags: req.body.tags
           })
           var event = await newEvent.save();
+console.log("on y croit", event)
+
           res.json({event})
       })
+
+  //UPLOAD PICTURE ON CLOUDINARY
+
+  router.post("/pictureUpload", async function (req, res, next) {
+
+    var idPhoto = "./tmp/" + uniqid() + ".jpg"
+    var resultCopy = await req.files.picture.mv(idPhoto);
+
+    if (!resultCopy) {
+      var resultCloudinary = await cloudinary.uploader.upload(idPhoto);
+      console.log('prout', resultCloudinary)
+
+    res.json({url : resultCloudinary.url});
+  
+  } else {
+    res.json({ error: resultCopy });
+  }
+
+  fs.unlinkSync(idPhoto);
+
+});
+
+
+      
 
   //GET EVENTS FOR DISCOVER PAGE
     router.get('/get-event', async function(req, res, next){
@@ -84,7 +122,7 @@ router.get('/', function(req, res, next) {
       var updatedEvent = await eventsModel.updateOne({
         _id: req.body.id
       }, {
-      private: req.body.private,
+      publique: req.body.publique,
       title: req.body.title,
       desc: req.body.desc,
       image: req.body.image,
@@ -159,7 +197,7 @@ router.get('/', function(req, res, next) {
   //ADD MESSAGE
     router.post('/add-message', async function(req, res, next){
       var newEvent = new eventsModel({
-        private: req.body.private,
+        publique: req.body.publique,
         title: req.body.title,
         desc: req.body.desc,
         image: req.body.image,
