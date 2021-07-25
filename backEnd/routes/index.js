@@ -45,14 +45,14 @@ router.get('/', function(req, res, next) {
           address: req.body.address,
           longitude: req.body.longitude,
           latitude: req.body.latitude,
-          date: req.body.date,
+          dateUTC: req.body.dateUTC,
+          dateFront: req.body.dateFront,
           tags: req.body.tags
           })
           var event = await newEvent.save();
-console.log("on y croit", event)
-
-          res.json({event})
-      })
+          
+      res.json({event})
+  })
 
   //UPLOAD PICTURE ON CLOUDINARY
 
@@ -63,9 +63,8 @@ console.log("on y croit", event)
 
     if (!resultCopy) {
       var resultCloudinary = await cloudinary.uploader.upload(idPhoto);
-      console.log('prout', resultCloudinary)
-
-    res.json({url : resultCloudinary.url});
+   
+   res.json({url : resultCloudinary.url});
   
   } else {
     res.json({ error: resultCopy });
@@ -80,7 +79,7 @@ console.log("on y croit", event)
 
   //GET EVENTS FOR DISCOVER PAGE
     router.get('/get-event', async function(req, res, next){
-      console.log('on add events')
+
     
       var events = await eventsModel.find();
     
@@ -90,7 +89,7 @@ console.log("on y croit", event)
 
   //GET EVENTS FOR DISCOVER PAGE
     router.get('/get-discover-events', async function(req, res, next){
-      console.log('on add events')
+
     
       var events = await eventsModel.find();
     
@@ -102,7 +101,6 @@ console.log("on y croit", event)
     
       var user = await userModel.findOne({token: req.body.token}).populate('myEvents');
 
-    console.log(user)
 
     res.json({myEvents: user.myEvents})
     })
@@ -144,7 +142,7 @@ console.log("on y croit", event)
 //USER ROUTES
   //SIGN UP ROUTE
       router.post('/sign-up', async function(req, res, next) {
-        console.log(req.body)
+   
         var erreurValue = '';
         var checkEmail = await userModel.findOne({email: req.body.email.toLowerCase()});
         var checkUsername = await userModel.findOne({username: req.body.username.toLowerCase()});
