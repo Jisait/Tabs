@@ -95,7 +95,7 @@ const pickImage = async () => {
     setImage(picture.uri);
   }
 
-  console.log("???", picture.uri)
+
 
   var data = new FormData();
   data.append("picture", {
@@ -104,7 +104,7 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://172.17.1.71:3000/pictureUpload", {
+  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
     method: "post",
     body: data,
   });
@@ -207,6 +207,8 @@ findAddress()
 
 const [contacts, setContacts] = useState([])
 const [inMemory, setInMemory] = useState([])
+const [pressItem, setPressItem] = useState([])
+console.log("?", pressItem)
 
    useEffect(() => {
     (async () => {
@@ -217,26 +219,40 @@ const [inMemory, setInMemory] = useState([])
         });
           setContacts(data)
           setInMemory(data)
-          console.log(contacts);
-         
-        
-      }
+
+        }
     })();
   }, []);
 
 
+if (contacts.length>5) {
+
   var renderItem = ({ item}) => (
-    <View style= {styles.searchListBackground}>
+    
+    <View></View>
+    )
+  
+  } else {
+
+    var renderItem = ({ item}) => (
+    
+  <View style= {styles.searchListBackground}>
+    <Pressable onPress={() => {setPressItem([...pressItem, item]); setContacts(contacts)}}>
+
       <Text  style={styles.searchListName}>
         {item.firstName+' '+item.lastName}
       </Text>
- 
-  
-    </View>
+      </Pressable>
+  </View>
   )
+  }
+
 
 var searchContacts = (value) => {
+
+
   const filteredContacts = inMemory.filter(contact => {
+    console.log("?", value)
 
       let contactLowercase = (contact.firstName+' '+contact.lastName).toLowerCase()
       let searchTermLowercase = value.toLowerCase()
@@ -246,6 +262,19 @@ var searchContacts = (value) => {
     )  
   setContacts(filteredContacts)
 }
+
+
+
+var ContactList = pressItem.map((contact) => {
+
+  return (
+    <View >
+          <Text style={{fontSize: 20}}>{contact.firstName+' '+contact.lastName}</Text>
+          </View>)
+
+})
+
+
 
 
 
@@ -363,8 +392,11 @@ if (image != null) {iconImagePicker= <View></View>}
                 )}
                 
               </View>
+           
                
               {dateView}
+
+         
 
         
     
@@ -385,37 +417,44 @@ if (image != null) {iconImagePicker= <View></View>}
           <View style={styles.hairlineBlack}></View>
         </View>
 
-        <View style={styles.container}>
+        <View style={styles.containerSearch}>
     
               <SearchBar
-        containerStyle= {{backgroundColor: 'white', borderRadius: 30, border: 'red', borderBottomColor: 'transparent', borderTopColor: 'transparent',}}
+        containerStyle= {{position: 'relative', backgroundColor: 'white', borderRadius: 30, border: 'red', borderBottomColor: 'transparent', borderTopColor: 'transparent',}}
         inputContainerStyle= {{backgroundColor: 'transparent', border: 0}}
         placeholder="Add friends..."
         onChangeText={(value)=>searchContacts(value)} 
         value={contacts}
       />
       <FlatList
+       style= {styles.listContacts}
           data={contacts}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           
           ListEmptyComponent={()=>(
             
-          <Text
-          
-          >No contacts</Text>)}/>
-         
-         
-    </View>
-
- 
-
-          
+          <Text>No contacts</Text>)}/>
+          <View style={{flex: 1, justifyContent: 'center', position: 'absolute', top: 80, left: 30, zIndex: 0}}>
+            {ContactList}
             <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 70, marginBottom: 170}}>
                 <Pressable style={styles.button}>
                       <Text style={styles.text} onPress={()=>handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}>GO TO OVERVIEW</Text>
                 </Pressable>
           </View>
+            
+            </View>
+        </View>
+       
+
+ 
+
+          
+   <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 70, marginBottom: 170}}>
+              {/*   <Pressable style={styles.button}>
+                      <Text style={styles.text} onPress={()=>handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}>GO TO OVERVIEW</Text>
+                </Pressable> */}
+          </View> 
                
              
         
@@ -441,6 +480,11 @@ if (image != null) {iconImagePicker= <View></View>}
   
 const styles = StyleSheet.create({
 
+  containerSearch: {
+
+    flex: 1
+  },
+
 rectangle: {
     height: '94.5%',
     width: '100%',
@@ -453,7 +497,8 @@ text: {
     fontSize: 28,
     color: 'white',
     fontFamily: 'Poppins_400Regular',
-    textAlign: 'justify'
+    textAlign: 'justify',
+
     },
 
 inputEventName: {
@@ -526,6 +571,7 @@ button: {
       borderRadius: 4,
       elevation: 3,
       backgroundColor: '#0E0812',
+     
     },
 text: {
       fontSize: 16,
@@ -567,17 +613,27 @@ date: {
   },
 
 searchListName: {
- 
   fontFamily: 'Poppins_300Light',
-  fontSize : 20
+  fontSize : 20,
+  marginLeft: 10,
+  marginBottom: 4,
+  marginTop: 6
 
   },
 
 searchListBackground: {
-  backgroundColor : 'white'
+  
+  backgroundColor : 'white',
+  borderBottomWidth : 0.5,
+  width: 300,
+  marginHorizontal: 30
+  },
+
+listContacts: {
+  zIndex: 1
 
 
-  }
+ }
 
 
 });

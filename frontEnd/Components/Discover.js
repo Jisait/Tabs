@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
+import HeaderScreen from './Header' 
 import { Overlay } from 'react-native-elements';
 import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -104,7 +105,7 @@ function Discover(props) {
         async function loadData(){
           
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://172.17.1.116:3000/get-event")
+          const data = await fetch("http://192.168.1.63:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
         }
