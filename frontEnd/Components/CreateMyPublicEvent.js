@@ -101,7 +101,7 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://172.17.1.116:3000/pictureUpload", {
+  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
     method: "post",
     body: data,
   });

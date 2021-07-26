@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';
 import Animated from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, View, SafeAreaView, Dimensions, Image } from 'react-native';
+import HeaderScreen from './Components/Header' 
 
 import { Header, Button, Overlay, CheckBox  } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +14,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Discover from './Components/Discover';
 import ChooseYourEvent from './Components/ChooseYourEvent';
 import MyEvents from './Components/MyEvents';
+import Settings from './Components/Settings';
 import Login from './Components/Login'
 import { Ionicons } from '@expo/vector-icons';
 import CreateMyPublicEvent from './Components/CreateMyPublicEvent';
@@ -210,145 +212,16 @@ const [tags, setTags] = useState([])
 
 
         <NavigationContainer>
-          <Overlay isVisible={visible} onBackdropPress={toggleOverlay} backdropStyle={{backgroundColor: 'rgba(0,0,0,0.6)'}} overlayStyle={styles.overlay}>
-        <View style= {{justifyContent: 'center', alignItems: 'center'}}>
-        <Text style= {styles.title}>My account</Text>
-        <Text style= {styles.userName}>UserPseudo</Text>
-              <View style= {{position: 'relative', marginTop: 7}}>
-                              {avatarView}
-                    <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
-              </View>
-          <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
-          <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
-          <View style= {styles.hairline}></View>
-          <Text style= {styles.settingsTitle}>Settings</Text>
-          <Text style= {styles.userName}>Choose your favorite theme</Text>
-
-    <View style= {{border: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 80}}>
-        <View style={{flexDirection: 'column', marginBottom: 0}}>
- 
-            <CheckBox
-            title='sports'
-            textStyle={styles.checkBoxText}
-            checked={sports}
-            onPress={()=> {sports === false ? setSports(true) : setSports(false); sports === false ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-            containerStyle={styles.checkBoxContainer}
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
-          <CheckBox
-          title='theatre'
-          textStyle={styles.checkBoxText}
-          checked={theatre}
-          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false); theatre === false ? setTags([...tags, 'theatre']) : setTags(currentTag => currentTag.filter(tags => tags !== 'theatre'))}}
-          checkedIcon='check-square'
-          uncheckedIcon='square'
-         containerStyle={styles.checkBoxContainer}
-          checkedColor='#FFF1DC'
-          uncheckedColor='white'/>
-              <CheckBox
-              title='movies'
-              textStyle={styles.checkBoxText}
-              checked={movies}
-              onPress={()=> {movies === false ? setMovies(true) : setMovies(false); movies === false ? setTags([...tags, 'movies']) : setTags(currentTag => currentTag.filter(tags => tags !== 'movies'))}}
-              checkedIcon='check-square'
-              uncheckedIcon='square'
-             containerStyle={styles.checkBoxContainer}
-              checkedColor='#FFF1DC'
-              uncheckedColor='white'/>
-           </View>
+         
            
-           <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <CheckBox
-              title='games'
-              textStyle={styles.checkBoxText}
-              checked={games}
-              onPress={()=> {games === false ? setGames(true) : setGames(false); games === false ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'))}}
-              checkedIcon='check-square'
-              uncheckedIcon='square'
-              containerStyle={styles.checkBoxContainer}
-              checkedColor='#FFF1DC'
-              uncheckedColor='white'/>
-          <CheckBox
-          title='music'
-          textStyle={styles.checkBoxText}
-          checked={music}
-          onPress={()=> {music === false ? setMusic(true) : setMusic(false); music === false ? setTags([...tags, 'music']) : setTags(currentTag => currentTag.filter(tags => tags !== 'music'))}}
-          checkedIcon='check-square'
-          uncheckedIcon='square'
-         containerStyle={styles.checkBoxContainer}
-          checkedColor='#FFF1DC'
-          uncheckedColor='white'/>
-              <CheckBox
-              title='fashion'
-              textStyle={styles.checkBoxText}
-              checked={fashion}
-              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false); fashion === false ? setTags([...tags, 'fashion']) : setTags(currentTag => currentTag.filter(tags => tags !== 'fashion'))}}
-              checkedIcon='check-square'
-              uncheckedIcon='square'
-             containerStyle={styles.checkBoxContainer}
-              checkedColor='#FFF1DC'
-              uncheckedColor='white'/>
-           </View>
-        
-           <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <CheckBox
-              title='politics'
-              textStyle={styles.checkBoxText}
-              checked={politics}
-              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false); politics === false ? setTags([...tags, 'politics']) : setTags(currentTag => currentTag.filter(tags => tags !== 'politics'))}}
-              checkedIcon='check-square'
-              uncheckedIcon='square'
-             containerStyle={styles.checkBoxContainer}
-              checkedColor='#FFF1DC'
-              uncheckedColor='white'/>
-          <CheckBox
-          title='ecology'
-          textStyle={styles.checkBoxText}
-          checked={ecology}
-          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false); ecology === false ? setTags([...tags, 'ecology']) : setTags(currentTag => currentTag.filter(tags => tags !== 'ecology'))}}
-          checkedIcon='check-square'
-          uncheckedIcon='square'
-         containerStyle={styles.checkBoxContainer}
-          checkedColor='#FFF1DC'
-          uncheckedColor='white'/>
-              <CheckBox
-              title='MILF'
-              textStyle={styles.checkBoxText}
-              checked={milf}
-              onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
-              checkedIcon='check-square'
-              uncheckedIcon='square'
-              containerStyle={styles.checkBoxContainer}
-              checkedColor='#FFF1DC'
-              uncheckedColor='white'/>
-           </View>
-           
-           </View>
-
-
-        </View>
-        
-
-
-    
-      </Overlay>
-              <Header
-                placement="left"
-                leftComponent={{  icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12, onPress: () => toggleOverlay() }}
-                containerStyle={{
-                  backgroundColor: '#011520',
-                  justifyContent: 'space-around',
-                  paddingBottom: 0
-                }}
-                rightComponent={{ text: 'teub.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
 
               <Stack.Navigator headerMode='none'>
+            
                 <Stack.Screen name="TabNav" component={TabNav} />
                 <Stack.Screen name="CreateMyPublicEvent" component={CreateMyPublicEvent} />
                 <Stack.Screen name="CreateMyPrivateEvent" component={CreateMyPrivateEvent} />
                 <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Header" component={HeaderScreen} />
 
               </Stack.Navigator>
         </NavigationContainer> 
