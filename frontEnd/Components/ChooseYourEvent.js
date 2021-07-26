@@ -80,7 +80,7 @@ function ChooseYourEvent(props) {
           <View style= {{height: (2.3/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
              <Text style= {styles.textExpliquatif}>Un évenement publique peut-etre publier à l'ensemble des utilisateurs de Tabs. !</Text>
               <View style={{marginTop: 'auto', marginBottom: 20}}>
-                <Pressable style={styles.button} onPress={() => props.navigation.navigate('CreateMyEvent')}>
+                <Pressable style={styles.button} onPress={() => props.navigation.navigate('CreateMyPublicEvent')}>
                         <Text style={styles.text}>PUBLIC EVENT</Text>
                 </Pressable>
               </View>
@@ -89,7 +89,7 @@ function ChooseYourEvent(props) {
           <View style= {{height: (2.3/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
              <Text style= {styles.textExpliquatif}>Un évenement publique peut-etre publier à l'ensemble des utilisateurs de Tabs. !</Text>
               <View style={{marginTop: 'auto', marginBottom: 20}}>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={() => props.navigation.navigate('CreateMyPrivateEvent')}>
                         <Text style={styles.text}>PRIVATE EVENT</Text>
                 </Pressable>
               </View>
