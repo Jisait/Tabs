@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import {
@@ -51,6 +52,8 @@ var handleSubmitSignUp = async (email, username, password) => {
     const body =  await data.json();
     console.log(body)
     props.onSubmitToken(body.token)
+    AsyncStorage.setItem('token', body.token);
+
     }
 
 var handleSubmitSignIn = async (email, password) => {
@@ -63,6 +66,7 @@ var handleSubmitSignIn = async (email, password) => {
     console.log(body)
     props.onSubmitToken(body.token)
     console.log(props.token)
+    AsyncStorage.setItem('token', body.token);
 }
     
 
