@@ -211,8 +211,8 @@ const [movies, setMovies] = useState(false);
 const [tags, setTags] = useState([])
 
       useEffect(() => {
-          sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter((tags, i) => tags !== sports));
-          games === true ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter((tags, i) => tags !== games));
+          sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'));
+          games === true ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'));
           
           
 

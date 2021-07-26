@@ -73,11 +73,7 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-<<<<<<< HEAD
           const data = await fetch("http://192.168.1.20:3000/get-event")
-=======
-          const data = await fetch("http://192.168.1.63:3000/get-event")
->>>>>>> 41c978f496c1448e603d71422c667edfa4dbb850
           var  eventData =  await data.json();
           setEvents(eventData.events)
 
@@ -94,7 +90,7 @@ let discoverList = events.map((event) => {
   console.log(event.image)
    return (
     <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>     
-       <ImageBackground position= 'relative' source={{uri:"http://res.cloudinary.com/dcp1qn8wv/image/upload/v1627210147/z0xht36exlu0wi44lcef.jpg"}} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
+       <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
               <LinearGradient
                   colors={['transparent','rgba(0,0,0,0.8)']}
                   style={{
@@ -119,11 +115,7 @@ let discoverList = events.map((event) => {
             <FontAwesome5 name="map-marker-alt" size={26} color="white" />
           </View>
           <View style={{width: '85%', position: 'absolute', left: 36, bottom: 114}}>
-<<<<<<< HEAD
-              <Text style={styles.text}>{event.title}</Text>
-=======
               <Text style={styles.text}>{event.title.toUpperCase()}</Text>
->>>>>>> 41c978f496c1448e603d71422c667edfa4dbb850
           </View>
           <View style={{width: '85%',position: 'absolute', left: 36, top: (0.78)*(6.5/10)*screen.height}}>
               <Text style={styles.subtext}>{event.desc}</Text>
@@ -135,12 +127,9 @@ let discoverList = events.map((event) => {
               <View style={styles.hairlineBlack} />
           </View> 
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-<<<<<<< HEAD
-=======
               <Text style={styles.date}>{event.date} / 20h00</Text>
           </View>
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
->>>>>>> 41c978f496c1448e603d71422c667edfa4dbb850
               <Text style={styles.adresse}>{event.address}</Text>
           </View>
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>

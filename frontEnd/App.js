@@ -37,6 +37,13 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins'; 
 
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import user from './reducers/user';
+
+
+const store = createStore(combineReducers({user}));
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -150,6 +157,7 @@ function TabNav() {
   } else 
 
   return (
+    <Provider store={store}>
 
         <NavigationContainer>
               <Header
@@ -167,4 +175,5 @@ function TabNav() {
                 <Stack.Screen name="CreateMyEvent" component={CreateMyEvent} />
               </Stack.Navigator>
         </NavigationContainer> 
+      </Provider>
   );}

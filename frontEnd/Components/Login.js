@@ -6,6 +6,8 @@ import { Button, Input } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import { connect } from 'react-redux';
+
 
 import {
   useFonts,
@@ -300,3 +302,16 @@ distance: {
 },
 
 });
+
+function mapDispatchToProps(dispatch) {
+    return {
+      onSubmitPseudo: function (pseudo) {
+        dispatch({ type: 'saveUser', token: pseudo })
+      }
+    }
+  }
+  
+  export default connect(
+    null,
+    mapDispatchToProps
+  )(HomeScreen);
