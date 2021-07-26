@@ -190,6 +190,16 @@ router.get('/', function(req, res, next) {
       }
       res.json({okay, erreurValue, token})  
     })
+  //GET USER:
+    router.post('/get-user', async function(req, res, next){
+
+      
+      var user = await userModel.findOne({token: req.body.token});
+
+    
+        res.json({user})
+    })
+  
 
 //MESSAGES ROUTES: 
   //ADD MESSAGE
