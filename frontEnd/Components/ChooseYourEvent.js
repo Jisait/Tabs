@@ -7,6 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { connect } from 'react-redux';
 import {
   useFonts,
   Poppins_100Thin,
@@ -31,7 +32,7 @@ import {
 
 
 
-export default function ChooseYourEvent(props) {
+function ChooseYourEvent(props) {
 
   
   console.log((2/10)*screen.height)
@@ -146,3 +147,12 @@ const styles = StyleSheet.create({
     color: '#FFD99F',
   },
 });
+
+function mapStateToProps(state) {
+  return { token: state.token }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(ChooseYourEvent);

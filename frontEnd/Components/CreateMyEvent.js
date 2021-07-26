@@ -8,10 +8,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 
 import {
@@ -36,7 +37,7 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
 
-export default function CreateYourEvent(props) {
+function CreateYourEvent(props) {
 
 
   const screen = Dimensions.get("screen");
@@ -80,9 +81,9 @@ useEffect(() => {
 
 const pickImage = async () => {
   let picture = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
-    aspect: [(6.5/10)*screen.width, (9/10)*screen.width],
+    aspect: [360, 570],
     quality: 1,
     base64: true
   });
@@ -91,6 +92,8 @@ const pickImage = async () => {
     setImage(picture.uri);
   }
 
+  console.log("???", picture.uri)
+
   var data = new FormData();
   data.append("picture", {
     uri: picture.uri,
@@ -98,13 +101,12 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
+  var rawResponse = await fetch("http://172.17.1.116:3000/pictureUpload", {
     method: "post",
     body: data,
   });
 
   var response = await rawResponse.json();
-  console.log("test", response.url);
   setImageBDD(response.url)
   
 };
@@ -125,6 +127,8 @@ const onChange = (event, selectedDate) => {
   setDate(currentDate);
 };
 
+
+
 const showMode = (currentMode) => {
   setShow(true);
   setMode(currentMode);
@@ -141,8 +145,11 @@ const showTimepicker = () => {
 
 
 var transformDate = new Date(date);
-console.log("??? =>", transformDate)
 var jour = transformDate.getDate();
+  if (jour === 1) { jour = '1st'}
+  else if (jour === 2) {jour = '2nd'}
+  else if (jour === 3) {jour = '3rd'}
+  else if (jour > 3) { jour = jour+'th'}
 var month = transformDate.getMonth();
 var monthsName = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
@@ -152,14 +159,16 @@ var selectedMonthName = monthsName[month];
 var year = transformDate.getFullYear()
 var hour = transformDate.getHours()
 var minutes = transformDate.getMinutes();
+if (minutes < 10) {minutes = '0'+minutes}
+var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
 
 var dateView =   <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
                 
                 </View>  
 
 if(transformDate !== '1970') {
-dateView =   <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-                    <Text style={styles.date}>{selectedMonthName} {jour}, {year} - {hour}:{minutes}</Text>
+dateView =   <View style={{width: '100%',position: 'relative', left: 22, bottom: 0, top: 3}}>
+                    <Text style={styles.date}>{dateFront}</Text>
                 </View> }
 
 
@@ -171,12 +180,8 @@ const [latitude, setLatitude] = useState('');
 const [longitude, setLongitude] = useState('');
 const [frontAddress, setFrontAddress] = useState('')
 
-console.log("tape", address)
-
 var myRegex = / /gi;
 var addressAPIformat = address.replace(myRegex, "+");
-console.log('addressAPIformat', addressAPIformat);
-
 
 useEffect(() => {
   const findAddress = async() => {
@@ -184,7 +189,6 @@ useEffect(() => {
     var rawResponse = await fetch("https://api-adresse.data.gouv.fr/search/?q="+addressAPIformat);
     var response = await rawResponse.json();
 
-  console.log('respnse', response.features[0].geometry.coordinates[0])
   setLatitude(response.features[0].geometry.coordinates[0]);
   setLongitude(response.features[0].geometry.coordinates[1]);
   setFrontAddress(response.features[0].properties.label)
@@ -210,19 +214,16 @@ const [movies, setMovies] = useState(false);
 
 const [tags, setTags] = useState([])
 
-      useEffect(() => {
+console.log(games)
+
+/*       useEffect(() => {
           sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'));
           games === true ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'));
-          
-          
-
+        
       }, [sports, games]);
+ */
+      console.log(tags)
 
-      console.log("taglist", tags)
-
-
-
-  
 
 //CREATION DE L'EVENT
 
@@ -230,17 +231,22 @@ const [title, setTitle] = useState('');
 const [desc, setDesc] = useState('');
 
 
-var handlePublishOnDisco = async (title, desc, img, frontAddress, longitude, latitude, date, tags) => {
 
-  const data = await fetch('http://192.168.1.63:3000/add-event', {
+
+var handlePublishOnDisco = async (title, desc, img, frontAddress, longitude, latitude, date, dateFront, tags) => {
+console.log(props.token)
+  if (props.token === null)
+  {props.navigation.navigate('Login')}
+  else{
+  const data = await fetch('http://172.17.1.116:3000/add-event', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: 'publique=true&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&date='+date+'&tags='+tags
+      body: 'publique=true&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&dateUTC='+date+'&dateFront='+dateFront+'&tags='+tags+'&token='+props.token
     })
   const body =  await data.json();
-  console.log("createBDD", body)
-
   }
+
+}
 
 if (image != null) {iconImagePicker= <View></View>} 
 
@@ -250,7 +256,18 @@ if (image != null) {iconImagePicker= <View></View>}
   } else {
   
     return (
-      <View style={{flex:1, alignItems: 'center',  backgroundColor: '#FFF1DC'}}>
+      <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
+            <LinearGradient
+                  colors={['#FFF1DC','#FFF1DC']}
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    bottom:0,
+                    height: '100%',
+                    
+                  }}/>
+       
         
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <Text style={styles.createText}>
@@ -327,7 +344,7 @@ if (image != null) {iconImagePicker= <View></View>}
                 )}
                 
               </View>
-
+               
               {dateView}
 
         
@@ -355,7 +372,7 @@ if (image != null) {iconImagePicker= <View></View>}
             <CheckBox
             title='sports'
             checked={sports}
-            onPress={()=> {sports === false ? setSports(true) : setSports(false)}}
+            onPress={()=> {sports === false ? setSports(true) : setSports(false); sports === false ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'))}}
             checkedIcon='check-square'
             uncheckedIcon='square'
             containerStyle={styles.checkBoxContainer}
@@ -364,7 +381,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='theatre'
           checked={theatre}
-          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false)}}
+          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false); theatre === false ? setTags([...tags, 'theatre']) : setTags(currentTag => currentTag.filter(tags => tags !== 'theatre'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -373,7 +390,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='movies'
               checked={movies}
-              onPress={()=> {movies === false ? setMovies(true) : setMovies(false)}}
+              onPress={()=> {movies === false ? setMovies(true) : setMovies(false); movies === false ? setTags([...tags, 'movies']) : setTags(currentTag => currentTag.filter(tags => tags !== 'movies'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -385,7 +402,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='games'
               checked={games}
-              onPress={()=> {games === false ? setGames(true) : setGames(false)}}
+              onPress={()=> {games === false ? setGames(true) : setGames(false); games === false ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -394,7 +411,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='music'
           checked={music}
-          onPress={()=> {music === false ? setMusic(true) : setMusic(false)}}
+          onPress={()=> {music === false ? setMusic(true) : setMusic(false); music === false ? setTags([...tags, 'music']) : setTags(currentTag => currentTag.filter(tags => tags !== 'music'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -403,7 +420,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='fashion'
               checked={fashion}
-              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false)}}
+              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false); fashion === false ? setTags([...tags, 'fashion']) : setTags(currentTag => currentTag.filter(tags => tags !== 'fashion'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -415,7 +432,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='politics'
               checked={politics}
-              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false)}}
+              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false); politics === false ? setTags([...tags, 'politics']) : setTags(currentTag => currentTag.filter(tags => tags !== 'politics'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -424,7 +441,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='ecology'
           checked={ecology}
-          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false)}}
+          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false); ecology === false ? setTags([...tags, 'ecology']) : setTags(currentTag => currentTag.filter(tags => tags !== 'ecology'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -433,7 +450,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='MILF'
               checked={milf}
-              onPress={()=> {milf === false ? setMilf(true) : setMilf(false)}}
+              onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
               containerStyle={styles.checkBoxContainer}
@@ -446,7 +463,7 @@ if (image != null) {iconImagePicker= <View></View>}
           
             <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 70, marginBottom: 170}}>
                 <Pressable style={styles.button}>
-                      <Text style={styles.text} onPress={()=>handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, tags)}>GO TO OVERVIEW</Text>
+                      <Text style={styles.text} onPress={()=>{handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}}>GO TO OVERVIEW</Text>
                 </Pressable>
           </View>
                
@@ -462,6 +479,7 @@ if (image != null) {iconImagePicker= <View></View>}
         
 
         </ScrollView>
+  
         </View>
 
         
@@ -601,6 +619,16 @@ date: {
 
   },
 
+
 });
+
+function mapStateToProps(state) {
+  return { token: state.token }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(CreateYourEvent);
 
 

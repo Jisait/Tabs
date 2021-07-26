@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; 
+import { connect } from 'react-redux';
 import {
     useFonts,
     Poppins_100Thin,
@@ -29,7 +30,7 @@ import {
 
 
 
-export default function ChooseYourEvent() {
+function ChooseYourEvent() {
 
     
 
@@ -161,5 +162,14 @@ iconContainer: {
             }
 
 });
+
+function mapStateToProps(state) {
+    return { token: state.token }
+  }
+
+  export default connect(
+    mapStateToProps,
+    null
+  )(ChooseYourEvent);
 
 

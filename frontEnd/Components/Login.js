@@ -31,7 +31,7 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
 
-export default function Login() {
+function Login(props) {
 
 const [loginType, setLoginType] = useState(true);
 
@@ -43,23 +43,26 @@ const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
 var handleSubmitSignUp = async (email, username, password) => {
-    const data = await fetch('http://192.168.1.20:3000/sign-up', {
+    const data = await fetch('http://172.17.1.116:3000/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&username='+username+'&password='+password
       })
     const body =  await data.json();
     console.log(body)
+    props.onSubmitToken(body.token)
     }
 
 var handleSubmitSignIn = async (email, password) => {
-    const data = await fetch('http://192.168.1.20:3000/sign-in', {
+    const data = await fetch('http://172.17.1.116:3000/sign-in', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&password='+password
         })
     const body =  await data.json();
     console.log(body)
+    props.onSubmitToken(body.token)
+    console.log(props.token)
 }
     
 
@@ -303,15 +306,20 @@ distance: {
 
 });
 
+function mapStateToProps(state) {
+    return { token: state.token }
+  }
+  
+
 function mapDispatchToProps(dispatch) {
     return {
-      onSubmitPseudo: function (pseudo) {
-        dispatch({ type: 'saveUser', token: pseudo })
+      onSubmitToken: function (token) {
+        dispatch({ type: 'saveUser', token: token })
       }
     }
   }
   
   export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
-  )(HomeScreen);
+  )(Login);

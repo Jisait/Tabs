@@ -10,7 +10,8 @@ var eventSchema = mongoose.Schema({
   address: String,
   longitude: Number,
   latitude: Number,
-  date: Date,
+  dateUTC: Date,
+  dateFront: String,
   Participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
   tags: Array
   
