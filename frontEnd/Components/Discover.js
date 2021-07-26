@@ -76,7 +76,7 @@ let changeLikeColor = () => {
         async function loadData(){
     
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://192.168.1.63:3000/get-event")
+          const data = await fetch("http://172.17.1.71:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
         }
@@ -121,39 +121,51 @@ var  mapView = <MapView
                     borderRadius: 28
                   }}/>
           </ImageBackground>
-          <View style={{position: 'absolute', right: 20, top: 45}}>
-            <FontAwesome key={index} onPress={() => changeLikeColor()} name="heart" size={30} color={likeColor} />
-          </View>
+
+      
+              <View style={{position: 'absolute', right: 20, top: 45}}>
+                <FontAwesome key={index} onPress={() => changeLikeColor()} name="heart" size={30} color={likeColor} />
+              </View>
+
           <View style={{position: 'absolute', left: 150, bottom: 166}}>
             <FontAwesome name="share-alt" size={26} color="white" />
           </View>
-          <View style={{position: 'absolute', left: 220, bottom: 166}}>
-            <Text style={styles.distance}>1,6 km</Text>
-          </View>
+
+              <View style={{position: 'absolute', left: 220, bottom: 166}}>
+                <Text style={styles.distance}>1,8 km</Text>
+              </View>
+
           <View style={{position: 'absolute', left: 190, bottom: 166}}>
             <FontAwesome5 key={index} name="map-marker-alt" size={26} color="white" />
           </View>
-          <View style={{width: '85%',position: 'absolute', left: 36, top: (0.873)*(6.5/10)*screen.height}}>
-              <Text style={styles.text}>{event.title.toUpperCase()}</Text>
-              <Text style={styles.subtext}>{event.desc}</Text>
-          </View>
+
+              <View style={{width: '85%',position: 'absolute', left: 36, top: (0.873)*(6.5/10)*screen.height}}>
+                  <Text style={styles.text}>{event.title.toUpperCase()}</Text>
+                  <Text style={styles.subtext}>{event.desc}</Text>
+              </View>
+          
           <View style={{width: '100%',position: 'absolute', left: 28, bottom: 32}}>
             <View style={styles.hairlineWhite} />
           </View>
-          <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
-              <View style={styles.hairlineBlack} />
-          </View> 
+              
+              <View style={{width: '100%',position: 'absolute', left: 28, bottom: 6}}>
+                  <View style={styles.hairlineBlack} />
+              </View> 
+          
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
-              <Text style={styles.date}>{event.dateFront}</Text>
+               <Text style={styles.date}>{event.dateFront}</Text>
           </View>
+          
           <View style={{width: '100%',position: 'relative', left: 36, bottom: 0}}>
               <Text style={styles.adresse}>{event.address}</Text>
           </View>
+          
           <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
               <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
               <Text style={styles.pseudo}>Cool_Girl_75</Text>
           </View>
-        </View>
+      </View>
+    
         );
       });
 

@@ -5,7 +5,8 @@ import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';
 import Animated from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, View, SafeAreaView, Dimensions, Image } from 'react-native';
-import { Header, Button, Overlay  } from 'react-native-elements';
+
+import { Header, Button, Overlay, CheckBox  } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -157,7 +158,19 @@ var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
 if (image === null) {avatarView = <Image source={require('./assets/defaultAvatar.jpeg')} style={styles.avatar}/>}
 
+// GESTION DES TAGS
 
+const [sports, setSports] = useState(false);
+const [theatre, setTheatre] = useState(false);
+const [games, setGames] = useState(false);
+const [politics, setPolitics] = useState(false);
+const [music, setMusic] = useState(false);
+const [ecology, setEcology] = useState(false);
+const [fashion, setFashion] = useState(false);
+const [milf, setMilf] = useState(false);
+const [movies, setMovies] = useState(false);
+
+const [tags, setTags] = useState([])
     
     
     let [fontsLoaded] = useFonts({
@@ -199,7 +212,109 @@ if (image === null) {avatarView = <Image source={require('./assets/defaultAvatar
           <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
           <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
           <View style= {styles.hairline}></View>
+          <Text style= {styles.settingsTitle}>Settings</Text>
+          <Text style= {styles.userName}>Choose your favorite theme</Text>
+
+          <View style= {{flex: 1,border: 2, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flexDirection: 'column', justifyContent: 'space-between', marginBottom: 0}}>
+ 
+            <CheckBox
+            title='sports'
+            checked={sports}
+            onPress={()=> {sports === false ? setSports(true) : setSports(false); sports === false ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'))}}
+            checkedIcon='check-square'
+            uncheckedIcon='square'
+            containerStyle={styles.checkBoxContainer}
+            checkedColor='#011520'
+            uncheckedColor='white'/>
+          <CheckBox
+          title='theatre'
+          checked={theatre}
+          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false); theatre === false ? setTags([...tags, 'theatre']) : setTags(currentTag => currentTag.filter(tags => tags !== 'theatre'))}}
+          checkedIcon='check-square'
+          uncheckedIcon='square'
+         containerStyle={styles.checkBoxContainer}
+          checkedColor='#011520'
+          uncheckedColor='white'/>
+              <CheckBox
+              title='movies'
+              checked={movies}
+              onPress={()=> {movies === false ? setMovies(true) : setMovies(false); movies === false ? setTags([...tags, 'movies']) : setTags(currentTag => currentTag.filter(tags => tags !== 'movies'))}}
+              checkedIcon='check-square'
+              uncheckedIcon='square'
+             containerStyle={styles.checkBoxContainer}
+              checkedColor='#011520'
+              uncheckedColor='white'/>
+           </View>
+           
+           <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <CheckBox
+              title='games'
+              checked={games}
+              onPress={()=> {games === false ? setGames(true) : setGames(false); games === false ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'))}}
+              checkedIcon='check-square'
+              uncheckedIcon='square'
+             containerStyle={styles.checkBoxContainer}
+              checkedColor='#011520'
+              uncheckedColor='white'/>
+          <CheckBox
+          title='music'
+          checked={music}
+          onPress={()=> {music === false ? setMusic(true) : setMusic(false); music === false ? setTags([...tags, 'music']) : setTags(currentTag => currentTag.filter(tags => tags !== 'music'))}}
+          checkedIcon='check-square'
+          uncheckedIcon='square'
+         containerStyle={styles.checkBoxContainer}
+          checkedColor='#011520'
+          uncheckedColor='white'/>
+              <CheckBox
+              title='fashion'
+              checked={fashion}
+              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false); fashion === false ? setTags([...tags, 'fashion']) : setTags(currentTag => currentTag.filter(tags => tags !== 'fashion'))}}
+              checkedIcon='check-square'
+              uncheckedIcon='square'
+             containerStyle={styles.checkBoxContainer}
+              checkedColor='#011520'
+              uncheckedColor='white'/>
+           </View>
+        
+           <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <CheckBox
+              title='politics'
+              checked={politics}
+              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false); politics === false ? setTags([...tags, 'politics']) : setTags(currentTag => currentTag.filter(tags => tags !== 'politics'))}}
+              checkedIcon='check-square'
+              uncheckedIcon='square'
+             containerStyle={styles.checkBoxContainer}
+              checkedColor='#011520'
+              uncheckedColor='white'/>
+          <CheckBox
+          title='ecology'
+          checked={ecology}
+          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false); ecology === false ? setTags([...tags, 'ecology']) : setTags(currentTag => currentTag.filter(tags => tags !== 'ecology'))}}
+          checkedIcon='check-square'
+          uncheckedIcon='square'
+         containerStyle={styles.checkBoxContainer}
+          checkedColor='#011520'
+          uncheckedColor='white'/>
+              <CheckBox
+              title='MILF'
+              checked={milf}
+              onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
+              checkedIcon='check-square'
+              uncheckedIcon='square'
+              containerStyle={styles.checkBoxContainer}
+              checkedColor='#011520'
+              uncheckedColor='white'/>
+           </View>
+           
+           </View>
+
+
         </View>
+        
+
+
+    
       </Overlay>
               <Header
                 placement="left"
@@ -231,6 +346,14 @@ if (image === null) {avatarView = <Image source={require('./assets/defaultAvatar
       fontFamily: 'Poppins_200ExtraLight',
       fontSize : 12,
       marginTop: 10
+    },
+
+    settingsTitle: {
+      color: 'white',
+      fontFamily: 'Poppins_200ExtraLight',
+      fontSize : 12,
+      marginTop: 17
+
     },
 
     userName: {
@@ -275,6 +398,12 @@ if (image === null) {avatarView = <Image source={require('./assets/defaultAvatar
       width: 210,
       height: 1,
       marginTop: 40
-    }
+    },
+
+    checkBoxContainer: {
+      borderColor: 'transparent', 
+      backgroundColor: 'transparent', 
+      margin: 2, 
+      padding: 2},
 
       })

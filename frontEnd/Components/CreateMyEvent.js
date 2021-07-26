@@ -101,7 +101,7 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
+  var rawResponse = await fetch("http://172.17.1.71:3000/pictureUpload", {
     method: "post",
     body: data,
   });
@@ -375,7 +375,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='theatre'
           checked={theatre}
-          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false)}}
+          onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false); theatre === false ? setTags([...tags, 'theatre']) : setTags(currentTag => currentTag.filter(tags => tags !== 'theatre'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -384,7 +384,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='movies'
               checked={movies}
-              onPress={()=> {movies === false ? setMovies(true) : setMovies(false)}}
+              onPress={()=> {movies === false ? setMovies(true) : setMovies(false); movies === false ? setTags([...tags, 'movies']) : setTags(currentTag => currentTag.filter(tags => tags !== 'movies'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -405,7 +405,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='music'
           checked={music}
-          onPress={()=> {music === false ? setMusic(true) : setMusic(false)}}
+          onPress={()=> {music === false ? setMusic(true) : setMusic(false); music === false ? setTags([...tags, 'music']) : setTags(currentTag => currentTag.filter(tags => tags !== 'music'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -414,7 +414,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='fashion'
               checked={fashion}
-              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false)}}
+              onPress={()=> {fashion === false ? setFashion(true) : setFashion(false); fashion === false ? setTags([...tags, 'fashion']) : setTags(currentTag => currentTag.filter(tags => tags !== 'fashion'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -426,7 +426,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='politics'
               checked={politics}
-              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false)}}
+              onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false); politics === false ? setTags([...tags, 'politics']) : setTags(currentTag => currentTag.filter(tags => tags !== 'politics'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
              containerStyle={styles.checkBoxContainer}
@@ -435,7 +435,7 @@ if (image != null) {iconImagePicker= <View></View>}
           <CheckBox
           title='ecology'
           checked={ecology}
-          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false)}}
+          onPress={()=> {ecology === false ? setEcology(true) : setEcology(false); ecology === false ? setTags([...tags, 'ecology']) : setTags(currentTag => currentTag.filter(tags => tags !== 'ecology'))}}
           checkedIcon='check-square'
           uncheckedIcon='square'
          containerStyle={styles.checkBoxContainer}
@@ -444,7 +444,7 @@ if (image != null) {iconImagePicker= <View></View>}
               <CheckBox
               title='MILF'
               checked={milf}
-              onPress={()=> {milf === false ? setMilf(true) : setMilf(false)}}
+              onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
               checkedIcon='check-square'
               uncheckedIcon='square'
               containerStyle={styles.checkBoxContainer}
