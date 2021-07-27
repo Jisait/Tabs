@@ -145,16 +145,19 @@ router.get('/', function(req, res, next) {
 
     var user = await userModel.findOne({token: req.body.token});
 
+
     const check = user.myEvents.filter(x => x == req.body.id);
-    console.log('début',check,'fin')
     if(check.length !== 0){
       console.log('event already in Wishlist')
     }
     else{
+     
+    var updatedEvent = await eventsModel.findOne({_id: req.body.id})
+    updatedEvent.interestedParticipants.push(user._id)
+    var updatedEvent = await updatedEvent.save()
     user.myEvents.push(req.body.id)
     var user= await user.save();
     }
-    console.log(user)
 
   
     res.json({user})
@@ -163,17 +166,38 @@ router.get('/', function(req, res, next) {
   router.post('/remove-from-wishlist', async function(req, res, next){
 
     var user = await userModel.findOne({token: req.body.token});
+    var updatedEvent = await eventsModel.findOne({_id: req.body.id})
+    
     var newEvents = user.myEvents.filter(x =>  x != req.body.id)
 
+    var newPartcipantList = updatedEvent.interestedParticipants.filter(x =>  x != String(user._id))
+    
     user.myEvents = newEvents
+    updatedEvent.interestedParticipants = newPartcipantList
 
-    var user= await user.save();
-    console.log(user)
+    user= await user.save();
+    updatedEvent = await updatedEvent.save()
 
   
     res.json({user})
   })
 
+  // ADD TO CONFIRM
+  router.post('/add-to-confirm', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+    var updatedEvent = await eventsModel.findOne({_id: req.body.id})
+    
+
+    var newPartcipantList = updatedEvent.interestedParticipants.filter(x =>  x != String(user._id))
+    
+    updatedEvent.interestedParticipants = newPartcipantList
+
+    updatedEvent.confirmedParticipants.push(user._id)
+    updatedEvent = await updatedEvent.save()
+  
+    res.json({updatedEvent, user: user._id})
+    })
 
 
   //SIGN UP ROUTE

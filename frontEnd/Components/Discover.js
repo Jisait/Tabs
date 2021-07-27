@@ -74,8 +74,10 @@ function Discover(props) {
   const [currentLongitude, setCurrentLongitude] = useState('');
   const [visible, setVisible] = useState(false);
   const [mapContent, setMapContent] = useState({latitude: 0, longitude: 0});
-  const[wishListContent, setWishListContent] = useState([])
-  
+  const[wishListContent, setWishListContent] = useState([]);
+  const[userID, setUserID] = useState('');
+  const[confirmedCheck, setConfirmedCheck] = useState([]);
+
   
   
   
@@ -121,6 +123,16 @@ function Discover(props) {
           const body =  await data.json();
           props.onSubmitToken(body.user.token)
           setWishListContent(body.user.myEvents)
+          setUserID(body.user._id)
+
+          const confirmed = await fetch('http://192.168.1.20:3000/get-Myevents', {
+            method: 'POST', 
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'token='+token
+          })
+          const confirmedBody =  await confirmed.json();
+          setConfirmedCheck(confirmedBody.myEvents)
+
         }
         else {
           console.log('JE SUIS LA')
@@ -172,8 +184,19 @@ function Discover(props) {
   
   let discoverList = events.map( (event, index) => {
     var likeColor = 'white'
+    var checkVisible = {display: 'none'}
+    var likeVisible = {display: 'flex'}
+
+    var confirmCheck = event.confirmedParticipants.find(element => element == userID);
+
+    if (confirmCheck!= undefined){
+      likeVisible = {display: 'none'}
+      checkVisible = {display: 'flex'}
+    }
+
 
     var isLiked = false
+
     var result = wishListContent.find(element => element == event._id);
 
     if(result != undefined){
@@ -202,8 +225,11 @@ function Discover(props) {
       
       
       <View style={{position: 'absolute', right: 20, top: 45}}>
-      <FontAwesome key={index} onPress={() => addToWishlist(event, isLiked)} name="heart" size={30} color={likeColor} />
+      <FontAwesome key={index} onPress={() => addToWishlist(event, isLiked)} name="heart" size={30} color={likeColor} style={likeVisible}/>
+      <Ionicons name="checkmark-circle-outline" size={30} color="lightgreen" style={checkVisible}/>
+
       </View>
+
       
       <View style={{position: 'absolute', left: 150, bottom: 166}}>
       <FontAwesome name="share-alt" size={26} color="white" />
