@@ -1,5 +1,6 @@
 import React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
+import HeaderScreen from './Header' 
 import { } from 'react-native-elements';
 import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -68,6 +69,7 @@ function ChooseYourEvent(props) {
 
     return (
       <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
+         <HeaderScreen navigation={props.navigation}/>
 
       
             <View style={{width: (10/10)*screen.width}}>

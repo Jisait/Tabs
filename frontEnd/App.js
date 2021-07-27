@@ -7,7 +7,6 @@ import Animated from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, View, SafeAreaView, Dimensions, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderScreen from './Components/Header' 
-
 import { Header, Button, Overlay, CheckBox  } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -130,11 +129,11 @@ function TabNav() {
       );
     }
     
-export default function $(props) {
+export default function (props) {
       
 
       
-      const [visible, setVisible] = useState(false);
+  /*     const [visible, setVisible] = useState(false);
       const toggleOverlay = () => {
         setVisible(!visible);
       };
@@ -185,7 +184,7 @@ const [fashion, setFashion] = useState(false);
 const [milf, setMilf] = useState(false);
 const [movies, setMovies] = useState(false);
 
-const [tags, setTags] = useState([])
+const [tags, setTags] = useState([]) */
     
     
     let [fontsLoaded] = useFonts({
@@ -215,12 +214,8 @@ const [tags, setTags] = useState([])
 
   return (
     <Provider store={store}>
-
-
         <NavigationContainer>
          
-           
-
               <Stack.Navigator headerMode='none'>
             
                 <Stack.Screen name="TabNav" component={TabNav} />
@@ -228,10 +223,12 @@ const [tags, setTags] = useState([])
                 <Stack.Screen name="CreateMyPrivateEvent" component={CreateMyPrivateEvent} />
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Header" component={HeaderScreen} />
+                <Stack.Screen name="Settings" component={Settings} />
+
 
               </Stack.Navigator>
         </NavigationContainer> 
-        </Provider>
+    </Provider>
 
   );}
 

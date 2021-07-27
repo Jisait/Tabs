@@ -3,12 +3,14 @@ import AppLoading from 'expo-app-loading';
 import { } from 'react-native-elements';
 import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
 import { Header, Button, Overlay, CheckBox  } from 'react-native-elements';
+import HeaderScreen from './Header' 
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import {
   useFonts,
@@ -90,7 +92,7 @@ const [tags, setTags] = useState([])
 
 
   
-  console.log((2/10)*screen.height)
+
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -123,13 +125,15 @@ const [tags, setTags] = useState([])
 
     return (
       <View style={styles.overlay}>
+              <HeaderScreen navigation={props.navigation}/>
+        
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
       <Text style= {styles.userName}>UserPseudo</Text>
-          {/*   <View style= {{position: 'relative', marginTop: 7}}>
+     <View style= {{position: 'relative', marginTop: 7}}>
                            {avatarView} 
                   <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
-            </View> */}
+  </View> 
         <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
         <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
         <View style= {styles.hairline}></View>
@@ -254,8 +258,8 @@ const screen = Dimensions.get("screen");
 const styles = StyleSheet.create({
 
   overlay: {
-      height: (7/10)*screen.height,
-      width: (8/10)*screen.width,
+    flex: 1,
+    
       backgroundColor: '#011520'
             },
 

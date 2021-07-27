@@ -1,5 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
+ 
+import HeaderScreen from './Header' 
 
 import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput, Button, Platform, FlatList, ActivityIndicator } from 'react-native';
 import { CheckBox } from 'react-native-elements';
@@ -104,7 +106,7 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://192.168.1.20:3000/pictureUpload", {
+  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
     method: "post",
     body: data,
   });
@@ -237,7 +239,7 @@ if (contacts.length>5) {
     var renderItem = ({ item}) => (
     
   <View style= {styles.searchListBackground}>
-    <Pressable onPress={() => {setPressItem([...pressItem, item]); setContacts(contacts)}}>
+    <Pressable onPress={() => {setPressItem([...pressItem, item]); setContacts("")}}>
 
       <Text  style={styles.searchListName}>
         {item.firstName+' '+item.lastName}
@@ -268,9 +270,13 @@ var searchContacts = (value) => {
 var ContactList = pressItem.map((contact) => {
 
   return (
-    <View >
-          <Text style={{fontSize: 20}}>{contact.firstName+' '+contact.lastName}</Text>
-          </View>)
+    <View style={{flex: 1, }}>
+          <View style={{ backgroundColor: 'black', height: 0.5, width: ((9/10)*screen.width)-80}}></View>
+                <View style={{ justifyContent: 'center'}}>
+                
+                <Text style={{fontSize: 20, marginBottom: 7}}>{contact.firstName+' '+contact.lastName}</Text>
+          </View>
+    </View>)
 
 })
 
@@ -287,7 +293,7 @@ const [desc, setDesc] = useState('');
 
 var handlePublishOnDisco = async (title, desc, img, frontAddress, longitude, latitude, date, dateFront, tags) => {
 
-  const data = await fetch('http://192.168.1.20:3000/add-event', {
+  const data = await fetch('http://192.168.1.63:3000/add-event', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'publique=false&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&dateUTC='+date+'&dateFront='+dateFront+'&tags='+tags
@@ -304,7 +310,10 @@ if (image != null) {iconImagePicker= <View></View>}
   } else {
   
     return (
+      <View style={{flex:1}}>
+         <HeaderScreen navigation={props.navigation}/>
       <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
+          
             <LinearGradient
                   colors={['#FFF1DC','#FFF1DC']}
                   style={{
@@ -420,7 +429,7 @@ if (image != null) {iconImagePicker= <View></View>}
         <View style={styles.containerSearch}>
     
               <SearchBar
-        containerStyle= {{position: 'relative', backgroundColor: 'white', borderRadius: 30, border: 'red', borderBottomColor: 'transparent', borderTopColor: 'transparent',}}
+        containerStyle= {{position: 'relative',  backgroundColor: 'white', borderRadius: 30, border: 'red', borderBottomColor: 'transparent', borderTopColor: 'transparent',}}
         inputContainerStyle= {{backgroundColor: 'transparent', border: 0}}
         placeholder="Add friends..."
         onChangeText={(value)=>searchContacts(value)} 
@@ -434,9 +443,13 @@ if (image != null) {iconImagePicker= <View></View>}
           
           ListEmptyComponent={()=>(
             
-          <Text>No contacts</Text>)}/>
-          <View style={{flex: 1, justifyContent: 'center', position: 'absolute', top: 80, left: 30, zIndex: 0}}>
+          <Text></Text>)}/>
+          <View style={{flex: 1, justifyContent: 'center', position: 'absolute', right: 40, left: 40, top: 100, zIndex: 0}}>
+         
+          
             {ContactList}
+
+         
             <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 70, marginBottom: 170}}>
                 <Pressable style={styles.button}>
                       <Text style={styles.text} onPress={()=>handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}>GO TO OVERVIEW</Text>
@@ -470,6 +483,8 @@ if (image != null) {iconImagePicker= <View></View>}
         </ScrollView>
   
         </View>
+        </View>
+
 
         
 
@@ -630,6 +645,7 @@ searchListBackground: {
   },
 
 listContacts: {
+
   zIndex: 1
 
 

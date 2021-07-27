@@ -1,5 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
+import HeaderScreen from './Header' 
 
 import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput, Button, Platform } from 'react-native';
 import { CheckBox, Overlay } from 'react-native-elements';
@@ -101,7 +102,7 @@ function CreateYourEvent(props) {
       name: "event_picture.jpg",
     });
     
-    var rawResponse = await fetch("http://192.168.1.20:3000/pictureUpload", {
+    var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
     method: "post",
     body: data,
   });
@@ -239,7 +240,7 @@ if(transformDate !== '1970') {
     {props.navigation.navigate('Login')}
     else{
       setVisible(true)
-      const data = await fetch('http://192.168.1.20:3000/add-event', {
+      const data = await fetch('http://192.168.1.63:3000/add-event', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'publique=true&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&dateUTC='+date+'&dateFront='+dateFront+'&tags='+tags+'&token='+props.token
@@ -257,7 +258,10 @@ if (!fontsLoaded) {
 } else {
   
   return (
+    <View style={{flex:1}}>
+       <HeaderScreen navigation={props.navigation}/>
     <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
+          
     <LinearGradient
     colors={['#FFF1DC','#FFF1DC']}
     style={{
@@ -271,11 +275,12 @@ if (!fontsLoaded) {
     
     <Overlay isVisible={visible}>
     
-    <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30}}>
+    <View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+    <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
     <Text style={styles.createTextBold}>Congratulations!</Text>
     
-    <Text style={styles.createText}>Your Event has been Posted</Text>
-    <Pressable style={styles.button} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
+    <Text style={styles.createTextConfirm}>Your Event has been posted</Text>
+    <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
     <Text style={styles.text}>Go to home</Text>
     </Pressable>
     </View>
@@ -493,7 +498,7 @@ if (!fontsLoaded) {
       </ScrollView>
       
       </View>
-      
+      </View>
       
       
       );
@@ -517,6 +522,8 @@ if (!fontsLoaded) {
         fontFamily: 'Poppins_400Regular',
         textAlign: 'justify'
       },
+
+
       
       inputEventName: {
         color: 'white',
@@ -578,8 +585,28 @@ if (!fontsLoaded) {
                   textAlign: 'justify',
                   marginTop: 20
                 },
+
+                createTextConfirm :{
+                  fontSize: 24,
+                  color: '#011520',
+                  fontFamily: 'Poppins_400Regular',
+                  textAlign: 'center',
+                  marginTop: 20
+                },
                 
                 button: {
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingTop: 5,
+                  paddingBottom: 2,
+                  paddingHorizontal: 14,
+                  borderRadius: 4,
+                  elevation: 3,
+                  backgroundColor: '#0E0812',
+                },
+
+                buttonConfirm: {
+                  marginTop: 20,
                   alignItems: 'center',
                   justifyContent: 'center',
                   paddingTop: 5,
