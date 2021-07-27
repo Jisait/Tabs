@@ -68,19 +68,15 @@ function Discover(props) {
     Poppins_900Black_Italic,
   });
   
-  const [likeColor, setLikeColor] = useState('white');
+  const [isLiked, setIsLiked] = useState(false);
   const [events, setEvents] = useState([]);
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [mapContent, setMapContent] = useState({latitude: 0, longitude: 0});
+  const[wishListContent, setWishListContent] = useState([])
   
   
-  
-  let changeLikeColor = () => {
-    if (likeColor === 'white')
-    {setLikeColor('#FF0202')}
-    else if (likeColor === '#FF0202')
-    {setLikeColor('white')}
-  }
   
   
   useEffect(() => {
@@ -105,7 +101,7 @@ function Discover(props) {
         async function loadData(){
           
           // CHANGE POUR TON IP LORS DE RESR
-          const data = await fetch("http://192.168.1.63:3000/get-event")
+          const data = await fetch("http://192.168.1.20:3000/get-event")
           var  eventData =  await data.json();
           setEvents(eventData.events)
         }
@@ -116,15 +112,15 @@ function Discover(props) {
 
           if (token){
 
-            const data = await fetch('http://172.17.1.116:3000/get-user', {
+            const data = await fetch('http://192.168.1.20:3000/get-user', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+token
           })
 
           const body =  await data.json();
-          console.log(body)
           props.onSubmitToken(body.user.token)
+          setWishListContent(body.user.myEvents)
         }
         else {
           console.log('JE SUIS LA')
@@ -137,8 +133,7 @@ function Discover(props) {
   }, [isFocused]);
   
   
-  const [visible, setVisible] = useState(false);
-  const [mapContent, setMapContent] = useState({latitude: 0, longitude: 0});
+  
   
   const toggleOverlay = (event) => {
     setVisible(!visible);
@@ -148,11 +143,43 @@ function Discover(props) {
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
   }
+
+  var addToWishlist = async (event, isLiked) =>{
+    if(isLiked === false){
+    console.log(event)
+    const data = await fetch('http://192.168.1.20:3000/add-to-wishlist', {
+            method: 'POST', 
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'token='+props.token+'&id='+event._id
+          })
+    const body =  await data.json();
+    console.log(body)
+    setWishListContent(body.user.myEvents)
+        }
+    else{
+      const data = await fetch('http://192.168.1.20:3000/remove-from-wishlist', {
+        method: 'POST', 
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'token='+props.token+'&id='+event._id
+      })
+      const body =  await data.json();
+      console.log(body)
+      setWishListContent(body.user.myEvents)
+
+    }
+  }
   
-  let discoverList = events.map((event, index) => {
-    
-    
-    
+  
+  let discoverList = events.map( (event, index) => {
+    var likeColor = 'white'
+
+    var isLiked = false
+    var result = wishListContent.find(element => element == event._id);
+
+    if(result != undefined){
+      isLiked = true
+      likeColor = 'red'
+    }
     var distance = financial(getDistance(currentLatitude, currentLongitude, event.longitude, event.latitude, 'km'));
     
     
@@ -175,7 +202,7 @@ function Discover(props) {
       
       
       <View style={{position: 'absolute', right: 20, top: 45}}>
-      <FontAwesome key={index} onPress={() => changeLikeColor()} name="heart" size={30} color={likeColor} />
+      <FontAwesome key={index} onPress={() => addToWishlist(event, isLiked)} name="heart" size={30} color={likeColor} />
       </View>
       
       <View style={{position: 'absolute', left: 150, bottom: 166}}>

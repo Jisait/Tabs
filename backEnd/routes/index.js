@@ -97,7 +97,7 @@ router.get('/', function(req, res, next) {
   
 
   //GET EVENTS FOR MyEvents PAGE
-    router.post('/get-Myevents-events', async function(req, res, next){
+    router.post('/get-Myevents', async function(req, res, next){
     
       var user = await userModel.findOne({token: req.body.token}).populate('myEvents');
 
@@ -140,6 +140,42 @@ router.get('/', function(req, res, next) {
 
 
 //USER ROUTES
+  //ADD TO WISHLIST
+  router.post('/add-to-wishlist', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+
+    const check = user.myEvents.filter(x => x == req.body.id);
+    console.log('début',check,'fin')
+    if(check.length !== 0){
+      console.log('event already in Wishlist')
+    }
+    else{
+    user.myEvents.push(req.body.id)
+    var user= await user.save();
+    }
+    console.log(user)
+
+  
+    res.json({user})
+})
+  //REMOVE FROM WISHLIST
+  router.post('/remove-from-wishlist', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+    var newEvents = user.myEvents.filter(x =>  x != req.body.id)
+
+    user.myEvents = newEvents
+
+    var user= await user.save();
+    console.log(user)
+
+  
+    res.json({user})
+  })
+
+
+
   //SIGN UP ROUTE
       router.post('/sign-up', async function(req, res, next) {
    

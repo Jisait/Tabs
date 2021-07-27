@@ -104,7 +104,7 @@ const pickImage = async () => {
     name: "event_picture.jpg",
   });
 
-  var rawResponse = await fetch("http://192.168.1.63:3000/pictureUpload", {
+  var rawResponse = await fetch("http://192.168.1.20:3000/pictureUpload", {
     method: "post",
     body: data,
   });
@@ -287,7 +287,7 @@ const [desc, setDesc] = useState('');
 
 var handlePublishOnDisco = async (title, desc, img, frontAddress, longitude, latitude, date, dateFront, tags) => {
 
-  const data = await fetch('http://192.168.1.63:3000/add-event', {
+  const data = await fetch('http://192.168.1.20:3000/add-event', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'publique=false&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&dateUTC='+date+'&dateFront='+dateFront+'&tags='+tags
