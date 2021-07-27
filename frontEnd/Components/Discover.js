@@ -95,7 +95,7 @@ function Discover(props) {
     }, []);
     
     
-    useEffect(() => {
+ useEffect(() => {
       if (isFocused == true){
 
         async function loadData(){
@@ -108,7 +108,7 @@ function Discover(props) {
         loadData()
         
         
-        AsyncStorage.getItem("token", async function(error, token) {
+  AsyncStorage.getItem("token", async function(error, token) {
 
           if (token){
 
@@ -119,18 +119,20 @@ function Discover(props) {
           })
 
           const body =  await data.json();
+          console.log("oul", body)
           props.onSubmitToken(body.user.token)
+         
           setWishListContent(body.user.myEvents)
         }
         else {
-          console.log('JE SUIS LA')
+     
         }
         
-      })
+      })  
       
     }
     
-  }, [isFocused]);
+  }, [isFocused]); 
   
   
   
@@ -146,14 +148,14 @@ function Discover(props) {
 
   var addToWishlist = async (event, isLiked) =>{
     if(isLiked === false){
-    console.log(event)
+
     const data = await fetch('http://192.168.1.63:3000/add-to-wishlist', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&id='+event._id
           })
     const body =  await data.json();
-    console.log(body)
+
     setWishListContent(body.user.myEvents)
         }
     else{
@@ -163,7 +165,7 @@ function Discover(props) {
         body: 'token='+props.token+'&id='+event._id
       })
       const body =  await data.json();
-      console.log(body)
+  
       setWishListContent(body.user.myEvents)
 
     }
@@ -171,6 +173,7 @@ function Discover(props) {
   
   
   let discoverList = events.map( (event, index) => {
+  
     var likeColor = 'white'
 
     var isLiked = false
@@ -184,6 +187,7 @@ function Discover(props) {
     
     
     return (
+      
       <View style={{flex: 1, height: (7.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>
       
       <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
@@ -239,8 +243,8 @@ function Discover(props) {
       </View>
       
       <View style={{alignItems: 'center', flexDirection: 'row', position: 'absolute', left: 20, top: 45}}>
-      <ImageBackground source={require("../assets/avatar_fake.jpg")} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
-      <Text style={styles.pseudo}>{event.admin.username}</Text>
+      <ImageBackground source={{uri: event.admin.avatar}} imageStyle={{ borderRadius: 50}} style={ styles.imgAvatar}/>
+ <Text style={styles.pseudo}>{event.admin.username}</Text>
       </View>
       </View>
       
@@ -382,14 +386,19 @@ function Discover(props) {
         
       });
       
-      function mapStateToProps(state) {
+      
+/// TO REDUX   
+      
+      
+  function mapStateToProps(state) {
         return { token: state.token }
       }
 
-      function mapDispatchToProps(dispatch) {
+  
+  function mapDispatchToProps(dispatch) {
         return {
           onSubmitToken: function (token) {
-            dispatch({ type: 'saveUser', token: token })
+            dispatch({ type: 'saveUser', token: token})
           }
         }
       }

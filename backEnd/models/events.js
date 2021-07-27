@@ -12,9 +12,10 @@ var eventSchema = mongoose.Schema({
   latitude: Number,
   dateUTC: Date,
   dateFront: String,
-  Participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
+  interestedParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
+  confirmedParticipants: [{type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
   tags: Array
-  
+
   });
   
   var eventModel = mongoose.model('events', eventSchema);

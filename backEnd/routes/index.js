@@ -197,6 +197,7 @@ router.get('/', function(req, res, next) {
           password: hash,
           token: uid2(32), 
           username: req.body.username.toLowerCase(),
+          avatar: req.body.avatar,
         })
         var newUser = await newUser.save();
         if (newUser){
@@ -235,6 +236,29 @@ router.get('/', function(req, res, next) {
     
         res.json({user})
     })
+
+  //EDIT USER:
+
+  router.post('/edit-userAvatar', async function(req, res, next){
+
+      var user = await userModel.updateOne({ token: req.body.token},{ avatar: req.body.avatar });
+
+  res.json({user})
+
+  })
+
+  router.post('/edit-userName', async function(req, res, next){
+
+    console.log("??", req.body)
+    var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+
+    
+
+res.json({user})
+
+})
+
+
   
 
 //MESSAGES ROUTES: 
