@@ -4,6 +4,7 @@ import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, Scroll
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import HeaderScreen from './Header' 
 import { Ionicons } from '@expo/vector-icons'; 
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -154,13 +155,13 @@ let myEventsList = wishListContent.map( (event, index) => {
              </View>
                     <View style={styles.iconContainer}>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
-                    <Ionicons name="close-circle-outline" size={32} color="red" style={styleButtons}/>
+                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons}/>
                     </View>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
                     <Text style={styleConfirmed}>Confirmed</Text>
                     </View>
                     <View style={{position: 'absolute', right: 72, top: 5}}>
-                    <Ionicons name="checkmark-circle-outline" size={32} color="green" style={styleButtons} onPress={() => addToConfirm(event, isConfirmed)}/>
+                    <Ionicons name="checkmark-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => addToConfirm(event, isConfirmed)}/>
                     </View>
                     <View style={{position: 'absolute', left: 25, top: 5}}>
                     <Ionicons name="chatbox-ellipses" size={32} color="black" />
@@ -174,6 +175,7 @@ let myEventsList = wishListContent.map( (event, index) => {
 
     return (
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
+           <HeaderScreen navigation={props.navigation}/>
             <ScrollView style={{flex:1}} snapToInterval={(7.5/10)*screen.height} decelerationRate='fast'>
              {myEventsList}
              </ScrollView>
@@ -192,18 +194,24 @@ const screen = Dimensions.get("screen");
 const styles = StyleSheet.create({
 
 date: {
+        color: 'white',
+        backgroundColor: '#011520',
         fontSize: 12,
-        marginLeft : (2/10)*screen.width+60,
+        width: ((9.6/10)*screen.width)-((2/10)*screen.width),
+        marginLeft : (2/10)*screen.width,
         fontFamily: 'Poppins_500Medium',
-        marginTop: 10,
+        marginTop: 0,
+        paddingTop: 5,
         marginBottom: -8,
+        textAlign: 'center'
         },
 
 title: {
+  color: '#011520',
     fontSize: 23,
     marginLeft : (2/10)*screen.width+9,
     fontFamily: 'Poppins_500Medium',
-    marginTop: 5,
+    marginTop: 10,
     },
     
 desc: {

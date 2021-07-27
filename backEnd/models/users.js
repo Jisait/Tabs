@@ -6,8 +6,8 @@ var userSchema = mongoose.Schema({
   email: String,
   password: String,
   token: String,
-  urlToProfilePic: String,
-  myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events'}],
+  avatar: String,
+  myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
   });
   
   var userModel = mongoose.model('users', userSchema);

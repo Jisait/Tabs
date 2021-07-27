@@ -1,14 +1,17 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { } from 'react-native-elements';
-import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
-import { Header, Button, Overlay, CheckBox  } from 'react-native-elements';
+import {  Pressable , Image, Text, Button, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
+import { Overlay, CheckBox, Input  } from 'react-native-elements';
+import HeaderScreen from './Header' 
+
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import {
   useFonts,
@@ -31,48 +34,107 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 
 
 function Settings(props) {
+ 
+  const [image, setImage] = useState(null);
+  const [avatar, setAvatar] = useState('')
+  const [name, setName] = useState('')
+  const [newName, setNewName] = useState('')
+
 
   const [visible, setVisible] = useState(false);
   const toggleOverlay = () => {
     setVisible(!visible);
-  };
+    setName(newName)
+
+};
+
+  const changeName = async () => {
+    const dataName = await fetch('http://192.168.1.20:3000/edit-userName', {
+      method: 'POST', 
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'token='+props.token+'&name='+newName
+    }) 
+  }
 
 
-const [image, setImage] = useState(null);
-const [avatar, setAvatar] = useState(require('../assets/defaultAvatar.jpeg'))
+    useEffect(() => {
+      (async () => {
+        const data = await fetch('http://192.168.1.20:3000/get-user', {
+          method: 'POST', 
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: 'token='+props.token
+        })
+        const body =  await data.json();
+        console.log("???", body.user.avatar)
+        setAvatar(body.user.avatar)
+        setName(body.user.username)
+    
+          })();
+      }, []);  
 
-useEffect(() => {
-  (async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+  
+
+
+        useEffect(() => {
+          (async () => {
+            if (Platform.OS !== 'web') {
+              const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+              if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+              }
+            }
+          })();
+        }, []);
+
+        const pickAvatar = async () => {
+          let avatar = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [200, 200],
+            quality: 1,
+            base64: true
+          });
+
+            if (!avatar.cancelled) {
+            setImage(avatar.uri);
+            setAvatar(avatar.uri)
+          }
+
+          var data = new FormData();
+          data.append("picture", {
+            uri: avatar.uri,
+            type: "image/jpeg",
+            name: "event_picture.jpg",
+          });
+          
+          var rawResponse = await fetch("http://192.168.1.20:3000/pictureUpload", {
+          method: "post",
+          body: data,
+          
+          });
+
+          var response = await rawResponse.json();
+          console.log('voyons', response.url)
+          setAvatar(response.url)
+
+          const dataAvatar = await fetch('http://192.168.1.20:3000/edit-userAvatar', {
+            method: 'POST', 
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'token='+props.token+'&avatar='+response.url
+          }) 
+
       }
-    }
-  })();
-}, []);
 
-const pickAvatar = async () => {
-  let avatar = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    allowsEditing: true,
-    aspect: [200, 200],
-    quality: 1,
-    base64: true
-  });
 
-    if (!avatar.cancelled) {
-    setImage(avatar.uri);
-    setAvatar(avatar.uri)
-  }}
 
 var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
-if (image === null) {avatarView = <Image source={require('../assets/defaultAvatar.jpeg')} style={styles.avatar}/>}
+if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.avatar}/>}
 
 // GESTION DES TAGS
 
@@ -90,7 +152,7 @@ const [tags, setTags] = useState([])
 
 
   
-  console.log((2/10)*screen.height)
+
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -113,23 +175,46 @@ const [tags, setTags] = useState([])
   Poppins_900Black_Italic,
   });
 
+  console.log("...", props.token) 
+
+ 
 
 
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+
+ 
   
 
     return (
       <View style={styles.overlay}>
+              <HeaderScreen navigation={props.navigation}/>
+        
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
-      <Text style= {styles.userName}>UserPseudo</Text>
-          {/*   <View style= {{position: 'relative', marginTop: 7}}>
+      
+      <Pressable onPress={toggleOverlay}>
+          <Text style= {styles.userName}>{name}</Text>
+      </Pressable>
+      <Overlay style={styles.overlayContainer} isVisible={visible} onBackdropPress={() => {toggleOverlay();changeName()}}>
+        <View >
+
+          <Text style={styles.overlayText}>Want to change your pseudo ?</Text>
+        <Input
+              placeholder={name}
+              
+              style={styles}
+              onChangeText={(val) => setNewName(val)}/>
+ 
+        </View>
+      </Overlay>
+
+     <View style= {{position: 'relative', marginTop: 7}}>
                            {avatarView} 
-                  <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
-            </View> */}
+      <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
+  </View> 
         <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
         <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
         <View style= {styles.hairline}></View>
@@ -232,7 +317,7 @@ const [tags, setTags] = useState([])
             onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
             checkedIcon='check-square'
             uncheckedIcon='square'
-            containerStyle={styles.checkBoxContainer}
+            containerStyle={styles.checkBoxContainer}user
             checkedColor='#FFF1DC'
             uncheckedColor='white'/>
          </View>
@@ -253,9 +338,41 @@ const [tags, setTags] = useState([])
 const screen = Dimensions.get("screen"); 
 const styles = StyleSheet.create({
 
+  overlayContainer: {
+      
+      backgroundColor: 'white',
+      width: 200,
+      height: 100
+
+  },
+
+  text: {
+    flex: 1,
+    fontSize: 28,
+    color: 'white',
+    fontFamily: 'Poppins_400Regular',
+    textAlign: 'justify'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 2,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0E0812',
+   
+  },
+
+  overlayText: {
+      fontFamily: 'Poppins_300Light',
+      fontSize: 12,
+  },
+
   overlay: {
-      height: (7/10)*screen.height,
-      width: (8/10)*screen.width,
+    flex: 1,
+    
       backgroundColor: '#011520'
             },
 

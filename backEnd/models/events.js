@@ -15,7 +15,7 @@ var eventSchema = mongoose.Schema({
   interestedParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
   confirmedParticipants: [{type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
   tags: Array
-  
+
   });
   
   var eventModel = mongoose.model('events', eventSchema);

@@ -43,11 +43,14 @@ const [signUpPassword, setSignUpPassword] = useState('');
 const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
-var handleSubmitSignUp = async (email, username, password) => {
+var avatar = 'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg'
+
+
+var handleSubmitSignUp = async (email, username, password, avatar) => {
     const data = await fetch('http://192.168.1.20:3000/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: 'email='+email+'&username='+username+'&password='+password
+        body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar
       })
     const body =  await data.json();
     console.log(body)
@@ -185,7 +188,7 @@ else if (loginType == false){
         onChangeText={(val) => setSignUpPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword)}>
+            <Pressable style={styles.button} onPress={()=>handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar)}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>SIGN UP</Text>
             </Pressable>
 

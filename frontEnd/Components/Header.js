@@ -19,7 +19,7 @@ export default function HeaderScreen(props) {
             containerStyle={{
             backgroundColor: '#011520',
             justifyContent: 'space-around',
-            paddingBottom: 0
+            paddingBottom: 0,borderBottomColor: 'transparent', borderTopColor: 'transparent'
             }}
             rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
 </Pressable>
