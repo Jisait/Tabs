@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  StatusBar
 } from "react-native";
 import HeaderScreen from "./Header";
 import { Overlay, SearchBar } from "react-native-elements";
@@ -23,7 +24,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 import {
   useFonts,
   Poppins_100Thin,
@@ -92,6 +93,8 @@ function Discover(props) {
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
   }
+
+
 
   useEffect(() => {
     async function askPermissions() {
@@ -263,6 +266,7 @@ function Discover(props) {
     }
 
 
+
     return (
       <View
         style={{
@@ -378,12 +382,12 @@ function Discover(props) {
             top: 45,
           }}
         >
-          <ImageBackground
+       <ImageBackground
             source={{ uri: event.admin.avatar }}
             imageStyle={{ borderRadius: 50 }}
             style={styles.imgAvatar}
-          />
-          <Text style={styles.pseudo}>{event.admin.username}</Text>
+          /> 
+     <Text style={styles.pseudo}>{event.admin.username}</Text>
         </View>
       </View>
     );
@@ -395,7 +399,9 @@ function Discover(props) {
   } else {
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
+      
         <HeaderScreen navigation={props.navigation} />
+        <StatusBar backgroundColor="#011520" />
         <View style={styles.searchBarContainer}>
           <SearchBar
             containerStyle={{
@@ -636,7 +642,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitToken: function (token) {
-      dispatch({ type: "saveUser", token: token });
+      dispatch({ type: "saveUser", payload: token });
     },
     onSubmitIP: function (ip) {
       dispatch({ type: "getIP", ip: ip });

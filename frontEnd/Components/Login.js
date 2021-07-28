@@ -1,7 +1,11 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, } from 'react-native';
-import { Button, Input } from 'react-native-elements'
+import { Button, Input, Overlay } from 'react-native-elements'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -71,7 +75,7 @@ var handleSubmitSignUp = async (email, username, password, avatar) => {
         body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar
       })
     const body =  await data.json();
-    console.log(body)
+
     props.onSubmitToken(body.token)
     AsyncStorage.setItem('token', body.token);
 
@@ -84,12 +88,21 @@ var handleSubmitSignIn = async (email, password) => {
         body: 'email='+email+'&password='+password
         })
     const body =  await data.json();
-    console.log(body)
+
     props.onSubmitToken(body.token)
-    console.log(props.token)
+
     AsyncStorage.setItem('token', body.token);
 }
     
+const [visibleLogin, setVisibleLogin] = useState(false);
+const toggleOverlayLogin = () => {
+  setVisibleLogin(!visibleLogin);
+};
+
+const [visibleSignUp, setVisibleSignUp] = useState(false);
+const toggleOverlaySignUp = () => {
+  setVisibleSignUp(!visibleSignUp);
+};
 
 
 
@@ -151,9 +164,22 @@ var handleSubmitSignIn = async (email, password) => {
         onChangeText={(val) => setSignInPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>handleSubmitSignIn(signInEmail, signInPassword)}>
+            <Pressable style={styles.button} onPress={()=>{handleSubmitSignIn(signInEmail, signInPassword); toggleOverlayLogin()}}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>LOGIN</Text>
             </Pressable>
+
+            <Overlay isVisible={visibleLogin}>
+    
+    <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+      <MaterialIcons name="emoji-emotions" size={120} color="green" />
+  
+    
+    <Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>
+    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
+        <Text style={styles.textConfirmLogin}>Go back !</Text>
+    </Pressable>
+    </View>
+</Overlay>
 
         
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecorationLine: 'underline' }} onPress={() => setLoginType(false)}>Don't have an account? Sign Up</Text>
@@ -206,9 +232,22 @@ else if (loginType == false){
         onChangeText={(val) => setSignUpPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar)}>
+            <Pressable style={styles.button} onPress={()=>{handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar); toggleOverlaySignUp()}}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>SIGN UP</Text>
             </Pressable>
+
+            <Overlay isVisible={visibleSignUp}>
+    
+    <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+      <MaterialIcons name="emoji-emotions" size={120} color="green" />
+  
+    
+    <Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>
+    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false), props.navigation.goBack()}}>
+        <Text style={styles.textConfirmLogin}>Go back !</Text>
+    </Pressable>
+    </View>
+</Overlay>
 
         
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecoration: 'underline' }} onPress={() => setLoginType(true)}>Already have an account? Login</Text>
@@ -260,6 +299,18 @@ const styles = StyleSheet.create({
         marginTop: 21
         },
 
+        buttonConfirmlogin: {
+          marginTop: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 5,
+          paddingBottom: 2,
+          paddingHorizontal: 14,
+          borderRadius: 4,
+          elevation: 3,
+          backgroundColor: '#0E0812',
+        },
+
 rectangle: {
     height: '94.5%',
     width: '100%',
@@ -302,6 +353,20 @@ hairlineBlack: {
     width: 1,
     },
 
+    createTextConfirmLogin :{
+      fontSize: 24,
+      color: '#011520',
+      fontFamily: 'Poppins_400Regular',
+      textAlign: 'center',
+      marginTop: 20
+    },
+
+    textConfirmLogin: {
+      fontSize: 16,
+      fontFamily: 'Poppins_700Bold',
+      color: '#FFD99F',
+    },
+
 
 
 imgAvatar: {
@@ -339,7 +404,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
       onSubmitToken: function (token) {
-        dispatch({ type: 'saveUser', token: token })
+        dispatch({ type: 'saveUser', payload: token })
       }
     }
   }

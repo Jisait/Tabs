@@ -1,7 +1,11 @@
 export default function(token = null, action) {
     if(action.type == 'saveUser') {
-        return action.token;
-    } else {
-        return token;
-    }
+        return action.payload;
+    } else  
+   if(action.type == 'deconnectUser') {
+       var destroyToken = null
+        return destroyToken;
+    } else 
+
+    return token
   }

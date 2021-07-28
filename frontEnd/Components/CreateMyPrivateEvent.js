@@ -17,6 +17,7 @@ import {
   Platform,
   FlatList,
   ActivityIndicator,
+  StatusBar
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
@@ -250,7 +251,7 @@ export default function CreateYourEvent(props) {
   const [contacts, setContacts] = useState([]);
   const [inMemory, setInMemory] = useState([]);
   const [pressItem, setPressItem] = useState([]);
-  console.log("?", pressItem);
+
 
   useEffect(() => {
     (async () => {
@@ -286,7 +287,7 @@ export default function CreateYourEvent(props) {
 
   var searchContacts = (value) => {
     const filteredContacts = inMemory.filter((contact) => {
-      console.log("?", value);
+
 
       let contactLowercase = (
         contact.firstName +
@@ -371,6 +372,7 @@ export default function CreateYourEvent(props) {
     return (
       <View style={{ flex: 1 }}>
         <HeaderScreen navigation={props.navigation} />
+        <StatusBar backgroundColor="#011520" />
         <View
           style={{
             flex: 1,

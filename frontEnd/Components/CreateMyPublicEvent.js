@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import HeaderScreen from './Header' 
 
-import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput, Button, Platform } from 'react-native';
+import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput, Button, Platform, StatusBar } from 'react-native';
 import { CheckBox, Overlay } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -93,7 +93,7 @@ function CreateYourEvent(props) {
       setImage(picture.uri);
     }
     
-    console.log("???", picture.uri)
+
     
     var data = new FormData();
     data.append("picture", {
@@ -215,7 +215,7 @@ if(transformDate !== '1970') {
   
   const [tags, setTags] = useState([])
   
-  console.log(games)
+
   
   /*       useEffect(() => {
     sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'));
@@ -223,7 +223,7 @@ if(transformDate !== '1970') {
     
   }, [sports, games]);
   */
-  console.log(tags)
+
   
   
   //CREATION DE L'EVENT
@@ -260,6 +260,7 @@ if (!fontsLoaded) {
   return (
     <View style={{flex:1}}>
        <HeaderScreen navigation={props.navigation}/>
+       <StatusBar backgroundColor="#011520" />
     <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
           
     <LinearGradient

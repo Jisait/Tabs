@@ -39,7 +39,7 @@ import {
 
 function CreateYourEvent(props) {
 
-console.log('je suis props', props);
+
 
   const screen = Dimensions.get("screen");
 
@@ -93,7 +93,7 @@ const pickImage = async () => {
     setImage(picture.uri);
   }
 
-  console.log("???", picture.uri)
+ 
 
   var data = new FormData();
   data.append("picture", {
@@ -215,7 +215,7 @@ const [movies, setMovies] = useState(false);
 
 const [tags, setTags] = useState([])
 
-console.log(games)
+
 
 /*       useEffect(() => {
           sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'));
@@ -223,7 +223,7 @@ console.log(games)
         
       }, [sports, games]);
  */
-      console.log(tags)
+  
 
 
 //CREATION DE L'EVENT
@@ -235,7 +235,7 @@ const [desc, setDesc] = useState('');
 
 
 var handlePublishOnDisco = async (title, desc, img, frontAddress, longitude, latitude, date, dateFront, tags) => {
-console.log(props)
+
   if (props.token === null)
   {props.navigation.navigate('Login')}
   else{
@@ -258,6 +258,7 @@ if (image != null) {iconImagePicker= <View></View>}
   
     return (
       <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
+          <StatusBar backgroundColor="#011520" />
             <LinearGradient
                   colors={['#FFF1DC','#FFF1DC']}
                   style={{
