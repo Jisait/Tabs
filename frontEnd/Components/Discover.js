@@ -249,7 +249,7 @@ function Discover(props) {
         </View>
       );
     } */
-
+console.log(event.admin)
     return (
       <View
         style={{
