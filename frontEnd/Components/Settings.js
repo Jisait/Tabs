@@ -142,6 +142,8 @@ var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
 if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.avatar}/>}
 
+
+
 // GESTION DES TAGS
 
 const [sports, setSports] = useState(false);
@@ -212,6 +214,7 @@ const [tags, setTags] = useState([])
                   </Pressable>
                   </View>
               </Overlay>
+             
         
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
@@ -342,18 +345,15 @@ const [tags, setTags] = useState([])
             checkedColor='#FFF1DC'
             uncheckedColor='white'/>
          </View>
-         
-         </View>
-
-
-      </View>
+   
       
 
 
-  
+
     </View>
             );
-          }}
+    
+    }}
 
 
 const screen = Dimensions.get("screen"); 

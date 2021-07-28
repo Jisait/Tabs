@@ -209,7 +209,8 @@ function Discover(props) {
 
     //// RECHERCHE PAR PSEUDO
 
-  /*   console.log("voyonsles pseudo", events[2].admin.username) */
+  /* console.log("voyonsles pseudo", events[2].admin.username)  */
+/*   const [searchPseudo, setSearchPseudo] =  */
 /* 
     useEffect(() => {
       (async () => {
@@ -360,12 +361,12 @@ function Discover(props) {
             top: 45,
           }}
         >
-          <ImageBackground
+       <ImageBackground
             source={{ uri: event.admin.avatar }}
             imageStyle={{ borderRadius: 50 }}
             style={styles.imgAvatar}
-          />
-          <Text style={styles.pseudo}>{event.admin.username}</Text>
+          /> 
+     <Text style={styles.pseudo}>{event.admin.username}</Text>
         </View>
       </View>
     );
