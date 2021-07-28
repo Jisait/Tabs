@@ -62,7 +62,7 @@ function Settings(props) {
   };
 
   const changeName = async () => {
-    const dataName = await fetch('http://172.17.1.116:3000/edit-userName', {
+    const dataName = await fetch('http://'+props.ip+':3000/edit-userName', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'token='+props.token+'&name='+newName
@@ -72,7 +72,7 @@ function Settings(props) {
 
     useEffect(() => {
       (async () => {
-        const data = await fetch('http://172.17.1.116:3000/get-user', {
+        const data = await fetch('http://'+props.ip+':3000/get-user', {
           method: 'POST', 
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: 'token='+props.token
@@ -122,7 +122,7 @@ function Settings(props) {
             name: "event_picture.jpg",
           });
           
-          var rawResponse = await fetch("http://172.17.1.116:3000/pictureUpload", {
+          var rawResponse = await fetch("http://"+props.ip+":3000/pictureUpload", {
           method: "post",
           body: data,
           
@@ -132,7 +132,7 @@ function Settings(props) {
           console.log('voyons', response.url)
           setAvatar(response.url)
 
-          const dataAvatar = await fetch('http://172.17.1.116:3000/edit-userAvatar', {
+          const dataAvatar = await fetch('http://'+props.ip+':3000/edit-userAvatar', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&avatar='+response.url
@@ -510,7 +510,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-  return { token: state.token }
+  return { token: state.token, ip: state.ip  }
 }
 
 export default connect(

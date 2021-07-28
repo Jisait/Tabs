@@ -116,7 +116,7 @@ export default function CreateYourEvent(props) {
       name: "event_picture.jpg",
     });
 
-    var rawResponse = await fetch("http://172.17.1.71:3000/pictureUpload", {
+    var rawResponse = await fetch("http://"+props.ip+":3000/pictureUpload", {
       method: "post",
       body: data,
     });
@@ -336,7 +336,7 @@ export default function CreateYourEvent(props) {
     dateFront,
     tags
   ) => {
-    const data = await fetch("http://172.17.1.71:3000/add-event", {
+    const data = await fetch("http://"+props.ip+":3000/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body:

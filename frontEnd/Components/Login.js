@@ -69,7 +69,7 @@ var avatar = avatarList[getRandomInt(5)]
 
 
 var handleSubmitSignUp = async (email, username, password, avatar) => {
-    const data = await fetch('http://172.17.1.116:3000/sign-up', {
+    const data = await fetch('http://'+props.ip+':3000/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar
@@ -82,7 +82,7 @@ var handleSubmitSignUp = async (email, username, password, avatar) => {
     }
 
 var handleSubmitSignIn = async (email, password) => {
-    const data = await fetch('http://172.17.1.116:3000/sign-in', {
+    const data = await fetch('http://'+props.ip+':3000/sign-in', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&password='+password
@@ -397,7 +397,7 @@ distance: {
 });
 
 function mapStateToProps(state) {
-    return { token: state.token }
+    return { token: state.token, ip: state.ip}
   }
   
 
