@@ -15,13 +15,13 @@ export default function HeaderScreen(props) {
 <Pressable onPress={() => props.navigation.navigate('Settings')}>
             <Header
             placement="left"
-            leftComponent={{  icon: 'settings', color: 'white', size: 30, marginTop: 10,  marginLeft: 12 }}
+            leftComponent={{  icon: 'settings', color: 'white', size: 23, marginTop: 10,  marginLeft: 12 }}
             containerStyle={{
             backgroundColor: '#011520',
             justifyContent: 'space-around',
             paddingBottom: 0,borderBottomColor: 'transparent', borderTopColor: 'transparent'
             }}
-            rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 5, marginRight: 14} }}/>
+            rightComponent={{ text: 'tab.', style: { color: '#fff', fontFamily: 'Poppins_400Regular', fontSize: 28, marginTop: 0, marginRight: 14} }}/>
 </Pressable>
 
     )}

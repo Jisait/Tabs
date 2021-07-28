@@ -43,7 +43,25 @@ const [signUpPassword, setSignUpPassword] = useState('');
 const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
-var avatar = 'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg'
+var avatarList = ['https://upload.wikimedia.org/wikipedia/commons/b/ba/Flower_jtca001.jpg',
+                  'https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(webp):focal(1315x541:1317x539)/origin-imgresizer.eurosport.com/2014/08/05/1290094-27794704-2560-1440.jpg',
+                  'https://cdn.pixabay.com/photo/2016/12/17/14/33/wave-1913559_960_720.jpg',
+                  'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg',
+                  'http://lapausephilo.fr/wp-content/uploads/2015/12/A-Matrix-couverture-article-750x422.jpg',
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pirate_Flag_of_Jack_Rackham.svg/800px-Pirate_Flag_of_Jack_Rackham.svg.png'
+                  ]
+
+  function getRandomInt(max) {
+                    return Math.floor(Math.random() * max);
+                  }
+              
+/* var avatar = 'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg' */
+
+var avatar = avatarList[getRandomInt(5)]
+
+
+
+
 
 
 var handleSubmitSignUp = async (email, username, password, avatar) => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView } from 'react-native';
 import HeaderScreen from './Header' 
-import { Overlay } from 'react-native-elements';
+import { Overlay, SearchBar } from 'react-native-elements';
 import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -73,11 +73,12 @@ function Discover(props) {
   const [currentLatitude, setCurrentLatitude] = useState('');
   const [currentLongitude, setCurrentLongitude] = useState('');
   const [visible, setVisible] = useState(false);
+  const [visibleSearch, setVisibleSearch] = useState(false);
   const [mapContent, setMapContent] = useState({latitude: 0, longitude: 0});
   const[wishListContent, setWishListContent] = useState([])
-  
-  
-  
+  const [open, setOpen] =useState(false)
+
+  const [byPseudo, setByPseudo] = useState([])
   
   useEffect(() => {
     async function askPermissions() {
@@ -119,7 +120,7 @@ function Discover(props) {
           })
 
           const body =  await data.json();
-          console.log("oul", body)
+ 
           props.onSubmitToken(body.user.token)
          
           setWishListContent(body.user.myEvents)
@@ -134,13 +135,15 @@ function Discover(props) {
     
   }, [isFocused]); 
   
-  
-  
-  
+
   const toggleOverlay = (event) => {
     setVisible(!visible);
     setMapContent({latitude: event.latitude, longitude: event.longitude})
   };
+
+
+    
+
   
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
@@ -189,6 +192,8 @@ function Discover(props) {
     return (
       
       <View style={{flex: 1, height: (7.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>
+
+
       
       <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderRadius: 28, marginBottom: 25}} style={ styles.imgBackground }>
       
@@ -261,7 +266,30 @@ function Discover(props) {
       
       return (
         <View style={{flex:1, alignItems: 'center'}}>
+
           <HeaderScreen navigation={props.navigation}/>
+      <View style={styles.searchBarContainer}>
+
+          <SearchBar
+        containerStyle= {{height: 4, color: 'red', position: 'relative',  backgroundColor: 'transparent', borderRadius: 30, border: 'red', borderBottomColor: 'transparent', borderTopColor: 'transparent',width: (5/10)*screen.width}}
+        inputContainerStyle= {{backgroundColor: 'transparent', border: 0}}
+        inputStyle= {{color: 'red', fontSize: 12}}
+        placeholder="Add friends..."
+        onChangeText={(value)=>setByPseudo(value)}
+        clearIcon={false}
+        value={byPseudo} />
+          
+        <Pressable> 
+          <View style={{marginTop: 12, marginRight: 20}}>
+            <Text>...by popularity</Text>
+          </View>
+        </Pressable>  
+      </View>
+          
+      {/*     <View style={styles.searchList}>
+          </View> */}
+
+          
         
         <ScrollView style={{flex:1}} snapToInterval={(7.5/10)*screen.height} decelerationRate='fast'> 
         {discoverList}
@@ -296,7 +324,7 @@ function Discover(props) {
         
       }}
       
-      
+      const screen = Dimensions.get("screen"); 
       const styles = StyleSheet.create({
         
         rectangle: {
@@ -383,7 +411,25 @@ function Discover(props) {
           textAlign: 'right',
           fontFamily: 'Poppins_500Medium',
         },
-        
+
+    searchBarContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+
+      backgroundColor: 'white',
+      height: (0.55/10)*screen.height,
+      width: screen.width,
+    },
+
+    searchList: {
+      flex:1,
+      backgroundColor: 'red',
+ 
+      height: (3/10)*screen.height,
+      width: (3/10)*screen.width,
+
+    }
+    
       });
       
       

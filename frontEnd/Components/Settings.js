@@ -4,7 +4,9 @@ import { } from 'react-native-elements';
 import {  Pressable , Image, Text, Button, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
 import { Overlay, CheckBox, Input  } from 'react-native-elements';
 import HeaderScreen from './Header' 
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -50,8 +52,12 @@ function Settings(props) {
   const toggleOverlay = () => {
     setVisible(!visible);
     setName(newName)
+  };
 
-};
+  const [visibleDisconnect, setVisibleDisconnect] = useState(false);
+  const toggleOverlayDisconnect = () => {
+    setVisibleDisconnect(!visibleDisconnect);
+  };
 
   const changeName = async () => {
     const dataName = await fetch('http://192.168.1.63:3000/edit-userName', {
@@ -191,6 +197,21 @@ const [tags, setTags] = useState([])
     return (
       <View style={styles.overlay}>
               <HeaderScreen navigation={props.navigation}/>
+            
+              <MaterialCommunityIcons  onPress={toggleOverlayDisconnect} style= {{position: 'absolute', right: 30, top: 130}} name="account-cancel" size={24} color="white" />
+
+              <Overlay isVisible={visibleDisconnect}>
+    
+                  <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+                    <MaterialCommunityIcons  name="account-cancel" size={120} color="#BA0000" />
+                
+                  
+                  <Text style={styles.createTextConfirm}>Hope to see you soon !</Text>
+                  <Pressable style={styles.buttonConfirm} onPress={() => {AsyncStorage.clear(), setVisibleDisconnect(false)}}>
+                      <Text style={styles.textConfirm}>Disconnect ?</Text>
+                  </Pressable>
+                  </View>
+              </Overlay>
         
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
@@ -364,6 +385,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#0E0812',
    
   },
+
+  textConfirm: {
+    fontSize: 16,
+    fontFamily: 'Poppins_700Bold',
+    color: '#FFD99F',
+  },
+
+  createTextConfirm: {
+    fontSize: 18,
+    color: '#011520',
+    fontFamily: 'Poppins_400Regular',
+    textAlign: 'justify',
+    marginTop: 20
+    },
+
+
+  buttonConfirm: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 2,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0E0812',},
 
   overlayText: {
       fontFamily: 'Poppins_300Light',
