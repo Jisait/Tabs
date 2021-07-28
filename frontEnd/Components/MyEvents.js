@@ -248,5 +248,3 @@ function mapStateToProps(state) {
     mapStateToProps,
     null
   )(ChooseYourEvent);
-
-
