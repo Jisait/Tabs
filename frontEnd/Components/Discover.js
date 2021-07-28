@@ -24,7 +24,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 import {
   useFonts,
   Poppins_100Thin,
