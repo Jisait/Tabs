@@ -41,6 +41,8 @@ import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 
 function Settings(props) {
+
+  console.log("inSett", props.token)
  
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState('')
@@ -82,6 +84,8 @@ function Settings(props) {
     
           })();
       }, []);  
+
+ 
 
   
 
@@ -142,8 +146,6 @@ var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
 if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.avatar}/>}
 
-
-
 // GESTION DES TAGS
 
 const [sports, setSports] = useState(false);
@@ -183,7 +185,7 @@ const [tags, setTags] = useState([])
   Poppins_900Black_Italic,
   });
 
-  console.log("...", props.token) 
+
 
  
 
@@ -209,12 +211,11 @@ const [tags, setTags] = useState([])
                 
                   
                   <Text style={styles.createTextConfirm}>Hope to see you soon !</Text>
-                  <Pressable style={styles.buttonConfirm} onPress={() => {AsyncStorage.clear(), setVisibleDisconnect(false)}}>
+                  <Pressable style={styles.buttonConfirm} onPress={() => {AsyncStorage.clear(), setVisibleDisconnect(false), props.navigation.navigate('Disco'),  props.onSubmitToken()}}>
                       <Text style={styles.textConfirm}>Disconnect ?</Text>
                   </Pressable>
                   </View>
               </Overlay>
-             
         
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
@@ -345,15 +346,18 @@ const [tags, setTags] = useState([])
             checkedColor='#FFF1DC'
             uncheckedColor='white'/>
          </View>
-   
+         
+         </View>
+
+
+      </View>
       
 
 
-
+  
     </View>
             );
-    
-    }}
+          }}
 
 
 const screen = Dimensions.get("screen"); 
@@ -495,11 +499,21 @@ const styles = StyleSheet.create({
   }
 });
 
+
+ function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitToken: function () {
+      dispatch({ type: "deconnectUser" });
+    },
+  };
+} 
+
+
 function mapStateToProps(state) {
   return { token: state.token }
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps,
 )(Settings);

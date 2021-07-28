@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  StatusBar
 } from "react-native";
 import HeaderScreen from "./Header";
 import { Overlay, SearchBar } from "react-native-elements";
@@ -86,6 +87,8 @@ function Discover(props) {
   const [userID, setUserID] = useState("");
   const [confirmedCheck, setConfirmedCheck] = useState([]);
   const [byPseudo, setByPseudo] = useState("");
+
+
 
 
 
@@ -249,7 +252,7 @@ function Discover(props) {
         </View>
       );
     } */
-console.log(event.admin)
+
     return (
       <View
         style={{
@@ -377,7 +380,9 @@ console.log(event.admin)
   } else {
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
+      
         <HeaderScreen navigation={props.navigation} />
+        <StatusBar backgroundColor="#011520" />
         <View style={styles.searchBarContainer}>
           <SearchBar
             containerStyle={{
@@ -591,7 +596,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitToken: function (token) {
-      dispatch({ type: "saveUser", token: token });
+      dispatch({ type: "saveUser", payload: token });
     },
   };
 }

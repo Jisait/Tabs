@@ -48,9 +48,9 @@ export default function CardImage3(props) {
     }, []);
 
   const screen = Dimensions.get("screen");
-  console.log("screen", screen)
 
-  console.log("pourc", (6.5/10)*screen.height)
+
+
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,

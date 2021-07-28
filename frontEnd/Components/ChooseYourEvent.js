@@ -2,7 +2,7 @@ import React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
 import HeaderScreen from './Header' 
 import { } from 'react-native-elements';
-import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground } from 'react-native';
+import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -36,7 +36,7 @@ import {
 function ChooseYourEvent(props) {
 
   
-  console.log((2/10)*screen.height)
+
 
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -70,7 +70,7 @@ function ChooseYourEvent(props) {
     return (
       <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
          <HeaderScreen navigation={props.navigation}/>
-
+         <StatusBar backgroundColor="#011520" />
       
             <View style={{width: (10/10)*screen.width}}>
                 <ImageBackground position= 'relative' source={require("../assets/Party.jpg")} imageStyle={{ borderBottomLeftRadius: 28,borderBottomRightRadius: 28}} style={ styles.imgBackground }>

@@ -17,6 +17,7 @@ import {
   Platform,
   FlatList,
   ActivityIndicator,
+  StatusBar
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
@@ -115,7 +116,7 @@ export default function CreateYourEvent(props) {
       name: "event_picture.jpg",
     });
 
-    var rawResponse = await fetch("http://172.17.1.116:3000/pictureUpload", {
+    var rawResponse = await fetch("http://172.17.1.71:3000/pictureUpload", {
       method: "post",
       body: data,
     });
@@ -250,7 +251,7 @@ export default function CreateYourEvent(props) {
   const [contacts, setContacts] = useState([]);
   const [inMemory, setInMemory] = useState([]);
   const [pressItem, setPressItem] = useState([]);
-  console.log("?", pressItem);
+
 
   useEffect(() => {
     (async () => {
@@ -286,7 +287,7 @@ export default function CreateYourEvent(props) {
 
   var searchContacts = (value) => {
     const filteredContacts = inMemory.filter((contact) => {
-      console.log("?", value);
+
 
       let contactLowercase = (
         contact.firstName +
@@ -335,7 +336,7 @@ export default function CreateYourEvent(props) {
     dateFront,
     tags
   ) => {
-    const data = await fetch("http://172.17.1.116:3000/add-event", {
+    const data = await fetch("http://172.17.1.71:3000/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body:
@@ -371,6 +372,7 @@ export default function CreateYourEvent(props) {
     return (
       <View style={{ flex: 1 }}>
         <HeaderScreen navigation={props.navigation} />
+        <StatusBar backgroundColor="#011520" />
         <View
           style={{
             flex: 1,
