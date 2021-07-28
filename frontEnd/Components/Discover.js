@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AppLoading from "expo-app-loading";
 import {
   Pressable,
@@ -23,6 +23,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SelectDropdown from 'react-native-select-dropdown'
 import {
   useFonts,
   Poppins_100Thin,
@@ -86,9 +87,11 @@ function Discover(props) {
   const [userID, setUserID] = useState("");
   const [confirmedCheck, setConfirmedCheck] = useState([]);
   const [byPseudo, setByPseudo] = useState("");
+  const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
-
-
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(1);
+  }
 
   useEffect(() => {
     async function askPermissions() {
@@ -101,21 +104,52 @@ function Discover(props) {
       }
     }
     askPermissions();
+    var ip = '172.17.1.71'
+    props.onSubmitIP(ip);
+
   }, []);
+
+  
 
   useEffect(() => {
     if (isFocused == true) {
       async function loadData() {
         // CHANGE POUR TON IP LORS DE RESR
-        const data = await fetch("http://172.17.1.71:3000/get-event");
+
+        const data = await fetch("http://"+props.ip+":3000/get-event");
         var eventData = await data.json();
-        setEvents(eventData.events);
+        var neweventDATA = eventData.events
+        var provisionalEVENTS = [];
+        for(var i =0; i<neweventDATA.length; i++){
+
+          var distanceFromEvent = financial(
+            getDistance(
+              currentLatitude,
+              currentLongitude,
+              neweventDATA[i].longitude,
+              neweventDATA[i].latitude,
+              "km"
+            )
+          );
+          console.log(i, distanceFromEvent)
+          neweventDATA[i].distance = financial(distanceFromEvent)
+
+          provisionalEVENTS.push(neweventDATA[i])
+          
+          }
+          setEvents(provisionalEVENTS)
+          console.log('EVENTS AVEC DISTANCE', events)
+
+
+        console.log('resultat BOUCLE de levent', events )
+        
+
       }
       loadData();
 
       AsyncStorage.getItem("token", async function (error, token) {
         if (token) {
-          const data = await fetch("http://172.17.1.71:3000/get-user", {
+          const data = await fetch("http://"+props.ip+":3000/get-user", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: "token=" + token,
@@ -129,7 +163,7 @@ function Discover(props) {
           setUserID(body.user._id);
 
           const confirmed = await fetch(
-            "http://172.17.1.71:3000/get-Myevents",
+            "http://"+props.ip+":3000/get-Myevents",
             {
               method: "POST",
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -142,20 +176,22 @@ function Discover(props) {
         }
       });
     }
+
+    console.log('HOPHOPHOP', eventsWithLocation[1])
   }, [isFocused]);
+
+
+
 
   const toggleOverlay = (event) => {
     setVisible(!visible);
     setMapContent({ latitude: event.latitude, longitude: event.longitude });
   };
 
-  function financial(x) {
-    return Number.parseFloat(x).toFixed(1);
-  }
 
   var addToWishlist = async (event, isLiked) => {
     if (isLiked === false) {
-      const data = await fetch("http://172.17.1.71:3000/add-to-wishlist", {
+      const data = await fetch("http://"+props.ip+":3000/add-to-wishlist", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "token=" + props.token + "&id=" + event._id,
@@ -164,7 +200,7 @@ function Discover(props) {
 
       setWishListContent(body.user.myEvents);
     } else {
-      const data = await fetch("http://172.17.1.71:3000/remove-from-wishlist", {
+      const data = await fetch("http://"+props.ip+":3000/remove-from-wishlist", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "token=" + props.token + "&id=" + event._id,
@@ -174,8 +210,22 @@ function Discover(props) {
       setWishListContent(body.user.myEvents);
     }
   };
+  
+  const filters = ["Popularity", "Distance", "Date"]
 
-  let discoverList = events.map((event, index) => {
+  var filterByDistance = (selectedItem, index) => {
+    if (selectedItem == 'Distance'){
+      console.log('BV BG')
+      var temp = [... events]
+      temp.sort(function(a, b) {return a.distance - b.distance})      
+      setEvents(temp)
+    }
+  }
+  var discoverList;
+
+  useEffect(() => {console.log('USEEFFECT', events)},[events])
+
+  discoverList = events.map((event, index) => {
     var likeColor = "white";
     var checkVisible = { display: "none" };
     var likeVisible = { display: "flex" };
@@ -197,58 +247,8 @@ function Discover(props) {
       isLiked = true;
       likeColor = "red";
     }
-    var distance = financial(
-      getDistance(
-        currentLatitude,
-        currentLongitude,
-        event.longitude,
-        event.latitude,
-        "km"
-      )
-    );
-
-    //// RECHERCHE PAR PSEUDO
-
-  /*   console.log("voyonsles pseudo", events[2].admin.username) */
-/* 
-    useEffect(() => {
-      (async () => {
-        const { status } = await Contacts.requestPermissionsAsync();
-        if (status === "granted") {
-          const { data } = await Contacts.getContactsAsync({
-            fields: [Contacts.Fields.PhoneNumbers],
-          });
-          setContacts(data);
-          setInMemory(data);
-        }
-      })();
-    }, []); */
 
 
-
-
-
-
-
- /*    if (contacts.length > 5) {
-      var renderItem = ({ item }) => <View></View>;
-    } else {
-      var renderItem = ({ item }) => (
-        <View style={styles.searchListPseudoBackground}>
-          <Pressable
-            onPress={() => {
-              setPressItem([...pressItem, item]);
-              setContacts("");
-            }}
-          >
-            <Text style={styles.searchListPseudo}>
-              {item.firstName + " " + item.lastName}
-            </Text>
-          </Pressable>
-        </View>
-      );
-    } */
-console.log(event.admin)
     return (
       <View
         style={{
@@ -300,7 +300,7 @@ console.log(event.admin)
         </View>
 
         <View style={{ position: "absolute", left: 220, bottom: 166 }}>
-          <Text style={styles.distance}>{distance} km</Text>
+          <Text style={styles.distance}>{event.distance} km</Text>
         </View>
 
         <View style={{ position: "absolute", left: 190, bottom: 166 }}>
@@ -371,6 +371,7 @@ console.log(event.admin)
     );
   });
 
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -408,7 +409,34 @@ console.log(event.admin)
 
           <Pressable>
             <View style={{ marginTop: 12, marginRight: 20 }}>
-              <Text>...by popularity</Text>
+            <SelectDropdown
+              buttonStyle={{
+                height: 25,
+                color: "red",
+                position: "relative",
+                backgroundColor: "grey",
+                borderRadius: 30,
+                border: "red",
+                borderBottomColor: "transparent",
+                borderTopColor: "transparent",
+                width: (3/ 10) * screen.width,
+              }}
+              buttonTextStyle={{
+                color: 'white'
+              }}
+              data={filters}
+              onSelect={(selectedItem)=>{filterByDistance(selectedItem)}}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item
+              }}
+            />
             </View>
           </Pressable>
         </View>
@@ -584,7 +612,7 @@ const styles = StyleSheet.create({
 /// TO REDUX
 
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { token: state.token, ip: state.ip };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -592,6 +620,9 @@ function mapDispatchToProps(dispatch) {
     onSubmitToken: function (token) {
       dispatch({ type: "saveUser", token: token });
     },
+    onSubmitIP: function (ip) {
+      dispatch({ type: "getIP", ip: ip });
+    }
   };
 }
 
