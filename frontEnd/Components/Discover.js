@@ -104,7 +104,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '172.17.1.71'
+    var ip = '192.168.1.20'
     props.onSubmitIP(ip);
 
   }, []);
@@ -133,6 +133,7 @@ function Discover(props) {
           );
           console.log(i, distanceFromEvent)
           neweventDATA[i].distance = financial(distanceFromEvent)
+          neweventDATA[i].totalParticipants = neweventDATA[i].interestedParticipants.length + neweventDATA[i].confirmedParticipants.length
 
           provisionalEVENTS.push(neweventDATA[i])
           
@@ -213,17 +214,30 @@ function Discover(props) {
   
   const filters = ["Popularity", "Distance", "Date"]
 
-  var filterByDistance = (selectedItem, index) => {
+  var filterByselected = (selectedItem, index) => {
     if (selectedItem == 'Distance'){
       console.log('BV BG')
       var temp = [... events]
-      temp.sort(function(a, b) {return a.distance - b.distance})      
+      temp.sort(function(a, b) {return (a.distance - b.distance)});
+      setEvents(temp)
+    }
+    else if(selectedItem == 'Popularity'){
+      console.log('BV BG 2')
+      var temp = [... events]
+      temp.sort(function(a, b) {return (b.totalParticipants - a.totalParticipants)});
+      setEvents(temp)
+    }
+    else if(selectedItem == 'Date'){
+      console.log('BV BG 3')
+      var temp = [... events]
+      temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
       setEvents(temp)
     }
   }
   var discoverList;
 
   useEffect(() => {console.log('USEEFFECT', events)},[events])
+
 
   discoverList = events.map((event, index) => {
     var likeColor = "white";
@@ -293,6 +307,10 @@ function Discover(props) {
             color="lightgreen"
             style={checkVisible}
           />
+        </View>
+
+        <View style={{ position: "absolute", right: 20, top: 100 }}>
+          <Text style={styles.distance}>{event.totalParticipants} participants</Text>
         </View>
 
         <View style={{ position: "absolute", left: 150, bottom: 166 }}>
@@ -425,7 +443,7 @@ function Discover(props) {
                 color: 'white'
               }}
               data={filters}
-              onSelect={(selectedItem)=>{filterByDistance(selectedItem)}}
+              onSelect={(selectedItem)=>{filterByselected(selectedItem)}}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
                 // if data array is an array of objects then return selectedItem.property to render after item is selected
