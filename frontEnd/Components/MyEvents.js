@@ -59,20 +59,40 @@ function ChooseYourEvent(props) {
 
             const isFocused = useIsFocused();
             const[wishListContent, setWishListContent] = useState([]);
+            const[userID, setUserId] = useState('');
+
+
 
             useEffect(() => {
+              console.log('yo')
                 async function loadData(){
-                    const data = await fetch('http://192.168.1.63:3000/get-Myevents', {
+                  
+
+                    const data = await fetch('http://172.17.1.71:3000/get-Myevents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
                     })
                     const body =  await data.json();
                     setWishListContent(body.myEvents)
+
+                    const userData = await fetch('http://172.17.1.71:3000/get-user', {
+                      method: 'POST', 
+                      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                      body: 'token='+props.token
+                    })
+          
+                    const dataUser =  await userData.json();
+                    console.log('dataUser', dataUser)
+                    setUserId(dataUser.user._id)
+
+                    
                 }
                 if (isFocused == true){
-
+                  console.log('TEST 1')
                     if (props.token){
+                      console.log('TEST 2')
+
                         loadData();
                   }
                   else {
@@ -82,7 +102,45 @@ function ChooseYourEvent(props) {
               }
             , [isFocused]); 
 
+  var addToConfirm = async (event, isConfirmed) =>{
+    if(isConfirmed === false){
+    const userData = await fetch('http://172.17.1.71:3000/add-to-confirm', {
+            method: 'POST', 
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'token='+props.token+'&id='+event._id
+          })
+    const user =  await userData.json();
+    
+    setUserId(user.user)
+
+    const data = await fetch('http://172.17.1.71:3000/get-Myevents', {
+    method: 'POST', 
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'token='+props.token
+  })
+  const body =  await data.json();
+  setWishListContent(body.myEvents)
+  }
+  }
+            
+
 let myEventsList = wishListContent.map( (event, index) => {
+  var styleButtons = {display: 'flex'}
+  var styleConfirmed = {display: 'none'}
+  console.log('YO', index, event.confirmedParticipants)
+  var isConfirmed = false
+  var check = event.confirmedParticipants
+  console.log('YOTEST', check)
+  
+  var result = check.find(element => element == userID);
+  console.log(result)
+
+  if(result != undefined){
+    isConfirmed = true
+    styleButtons = {display: 'none'}
+    styleConfirmed = {display: 'flex'}
+  }
+
     return (
 <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', margin:(0.1/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
              <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
@@ -97,10 +155,13 @@ let myEventsList = wishListContent.map( (event, index) => {
              </View>
                     <View style={styles.iconContainer}>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
-                    <Ionicons name="close-circle-outline" size={32} color="#011520" />
+                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons}/>
+                    </View>
+                    <View style={{position: 'absolute', right: 22, top: 5}}>
+                    <Text style={styleConfirmed}>Confirmed</Text>
                     </View>
                     <View style={{position: 'absolute', right: 72, top: 5}}>
-                    <Ionicons name="checkmark-circle-outline" size={32} color="#011520" />
+                    <Ionicons name="checkmark-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => addToConfirm(event, isConfirmed)}/>
                     </View>
                     <View style={{position: 'absolute', left: 25, top: 5}}>
                     <Ionicons name="chatbox-ellipses" size={32} color="black" />
