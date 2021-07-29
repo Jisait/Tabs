@@ -243,6 +243,8 @@ function Discover(props) {
 
 
   discoverList = events.map((event, index) => {
+  
+  if (event.publique == true){
     var likeColor = "white";
     var checkVisible = { display: "none" };
     var likeVisible = { display: "flex" };
@@ -391,7 +393,7 @@ function Discover(props) {
         </View>
       </View>
     );
-  });
+  }});
 
 
   if (!fontsLoaded) {
