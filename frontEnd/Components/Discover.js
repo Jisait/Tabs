@@ -107,10 +107,10 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '192.168.1.20'
+    var ip = '192.168.1.63'
     props.onSubmitIP(ip);
 
-  }, []);
+  }, [])
 
   
 

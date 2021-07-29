@@ -1,3 +1,7 @@
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
+
 import React, { useState, useEffect } from "react";
 import AppLoading from "expo-app-loading";
 
@@ -26,7 +30,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
-
+import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as Contacts from "expo-contacts";
@@ -55,7 +59,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import ThemedListItem from "react-native-elements/dist/list/ListItem";
 
-export default function CreateYourEvent(props) {
+function CreateYourPrivateEvent(props) {
   const screen = Dimensions.get("screen");
 
   let [fontsLoaded] = useFonts({
@@ -251,6 +255,8 @@ export default function CreateYourEvent(props) {
   const [contacts, setContacts] = useState([]);
   const [inMemory, setInMemory] = useState([]);
   const [pressItem, setPressItem] = useState([]);
+  const [contactsBDD, setContactsBDD] = useState([])
+
 
 
   useEffect(() => {
@@ -273,7 +279,9 @@ export default function CreateYourEvent(props) {
       <View style={styles.searchListBackground}>
         <Pressable
           onPress={() => {
-            setPressItem([...pressItem, item]);
+            setPressItem([...pressItem, {firstName : item.firstName, lastName: item.lastName, phone : item.phoneNumbers[0].number }]);
+           
+            
             setContacts("");
           }}
         >
@@ -301,7 +309,11 @@ export default function CreateYourEvent(props) {
     setContacts(filteredContacts);
   };
 
+
+  console.log(pressItem)
   var ContactList = pressItem.map((contact) => {
+
+      
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -320,6 +332,21 @@ export default function CreateYourEvent(props) {
     );
   });
 
+
+
+/*  useEffect(() => { */
+/*    var mapContactBDD = pressItem.map(contacts => ({firstname: contacts.firstName, lastname: contacts.lastName, phonenumber: contacts.phoneNumbers[0].number}))
+
+
+    setContactsBDD([...contactsBDD, mapContactBDD])
+
+    console.log(contactsBDD) */
+  
+
+/*   }, [pressItem]); */
+
+
+
   //CREATION DE L'EVENT
 
   const [title, setTitle] = useState("");
@@ -334,8 +361,12 @@ export default function CreateYourEvent(props) {
     latitude,
     date,
     dateFront,
-    tags
+    contacts,
   ) => {
+      console.log("clicou")
+      if (props.token === null)
+    {props.navigation.navigate('Login')}
+    else {
     const data = await fetch("http://"+props.ip+":3000/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -356,11 +387,13 @@ export default function CreateYourEvent(props) {
         date +
         "&dateFront=" +
         dateFront +
-        "&tags=" +
-        tags,
+        "&contacts=" +
+        JSON.stringify(contacts) +
+        '&token='+
+        props.token
     });
     const body = await data.json();
-  };
+  }}
 
   if (image != null) {
     iconImagePicker = <View></View>;
@@ -533,13 +566,13 @@ export default function CreateYourEvent(props) {
                 onChangeText={(value) => searchContacts(value)}
                 value={contacts}
               />
-              <FlatList
+        <FlatList
                 style={styles.listContacts}
                 data={contacts}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => <Text></Text>}
-              />
+              /> 
               <View
                 style={{
                   flex: 1,
@@ -551,7 +584,7 @@ export default function CreateYourEvent(props) {
                   zIndex: 0,
                 }}
               >
-                {ContactList}
+             {ContactList} 
 
                 <View
                   style={{
@@ -574,7 +607,7 @@ export default function CreateYourEvent(props) {
                           latitude,
                           date,
                           dateFront,
-                          tags
+                          pressItem
                         )
                       }
                     >
@@ -593,26 +626,7 @@ export default function CreateYourEvent(props) {
                 marginBottom: 170,
               }}
             >
-              <Pressable style={styles.button}>
-                <Text
-                  style={styles.text}
-                  onPress={() =>
-                    handlePublishOnDisco(
-                      title,
-                      desc,
-                      imageBDD,
-                      frontAddress,
-                      longitude,
-                      latitude,
-                      date,
-                      dateFront,
-                      tags
-                    )
-                  }
-                >
-                  GO TO OVERVIEW
-                </Text>
-              </Pressable>
+             
             </View>
           </ScrollView>
         </View>
@@ -770,3 +784,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
+
+function mapStateToProps(state) {
+  return { token: state.token, ip: state.ip  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+  )(CreateYourPrivateEvent);

@@ -38,7 +38,7 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
 
-function CreateYourEvent(props) {
+function CreateYourPublicEvent(props) {
   
   
   const screen = Dimensions.get("screen");
@@ -669,7 +669,7 @@ if (!fontsLoaded) {
               export default connect(
                 mapStateToProps,
                 null
-                )(CreateYourEvent);
+                )(CreateYourPublicEvent);
                 
                 
                 

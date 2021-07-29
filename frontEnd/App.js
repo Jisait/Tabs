@@ -1,6 +1,7 @@
 import { LogBox } from 'react-native';
-import React, { useState, useEffect }  from 'react';
+
 LogBox.ignoreLogs(['Warning: ...']);
+import React, { useState, useEffect }  from 'react';
 import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';
 import Animated from 'react-native-reanimated';
