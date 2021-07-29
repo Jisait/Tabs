@@ -37,10 +37,12 @@ router.get('/', function(req, res, next) {
 
   //ADD AN EVENT
       router.post('/add-event', async function(req, res, next){
+        console.log(req.body)
+
+        const tags = req.body.tags.split(',');
 
         var admin = await userModel.findOne({token: req.body.token});
-        console.log(admin)
-
+          
 
         var newEvent = new eventsModel({
           admin: admin.id,
@@ -53,7 +55,7 @@ router.get('/', function(req, res, next) {
           latitude: req.body.latitude,
           dateUTC: req.body.dateUTC,
           dateFront: req.body.dateFront,
-          tags: req.body.tags
+          tags: tags
           })
           var event = await newEvent.save();
           
