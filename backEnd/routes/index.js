@@ -55,7 +55,7 @@ router.get('/', function(req, res, next) {
           latitude: req.body.latitude,
           dateUTC: req.body.dateUTC,
           dateFront: req.body.dateFront,
-          tags: req.body.tags,
+          tags: tags,
           contacts: JSON.parse(req.body.contacts)
           })
           var event = await newEvent.save();
