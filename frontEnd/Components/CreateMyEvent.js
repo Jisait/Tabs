@@ -258,7 +258,7 @@ if (image != null) {iconImagePicker= <View></View>}
   
     return (
       <View style={{flex:1, alignItems: 'center',  backgroundColor: 'transparent'}}>
-          <StatusBar backgroundColor="#011520" />
+        
             <LinearGradient
                   colors={['#FFF1DC','#FFF1DC']}
                   style={{

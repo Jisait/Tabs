@@ -14,7 +14,8 @@ var eventSchema = mongoose.Schema({
   dateFront: String,
   interestedParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
   confirmedParticipants: [{type: mongoose.Schema.Types.ObjectId, ref: 'users'}],
-  tags: Array
+  tags: Array,
+  contacts: Array,
 
   });
   

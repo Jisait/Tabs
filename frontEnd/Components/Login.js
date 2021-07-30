@@ -92,6 +92,7 @@ var handleSubmitSignIn = async (email, password) => {
     props.onSubmitToken(body.token)
 
     AsyncStorage.setItem('token', body.token);
+    toggleOverlayLogin()
 }
     
 const [visibleLogin, setVisibleLogin] = useState(false);
@@ -164,7 +165,7 @@ const toggleOverlaySignUp = () => {
         onChangeText={(val) => setSignInPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>{handleSubmitSignIn(signInEmail, signInPassword); toggleOverlayLogin()}}>
+            <Pressable style={styles.button} onPress={()=>{handleSubmitSignIn(signInEmail, signInPassword)}}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>LOGIN</Text>
             </Pressable>
 

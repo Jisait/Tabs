@@ -107,10 +107,10 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '192.168.1.20'
+    var ip = '192.168.1.63'
     props.onSubmitIP(ip);
 
-  }, []);
+  }, [])
 
   
 
@@ -260,8 +260,6 @@ function Discover(props) {
 
 
   discoverList = events.map((event, index) => {
-  
-  if (event.publique == true){
     var likeColor = "white";
     var checkVisible = { display: "none" };
     var likeVisible = { display: "flex" };
@@ -325,15 +323,15 @@ function Discover(props) {
             style={likeVisible}
           />
           <Ionicons
-            name="checkmark-circle-outline"
+            name="checkmark-circle"
             size={30}
             color="lightgreen"
             style={checkVisible}
           />
         </View>
 
-        <View style={{ position: "absolute", right: 20, top: 100 }}>
-          <Text style={styles.distance}>{event.totalParticipants} participants</Text>
+        <View style={{ position: "absolute", right: 20, top: 80 }}>
+          <Text style={styles.participants}>{event.totalParticipants} participants</Text>
         </View>
 
         <View style={{ position: "absolute", left: 150, bottom: 166 }}>
@@ -410,7 +408,7 @@ function Discover(props) {
         </View>
       </View>
     );
-  }});
+  });
 
 
   if (!fontsLoaded) {
@@ -435,7 +433,7 @@ function Discover(props) {
               width: (5 / 10) * screen.width,
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
-            inputStyle={{ color: "red", fontSize: 12 }}
+            inputStyle={{ color: "red", fontSize: 14 }}
             placeholder="Add friends..."
             onChangeText={(value) => setByPseudo(value)}
             clearIcon={false}
@@ -451,22 +449,41 @@ function Discover(props) {
               /> */}
 
           <Pressable>
-            <View style={{ marginTop: 12, marginRight: 20 }}>
+            <View style={{ marginTop: 12, marginRight: -5 }}>
             <SelectDropdown
+            defaultButtonText='filter...'
+            
               buttonStyle={{
+                
                 height: 25,
                 color: "red",
                 position: "relative",
-                backgroundColor: "grey",
-                borderRadius: 30,
+                backgroundColor: "transparent",
+                borderRadius: 0,
                 border: "red",
                 borderBottomColor: "transparent",
                 borderTopColor: "transparent",
                 width: (3/ 10) * screen.width,
+               
               }}
               buttonTextStyle={{
-                color: 'white'
+                fontSize: 14,
+                color: 'grey'
               }}
+              dropdownStyle= {{
+                
+                marginTop: -25,
+                backgroundColor: 'white',
+              
+              }}
+              rowStyle={{
+                marginTop: -5,
+                padding: -5, 
+              }}
+              rowTextStyle= {{
+                fontSize: 14, 
+              }}
+
               data={filters}
               onSelect={(selectedItem)=>{filterByselected(selectedItem)}}
               buttonTextAfterSelection={(selectedItem, index) => {
@@ -612,6 +629,12 @@ const styles = StyleSheet.create({
   distance: {
     color: "white",
     textAlign: "right",
+    fontFamily: "Poppins_500Medium",
+  },
+
+  participants: {
+    color: "white",
+    textAlign: "left",
     fontFamily: "Poppins_500Medium",
   },
 

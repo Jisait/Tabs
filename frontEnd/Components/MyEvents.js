@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, Image } from 'react-native';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -64,11 +65,11 @@ function ChooseYourEvent(props) {
 
 
             useEffect(() => {
-              console.log('yo')
+         
                 async function loadData(){
                   
 
-                    const data = await fetch("http://"+props.ip+":3000/get-Myevents", {
+                    const data = await fetch('http://192.168.1.63:3000/get-Myevents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -76,22 +77,22 @@ function ChooseYourEvent(props) {
                     const body =  await data.json();
                     setWishListContent(body.myEvents)
 
-                    const userData = await fetch("http://"+props.ip+":3000/get-user", {
+                    const userData = await fetch('http://192.168.1.63:3000/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
                     })
           
                     const dataUser =  await userData.json();
-                    console.log('dataUser', dataUser)
+               
                     setUserId(dataUser.user._id)
 
                     
                 }
                 if (isFocused == true){
-                  console.log('TEST 1')
+              
                     if (props.token){
-                      console.log('TEST 2')
+                 
 
                         loadData();
                   }
@@ -104,7 +105,7 @@ function ChooseYourEvent(props) {
 
   var addToConfirm = async (event, isConfirmed) =>{
     if(isConfirmed === false){
-    const userData = await fetch("http://"+props.ip+":3000/add-to-confirm", {
+    const userData = await fetch('http://192.168.1.63:3000/add-to-confirm', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&id='+event._id
@@ -113,27 +114,7 @@ function ChooseYourEvent(props) {
     
     setUserId(user.user)
 
-    const data = await fetch("http://"+props.ip+":3000/get-Myevents", {
-    method: 'POST', 
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'token='+props.token
-  })
-  const body =  await data.json();
-  setWishListContent(body.myEvents)
-  }
-  }
-
-  var removeFromWishList = async (event, isConfirmed) =>{
-    if(isConfirmed === false){
-      const removeData = await fetch("http://"+props.ip+":3000/remove-from-wishlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "token=" + props.token + "&id=" + event._id,
-      });
-      const removeBody = await removeData.json();
-    
-
-    const data = await fetch("http://"+props.ip+":3000/get-Myevents", {
+    const data = await fetch('http://192.168.1.63:3000/get-Myevents', {
     method: 'POST', 
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'token='+props.token
@@ -147,18 +128,27 @@ function ChooseYourEvent(props) {
 let myEventsList = wishListContent.map( (event, index) => {
   var styleButtons = {display: 'flex'}
   var styleConfirmed = {display: 'none'}
-  console.log('YO', index, event.confirmedParticipants)
+
   var isConfirmed = false
   var check = event.confirmedParticipants
-  console.log('YOTEST', check)
+
   
   var result = check.find(element => element == userID);
-  console.log(result)
+
 
   if(result != undefined){
     isConfirmed = true
     styleButtons = {display: 'none'}
-    styleConfirmed = {display: 'flex'}
+    styleConfirmed = {display: 'flex',
+                      color: 'white',
+                      fontSize: 13,
+                      marginTop : 5,
+                      backgroundColor: '#74CC05',
+                      paddingTop: 3,
+                      paddingBottom: 3,
+                      paddingLeft: 12,
+                      paddingRight: 12,
+                      borderRadius: 20}
   }
 
     return (
@@ -167,7 +157,10 @@ let myEventsList = wishListContent.map( (event, index) => {
             
              </ImageBackground>
              <View style={{position: 'absolute'}}>
+               <View style={{flexDirection: 'row'}}>
              <Text style={styles.date}>{event.dateFront}</Text>
+             <Text style={styles.date}>Public Event</Text>
+             </View>
              <Text style={styles.title}>{event.title}</Text>
              <Text style={styles.desc}>{event.desc}</Text>
              
@@ -175,7 +168,7 @@ let myEventsList = wishListContent.map( (event, index) => {
              </View>
                     <View style={styles.iconContainer}>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
-                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => removeFromWishList(event, isConfirmed)}/>
+                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons}/>
                     </View>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
                     <Text style={styleConfirmed}>Confirmed</Text>
@@ -214,24 +207,31 @@ const screen = Dimensions.get("screen");
 const styles = StyleSheet.create({
 
 date: {
-        color: 'white',
-        backgroundColor: '#011520',
+        color: 'black',
+        backgroundColor: 'white',
         fontSize: 12,
-        width: ((9.6/10)*screen.width)-((2/10)*screen.width),
-        marginLeft : (2/10)*screen.width,
+        marginLeft : (2/10)*screen.width+9,
         fontFamily: 'Poppins_500Medium',
         marginTop: 0,
         paddingTop: 5,
         marginBottom: -8,
-        textAlign: 'center'
         },
+
+EventType: {
+  color: 'black',
+  backgroundColor: 'white',
+  fontSize: 12,
+
+  marginRight: 9,
+  textAlign: 'center', 
+  },
 
 title: {
   color: '#011520',
     fontSize: 23,
     marginLeft : (2/10)*screen.width+9,
     fontFamily: 'Poppins_500Medium',
-    marginTop: 10,
+    marginTop: 5,
     },
     
 desc: {
@@ -261,7 +261,7 @@ iconContainer: {
 });
 
 function mapStateToProps(state) {
-    return { token: state.token, ip: state.ip  }
+    return { token: state.token }
   }
 
   export default connect(
