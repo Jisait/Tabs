@@ -49,8 +49,10 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import token from './reducers/user';
 import ip from './reducers/ip'
+import tags from './reducers/tags'
 
-const store = createStore(combineReducers({token, ip}));
+
+const store = createStore(combineReducers({token, ip, tags}));
 
 const screen = Dimensions.get("screen");
 const Stack = createStackNavigator();

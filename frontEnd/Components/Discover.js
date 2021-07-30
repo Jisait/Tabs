@@ -214,8 +214,12 @@ function Discover(props) {
       setWishListContent(body.user.myEvents);
     }
   };
+
+  function findCommonElements3(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
+};
   
-  const filters = ["Popularity", "Distance", "Date"]
+  const filters = ["Popularity", "Distance", "Date", "Preferences"]
 
   var filterByselected = (selectedItem, index) => {
     if (selectedItem == 'Distance'){
@@ -235,6 +239,19 @@ function Discover(props) {
       var temp = [... events]
       temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
       setEvents(temp)
+    }
+    else if(selectedItem == 'Preferences'){
+      console.log('BV BG 4')
+      var temp = [... events];
+      var tempResult = [];
+      console.log(props.tags)
+      for(var i=0; i<temp.length; i++){
+        console.log(i, temp[i].tags.includes(props.tags))
+        if (findCommonElements3(temp[i].tags, props.tags)){
+        tempResult.push(temp[i])
+      }
+      }
+      setEvents(tempResult)
     }
   }
   var discoverList;
@@ -638,7 +655,7 @@ const styles = StyleSheet.create({
 /// TO REDUX
 
 function mapStateToProps(state) {
-  return { token: state.token, ip: state.ip };
+  return { token: state.token, ip: state.ip, tags: state.tags };
 }
 
 function mapDispatchToProps(dispatch) {
