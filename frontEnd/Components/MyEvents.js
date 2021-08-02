@@ -69,7 +69,7 @@ function ChooseYourEvent(props) {
                 async function loadData(){
                   
 
-                    const data = await fetch('http://192.168.1.63:3000/get-Myevents', {
+                    const data = await fetch('http://'+props.ip+':3000/get-Myevents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -77,7 +77,7 @@ function ChooseYourEvent(props) {
                     const body =  await data.json();
                     setWishListContent(body.myEvents)
 
-                    const userData = await fetch('http://192.168.1.63:3000/get-user', {
+                    const userData = await fetch('http://'+props.ip+':3000/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -105,7 +105,7 @@ function ChooseYourEvent(props) {
 
   var addToConfirm = async (event, isConfirmed) =>{
     if(isConfirmed === false){
-    const userData = await fetch('http://192.168.1.63:3000/add-to-confirm', {
+    const userData = await fetch('http://'+props.ip+':3000/add-to-confirm', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&id='+event._id
@@ -114,7 +114,7 @@ function ChooseYourEvent(props) {
     
     setUserId(user.user)
 
-    const data = await fetch('http://192.168.1.63:3000/get-Myevents', {
+    const data = await fetch('http://'+props.ip+':3000/get-Myevents', {
     method: 'POST', 
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'token='+props.token
@@ -189,7 +189,7 @@ let myEventsList = wishListContent.map( (event, index) => {
     return (
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
            <HeaderScreen navigation={props.navigation}/>
-            <ScrollView style={{flex:1}} snapToInterval={(7.5/10)*screen.height} decelerationRate='fast'>
+            <ScrollView style={{flex:1}} snapToInterval={(2/10)*screen.height} decelerationRate='fast'>
              {myEventsList}
              </ScrollView>
         </View>
@@ -261,7 +261,7 @@ iconContainer: {
 });
 
 function mapStateToProps(state) {
-    return { token: state.token }
+    return { token: state.token, ip: state.ip }
   }
 
   export default connect(

@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
 
         var admin = await userModel.findOne({token: req.body.token});
           
-
+        if (req.body.publique == 'true'){
         var newEvent = new eventsModel({
           admin: admin.id,
           publique: req.body.publique,
@@ -56,9 +56,29 @@ router.get('/', function(req, res, next) {
           dateUTC: req.body.dateUTC,
           dateFront: req.body.dateFront,
           tags: tags,
-          contacts: JSON.parse(req.body.contacts)
           })
           var event = await newEvent.save();
+        }
+
+          else if (req.body.publique == false){
+            var newEvent = new eventsModel({
+              admin: admin.id,
+              publique: req.body.publique,
+              title: req.body.title,
+              desc: req.body.desc,
+              image: req.body.image,
+              address: req.body.address,
+              longitude: req.body.longitude,
+              latitude: req.body.latitude,
+              dateUTC: req.body.dateUTC,
+              dateFront: req.body.dateFront,
+              tags: tags,
+              contacts: JSON.parse(req.body.contacts)
+              })
+              var event = await newEvent.save();
+            }
+
+
           
       res.json({event})
   })

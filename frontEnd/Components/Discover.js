@@ -107,7 +107,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '192.168.1.23'
+    var ip = '192.168.1.63'
     props.onSubmitIP(ip);
 
   }, [])
@@ -214,6 +214,10 @@ function Discover(props) {
       setWishListContent(body.user.myEvents);
     }
   };
+
+  function findCommonElements3(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
+};
   
   const filters = ["Popularity", "Distance", "Date"]
 
@@ -235,6 +239,19 @@ function Discover(props) {
       var temp = [... events]
       temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
       setEvents(temp)
+    }
+    else if(selectedItem == 'Preferences'){
+      console.log('BV BG 4')
+      var temp = [... events];
+      var tempResult = [];
+      console.log(props.tags)
+      for(var i=0; i<temp.length; i++){
+        console.log(i, temp[i].tags.includes(props.tags))
+        if (findCommonElements3(temp[i].tags, props.tags)){
+        tempResult.push(temp[i])
+      }
+      }
+      setEvents(tempResult)
     }
   }
   var discoverList;
@@ -413,7 +430,7 @@ function Discover(props) {
               border: "red",
               borderBottomColor: "transparent",
               borderTopColor: "transparent",
-              width: (5 / 10) * screen.width,
+              width: (4 / 10) * screen.width,
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
             inputStyle={{ color: "red", fontSize: 14 }}
@@ -430,6 +447,23 @@ function Discover(props) {
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => <Text></Text>}
               /> */}
+
+          <Pressable style={{height: 25,
+                color: "red",
+                position: "relative",
+                backgroundColor: "transparent",
+                borderRadius: 0,
+                border: "red",
+                borderBottomColor: "transparent",
+                borderTopColor: "transparent",
+                width: (2/ 10) * screen.width,}}
+                onPress={()=>{filterByselected('Preferences')}}
+                >
+                   <View style={{ marginTop: 13, marginRight: -5 }}>
+                  <Text style={{color: 'grey'}}>Preferences</Text>
+                  </View>
+
+          </Pressable>
 
           <Pressable>
             <View style={{ marginTop: 12, marginRight: -5 }}>
@@ -493,6 +527,13 @@ function Discover(props) {
           decelerationRate="fast"
         >
           {discoverList}
+
+          <View style={{
+                height: (1/ 10) * screen.height,
+                paddingTop: 30,
+              }}>
+
+          </View>
 
           <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
             <View
@@ -661,7 +702,7 @@ const styles = StyleSheet.create({
 /// TO REDUX
 
 function mapStateToProps(state) {
-  return { token: state.token, ip: state.ip };
+  return { token: state.token, ip: state.ip, tags: state.tags };
 }
 
 function mapDispatchToProps(dispatch) {

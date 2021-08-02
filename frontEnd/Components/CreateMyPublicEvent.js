@@ -473,7 +473,7 @@ if (!fontsLoaded) {
     
     <TextInput  style= {styles.inputEventDesc}
     placeholderTextColor="white" 
-    placeholder="Event's name" 
+    placeholder="Description" 
     containerStyle={{ width: '70%' }}
     onChangeText={(val) => setDesc(val)}/>
     
@@ -481,10 +481,10 @@ if (!fontsLoaded) {
     <View style={{flexDirection: 'row',justifyContent: 'space-around' }}>
     
     <Pressable style={styles.button}>
-    <Text style={styles.dateButton} onPress={showDatepicker}>Select a date</Text>
+    <Text style={styles.dateButton} onPress={showDatepicker}>Select date</Text>
     </Pressable>
     <Pressable style={styles.button}>
-    <Text style={styles.dateButton} onPress={showTimepicker}>Select a schedule</Text>
+    <Text style={styles.dateButton} onPress={showTimepicker}>Select time</Text>
     </Pressable>
     
     
@@ -518,7 +518,7 @@ if (!fontsLoaded) {
       
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
       <View style={styles.hairlineBlack}></View>
-      <Text style={styles.Select}>Select 3 tags</Text>
+      <Text style={styles.Select}>Select tags</Text>
       <View style={styles.hairlineBlack}></View>
       </View>
       
@@ -619,7 +619,7 @@ if (!fontsLoaded) {
       
       <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 70, marginBottom: 170}}>
       <Pressable style={styles.button}>
-      <Text style={styles.text} onPress={()=>{handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}}>GO TO OVERVIEW</Text>
+      <Text style={styles.text} onPress={()=>{handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}}>POST ON DISCOVER</Text>
       </Pressable>
       </View>
       

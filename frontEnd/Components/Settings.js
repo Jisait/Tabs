@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useIsFocused } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import {
@@ -42,12 +43,30 @@ import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 function Settings(props) {
 
+  const isFocused = useIsFocused();
+
+
   console.log("inSett", props.token)
  
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState('')
   const [name, setName] = useState('')
   const [newName, setNewName] = useState('')
+
+
+const [sports, setSports] = useState(false);
+const [theatre, setTheatre] = useState(false);
+const [games, setGames] = useState(false);
+const [politics, setPolitics] = useState(false);
+const [music, setMusic] = useState(false);
+const [ecology, setEcology] = useState(false);
+const [fashion, setFashion] = useState(false);
+const [milf, setMilf] = useState(false);
+const [movies, setMovies] = useState(false);
+
+
+
+const [tags, setTags] = useState([])
 
 
   const [visible, setVisible] = useState(false);
@@ -85,9 +104,41 @@ function Settings(props) {
           })();
       }, []);  
 
- 
+      useEffect(() => {
+      if (props.tags.some(x => x=='sports')){
+        setSports(true);
+      }
+      if (props.tags.some(x => x=='games')){
+        setGames(true)
+}
+      if (props.tags.some(x => x=='theatre')){
 
-  
+        setTheatre(true);
+}
+      if (props.tags.some(x => x=='politics')){
+        setPolitics(true);
+}
+     if (props.tags.some(x => x=='music')){
+        setMusic(true);
+}
+      if (props.tags.some(x => x=='ecology')){
+        setEcology(true);
+}
+        if (props.tags.some(x => x=='fashion')){
+        setFashion(true);
+}
+        if (props.tags.some(x => x=='MILF')){
+        setMilf(true);
+}
+        if (props.tags.some(x => x=='movies')){
+        setMovies(true);
+}
+
+setTags(props.tags)
+console.log(props.tags)
+
+      }, [isFocused]);  
+ 
 
 
         useEffect(() => {
@@ -100,6 +151,10 @@ function Settings(props) {
             }
           })();
         }, []);
+
+
+
+
 
         const pickAvatar = async () => {
           let avatar = await ImagePicker.launchImageLibraryAsync({
@@ -146,19 +201,7 @@ var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
 if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.avatar}/>}
 
-// GESTION DES TAGS
 
-const [sports, setSports] = useState(false);
-const [theatre, setTheatre] = useState(false);
-const [games, setGames] = useState(false);
-const [politics, setPolitics] = useState(false);
-const [music, setMusic] = useState(false);
-const [ecology, setEcology] = useState(false);
-const [fashion, setFashion] = useState(false);
-const [milf, setMilf] = useState(false);
-const [movies, setMovies] = useState(false);
-
-const [tags, setTags] = useState([])
 
 
   
@@ -194,6 +237,164 @@ const [tags, setTags] = useState([])
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+
+    var handleTags = (tag)=>{
+
+      //SPORTS
+        if (tag == 'sports'){
+          if (sports == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'sports')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setSports(!sports)
+        }
+      
+      //THEATRE
+        else if (tag == 'theatre'){
+          if (theatre == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'theatre')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+      
+          setTheatre(!theatre)
+        }
+      
+        //MOVIES
+        else if (tag == 'movies'){
+          if (movies == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'movies')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setMovies(!movies)
+      
+        }
+      
+        //GAMES
+        else if (tag == 'games'){
+          if (games == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'games')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setGames(!games)
+        }
+      
+        //MUSIC
+        else if (tag == 'music'){
+          if (music == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'music')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setMusic(!music)
+      
+        }
+        else if (tag == 'fashion'){
+          if (fashion == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'fashion')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setFashion(!fashion)
+      
+        }
+        else if (tag == 'politics'){
+          if (politics == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'politics')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setPolitics(!politics)
+      
+        }
+        else if (tag == 'ecology'){
+          if (ecology == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'ecology')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setEcology(!ecology)
+      
+        }
+        else if (tag == 'MILF'){
+          if (milf == false){
+            var temp = tags
+            temp.push(tag)
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          else{
+            var temp = tags
+            temp = temp.filter(tag => tag !== 'MILF')
+            setTags(temp)
+            props.onSubmitTags(temp);
+          }
+          setMilf(!milf)
+        }
+      console.log(tags)
+      console.log('redux', props.tags)
+
+      }
 
  
   
@@ -248,103 +449,104 @@ const [tags, setTags] = useState([])
 
   <View style= {{border: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 80}}>
       <View style={{flexDirection: 'column', marginBottom: 0}}>
-
+        <CheckBox
+        title='sports'
+        textStyle={styles.checkBoxText}
+        checked={sports}
+        onPress={() => {handleTags('sports')}}
+        checkedIcon='check-square'
+        uncheckedIcon='square'
+        containerStyle={styles.checkBoxContainer}
+        checkedColor='#FFF1DC'
+        uncheckedColor='white'/>
           <CheckBox
-          title='sports'
-          textStyle={styles.checkBoxText}
-          checked={sports}
-          onPress={()=> {sports === false ? setSports(true) : setSports(false); sports === false ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'))}}
-          checkedIcon='check-square'
-          uncheckedIcon='square'
-          containerStyle={styles.checkBoxContainer}
-          checkedColor='#FFF1DC'
-          uncheckedColor='white'/>
-        <CheckBox
-        title='theatre'
-        textStyle={styles.checkBoxText}
-        checked={theatre}
-        onPress={()=> {theatre === false ? setTheatre(true) : setTheatre(false); theatre === false ? setTags([...tags, 'theatre']) : setTags(currentTag => currentTag.filter(tags => tags !== 'theatre'))}}
-        checkedIcon='check-square'
-        uncheckedIcon='square'
-       containerStyle={styles.checkBoxContainer}
-        checkedColor='#FFF1DC'
-        uncheckedColor='white'/>
-            <CheckBox
-            title='movies'
-            textStyle={styles.checkBoxText}
-            checked={movies}
-            onPress={()=> {movies === false ? setMovies(true) : setMovies(false); movies === false ? setTags([...tags, 'movies']) : setTags(currentTag => currentTag.filter(tags => tags !== 'movies'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-           containerStyle={styles.checkBoxContainer}
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
-         </View>
-         
-         <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-            <CheckBox
-            title='games'
-            textStyle={styles.checkBoxText}
-            checked={games}
-            onPress={()=> {games === false ? setGames(true) : setGames(false); games === false ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-            containerStyle={styles.checkBoxContainer}
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
-        <CheckBox
-        title='music'
-        textStyle={styles.checkBoxText}
-        checked={music}
-        onPress={()=> {music === false ? setMusic(true) : setMusic(false); music === false ? setTags([...tags, 'music']) : setTags(currentTag => currentTag.filter(tags => tags !== 'music'))}}
-        checkedIcon='check-square'
-        uncheckedIcon='square'
-       containerStyle={styles.checkBoxContainer}
-        checkedColor='#FFF1DC'
-        uncheckedColor='white'/>
-            <CheckBox
-            title='fashion'
-            textStyle={styles.checkBoxText}
-            checked={fashion}
-            onPress={()=> {fashion === false ? setFashion(true) : setFashion(false); fashion === false ? setTags([...tags, 'fashion']) : setTags(currentTag => currentTag.filter(tags => tags !== 'fashion'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-           containerStyle={styles.checkBoxContainer}
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
-         </View>
+      title='theatre'
+      textStyle={styles.checkBoxText}
+      checked={theatre}
+      onPress={()=> {handleTags('theatre')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='movies'
+      textStyle={styles.checkBoxText}
+      checked={movies}
+      onPress={()=> {handleTags('movies')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      </View>
       
-         <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-            <CheckBox
-            title='politics'
-            textStyle={styles.checkBoxText}
-            checked={politics}
-            onPress={()=> {politics === false ? setPolitics(true) : setPolitics(false); politics === false ? setTags([...tags, 'politics']) : setTags(currentTag => currentTag.filter(tags => tags !== 'politics'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-           containerStyle={styles.checkBoxContainer}
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
-        <CheckBox
-        title='ecology'
-        textStyle={styles.checkBoxText}
-        checked={ecology}
-        onPress={()=> {ecology === false ? setEcology(true) : setEcology(false); ecology === false ? setTags([...tags, 'ecology']) : setTags(currentTag => currentTag.filter(tags => tags !== 'ecology'))}}
-        checkedIcon='check-square'
-        uncheckedIcon='square'
-       containerStyle={styles.checkBoxContainer}
-        checkedColor='#FFF1DC'
-        uncheckedColor='white'/>
-            <CheckBox
-            title='MILF'
-            textStyle={styles.checkBoxText}
-            checked={milf}
-            onPress={()=> {milf === false ? setMilf(true) : setMilf(false); milf === false ? setTags([...tags, 'milf']) : setTags(currentTag => currentTag.filter(tags => tags !== 'milf'))}}
-            checkedIcon='check-square'
-            uncheckedIcon='square'
-            containerStyle={styles.checkBoxContainer}user
-            checkedColor='#FFF1DC'
-            uncheckedColor='white'/>
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+      <CheckBox
+      title='games'
+      textStyle={styles.checkBoxText}
+      checked={games}
+      onPress={()=> {handleTags('games')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='music'
+      textStyle={styles.checkBoxText}
+      checked={music}
+      onPress={()=> {handleTags('music')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='fashion'
+      textStyle={styles.checkBoxText}
+      checked={fashion}
+      onPress={()=> {handleTags('fashion')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      </View>
+      
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+      <CheckBox
+      title='politics'
+      textStyle={styles.checkBoxText}
+      checked={politics}
+      onPress={()=> {handleTags('politics')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='ecology'
+      textStyle={styles.checkBoxText}
+      checked={ecology}
+      onPress={()=> {handleTags('ecology')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='MILF'
+      textStyle={styles.checkBoxText}
+      checked={milf}
+      onPress={()=> {handleTags('MILF')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      </View>
+      
          </View>
          
          </View>
@@ -354,9 +556,7 @@ const [tags, setTags] = useState([])
       
 
 
-  
-    </View>
-            );
+              );
           }}
 
 
@@ -505,12 +705,15 @@ const styles = StyleSheet.create({
     onSubmitToken: function () {
       dispatch({ type: "deconnectUser" });
     },
+    onSubmitTags: function (tags) {
+      dispatch({ type: "addTags", tags: tags });
+    },
   };
 } 
 
 
 function mapStateToProps(state) {
-  return { token: state.token, ip: state.ip  }
+  return { token: state.token, ip: state.ip, tags: state.tags  }
 }
 
 export default connect(
