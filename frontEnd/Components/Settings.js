@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useIsFocused } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import {
@@ -42,12 +43,30 @@ import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 function Settings(props) {
 
+  const isFocused = useIsFocused();
+
+
   console.log("inSett", props.token)
  
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState('')
   const [name, setName] = useState('')
   const [newName, setNewName] = useState('')
+
+
+const [sports, setSports] = useState(false);
+const [theatre, setTheatre] = useState(false);
+const [games, setGames] = useState(false);
+const [politics, setPolitics] = useState(false);
+const [music, setMusic] = useState(false);
+const [ecology, setEcology] = useState(false);
+const [fashion, setFashion] = useState(false);
+const [milf, setMilf] = useState(false);
+const [movies, setMovies] = useState(false);
+
+
+
+const [tags, setTags] = useState([])
 
 
   const [visible, setVisible] = useState(false);
@@ -85,9 +104,41 @@ function Settings(props) {
           })();
       }, []);  
 
- 
+      useEffect(() => {
+      if (props.tags.some(x => x=='sports')){
+        setSports(true);
+      }
+      if (props.tags.some(x => x=='games')){
+        setGames(true)
+}
+      if (props.tags.some(x => x=='theatre')){
 
-  
+        setTheatre(true);
+}
+      if (props.tags.some(x => x=='politics')){
+        setPolitics(true);
+}
+     if (props.tags.some(x => x=='music')){
+        setMusic(true);
+}
+      if (props.tags.some(x => x=='ecology')){
+        setEcology(true);
+}
+        if (props.tags.some(x => x=='fashion')){
+        setFashion(true);
+}
+        if (props.tags.some(x => x=='MILF')){
+        setMilf(true);
+}
+        if (props.tags.some(x => x=='movies')){
+        setMovies(true);
+}
+
+setTags(props.tags)
+console.log(props.tags)
+
+      }, [isFocused]);  
+ 
 
 
         useEffect(() => {
@@ -100,6 +151,10 @@ function Settings(props) {
             }
           })();
         }, []);
+
+
+
+
 
         const pickAvatar = async () => {
           let avatar = await ImagePicker.launchImageLibraryAsync({
@@ -146,19 +201,7 @@ var avatarView = image && <Image source={{uri: image}} style={styles.avatar}/>
 
 if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.avatar}/>}
 
-// GESTION DES TAGS
 
-const [sports, setSports] = useState(false);
-const [theatre, setTheatre] = useState(false);
-const [games, setGames] = useState(false);
-const [politics, setPolitics] = useState(false);
-const [music, setMusic] = useState(false);
-const [ecology, setEcology] = useState(false);
-const [fashion, setFashion] = useState(false);
-const [milf, setMilf] = useState(false);
-const [movies, setMovies] = useState(false);
-
-const [tags, setTags] = useState([])
 
 
   

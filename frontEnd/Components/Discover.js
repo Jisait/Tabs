@@ -107,7 +107,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '192.168.1.63'
+    var ip = '192.168.1.20'
     props.onSubmitIP(ip);
 
   }, [])
@@ -219,7 +219,7 @@ function Discover(props) {
     return arr1.some(item => arr2.includes(item))
 };
   
-  const filters = ["Popularity", "Distance", "Date", "Preferences"]
+  const filters = ["Popularity", "Distance", "Date"]
 
   var filterByselected = (selectedItem, index) => {
     if (selectedItem == 'Distance'){
@@ -430,7 +430,7 @@ function Discover(props) {
               border: "red",
               borderBottomColor: "transparent",
               borderTopColor: "transparent",
-              width: (5 / 10) * screen.width,
+              width: (4 / 10) * screen.width,
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
             inputStyle={{ color: "red", fontSize: 14 }}
@@ -447,6 +447,23 @@ function Discover(props) {
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => <Text></Text>}
               /> */}
+
+          <Pressable style={{height: 25,
+                color: "red",
+                position: "relative",
+                backgroundColor: "transparent",
+                borderRadius: 0,
+                border: "red",
+                borderBottomColor: "transparent",
+                borderTopColor: "transparent",
+                width: (2/ 10) * screen.width,}}
+                onPress={()=>{filterByselected('Preferences')}}
+                >
+                   <View style={{ marginTop: 13, marginRight: -5 }}>
+                  <Text style={{color: 'grey'}}>Preferences</Text>
+                  </View>
+
+          </Pressable>
 
           <Pressable>
             <View style={{ marginTop: 12, marginRight: -5 }}>
@@ -510,6 +527,13 @@ function Discover(props) {
           decelerationRate="fast"
         >
           {discoverList}
+
+          <View style={{
+                height: (1/ 10) * screen.height,
+                paddingTop: 30,
+              }}>
+
+          </View>
 
           <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
             <View
