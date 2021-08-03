@@ -179,6 +179,8 @@ console.log(event._id)
                     <View style={{position: 'absolute', left: 25, top: 5}}>
                     <Ionicons name="chatbox-ellipses" size={32} color="black" onPress={() => props.navigation.navigate('ChatScreen',{
             eventId: event._id,
+            eventURL: event.image,
+            eventTitle: event.title
           })}/>
                     </View>
                     </View>
