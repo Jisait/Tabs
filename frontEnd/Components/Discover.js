@@ -120,7 +120,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '172.17.1.71'
+    var ip = '172.17.1.116'
     props.onSubmitIP(ip);
 
   }, [])
@@ -299,9 +299,9 @@ function Discover(props) {
       likeColor = "red";
     }
 
-    var tagsForDiscover;
+    var tagsForDiscover = [];
     for (var i=0; i<event.tags.length; i++){
-      tagsForDiscover = <Text style={styles.tags}>{event.tags[i]}</Text>
+      tagsForDiscover.push (<Text style={styles.tags}>{event.tags[i]}</Text>)
     }
 
 
@@ -399,7 +399,7 @@ function Discover(props) {
           <Text style={styles.text}>{event.title.toUpperCase()}</Text>
           <Text style={styles.subtext}>{event.desc}</Text>
 
-        <View style={{ position: "absolute", left: -10, top: -25}}>
+        <View style={{ position: "absolute", left: -10, top: -80}}>
         {tagsForDiscover}
         </View>
 

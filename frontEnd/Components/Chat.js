@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
-import { Button, Input, Overlay } from 'react-native-elements'
+import { Button, Input, Overlay, Icon } from 'react-native-elements'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import socketIOClient from "socket.io-client";
+
 
 
 
@@ -73,6 +74,7 @@ function Chat(props) {
     setUserPseudo(response.user.username)
     setUserAvatar(response.user.avatar)
 
+
     temp = response.message
   })();
 
@@ -83,6 +85,7 @@ function Chat(props) {
    var messageFromSocket = {userId: {_id: user.id, avatar: user.avatar, username: user.pseudo}, eventId: event, content: message, date: date}
    temp.push(messageFromSocket)
    setListMessage(temp)
+   
  }
    console.log(newMessage)
   }) */
@@ -102,21 +105,6 @@ function Chat(props) {
     })
     }, [listMessage]);
   
-  /* useEffect(() => {
-   
-    socket.on('sendMessageFromBack', (message, userId, event, date)=> {
-      var temp = [...listMessage]
-      console.log('LOOK HERE =>', temp, listMessage)
-      if (event == eventId){
-     var messageFromSocket = {userId: userId, eventId: event, content: message, date: date}
-     temp.push(messageFromSocket)
-     setListMessage(temp)
-   }
-     console.log(newMessage)
-    })
-    
-  }, []); */
-
 
   var messagesList = listMessage.map((message, index)=>{
 
@@ -142,17 +130,19 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     return(
   
   <View style={{
-    backgroundColor: "#0078fe",
+    backgroundColor: "#011520",
+    width: 250,
     padding:10,
     marginLeft: '45%',
     borderRadius: 5,
-    marginTop: 5,
+    marginTop: 10,
     marginRight: "5%",
-    maxWidth: '50%',
+    maxWidth: '75%',
     alignSelf: 'flex-end',    
     borderRadius: 20,
   }} >
-  <Image source={{uri: message.userId.avatar}} style={styles.avatar}/>
+{/*   <Image source={{uri: message.userId.avatar}} style={styles.avatar}/> */}
+
   <Text style={{ fontSize: 16, color: "#fff", }}>{message.content}</Text>
   <View style={styles.rightArrow}></View>
   <View style={styles.rightArrowOverlap}></View> 
@@ -164,23 +154,25 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
       return(
   
   <View style={{
-    backgroundColor: "#dedede",
+    backgroundColor: "white",
     padding:10,
+    width: 250,
     borderRadius: 5,
-    marginTop: 5,
+    marginTop: 10,
     marginLeft: "5%",
-    maxWidth: '50%',
+    maxWidth: '75%',
     alignSelf: 'flex-start',
     borderRadius: 20,
   }} >
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
   <Image source={{uri: message.userId.avatar}} style={styles.avatar}/>
   <Text style={{color: 'black', fontSize: 10, fontStyle: 'italic'}}>{message.userId.username}</Text>
-
-  <Text style={{ fontSize: 16, color: "#000",justifyContent:"center" }} > {message.content} </Text>
+    </View>
+  <Text style={{ fontSize: 16, color: "#000",justifyContent:"center", marginTop: 8 }} > {message.content} </Text>
   <View style={styles.leftArrow}>
   </View>
   <View style={styles.leftArrowOverlap}></View>
-  <Text style={{color: 'black', fontSize: 10, fontStyle: 'italic'}}>{dateFront}</Text>
+  <Text style={{color: 'black', fontSize: 10, fontStyle: 'italic', marginTop: 8, opacity: 0.5}}>{dateFront}</Text>
   </View>)
     }
 
@@ -223,21 +215,63 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
 
       <HeaderScreen navigation={props.navigation}/>
       
-      <ScrollView style={{flex:1, marginTop: 50}} ref={scrollViewRef}
+      <ImageBackground source={{ uri: props.route.params.eventURL }} style={{width: '100%', height: 50,}}>
+      <LinearGradient
+            colors={["transparent", "rgba(0,0,0,0.5)"]}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: "95%",
+          
+            }}
+          />
+          
+          </ImageBackground>
+    
+      <Text style={styles.headerText}>{props.route.params.eventTitle.toUpperCase() }</Text>
+
+      <ScrollView style={{flex:1, marginTop: 0, backgroundColor: '#FFF1DC'}} ref={scrollViewRef}
       onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
       {messagesList}
       </ScrollView >
 
 
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+     
       <Input
-      containerStyle = {{marginBottom: 5}}
+      inputContainerStyle={{backgroundColor: "white", borderBottomWidth:0, borderRadius: 50}}
+      containerStyle = {{backgroundColor: '#FFF1DC', paddingTop: 20}}
       placeholder='Write message'
+      inputStyle= {{marginLeft: 22}}
       onChangeText={(msg)=>setCurrentMessage(msg)}
       value={currentMessage}
+      rightIcon={
+        <Icon
+        iconStyle={{marginRight: 10}}
+           name={"send" }
+           size= {24} 
+           color= {'#011520'}
+           onPress={ async ()=> {
+            var date = new Date()
+            console.log('Data to send =>', props.token, currentMessage, props.route.params.eventId, date)
+    
+            socket.emit("sendMessage", currentMessage, {id: userId, pseudo: userPseudo, avatar: userAvatar}, props.route.params.eventId, date)
+    
+            const data = await fetch("http://"+props.ip+":3000/add-message", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "token=" + props.token + "&content="+currentMessage+"&eventId="+props.route.params.eventId+"&date="+date
+              });
+            setCurrentMessage('');
+          }
+        }/>
+    }
+      
       />
 
-      <Button
+{/*       <Button
 
       title="Send"
       Color= '#0078fe'
@@ -256,7 +290,8 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
         setCurrentMessage('');
       }
     }
-    />
+    /> */}
+
 
     </KeyboardAvoidingView>
     
@@ -275,14 +310,24 @@ const styles = StyleSheet.create({
 
   avatar: {
     
-    height: 50,
-    width: 50,
+    height: 20,
+    width: 20,
     borderRadius: 50,
+    marginRight: 5
   },
+
+  headerText: {
+    top: 85,
+    alignSelf: 'center',
+    color: 'white',
+    fontFamily: 'Poppins_500Medium',
+    fontSize: 25,
+    position: 'absolute',
+    },
   
   rightArrow: {
     position: "absolute",
-    backgroundColor: "#0078fe",
+    backgroundColor: "#011520",
     //backgroundColor:"red",
     width: 20,
     height: 25,
@@ -293,7 +338,7 @@ const styles = StyleSheet.create({
   
   rightArrowOverlap: {
     position: "absolute",
-    backgroundColor: "#eeeeee",
+    backgroundColor: "#FFF1DC",
     //backgroundColor:"green",
     width: 20,
     height: 35,
@@ -306,7 +351,7 @@ const styles = StyleSheet.create({
   /*Arrow head for recevied messages*/
   leftArrow: {
     position: "absolute",
-    backgroundColor: "#dedede",
+    backgroundColor: "white",
     //backgroundColor:"red",
     width: 20,
     height: 25,
@@ -317,7 +362,7 @@ const styles = StyleSheet.create({
   
   leftArrowOverlap: {
     position: "absolute",
-    backgroundColor: "#eeeeee",
+    backgroundColor: "#FFF1DC",
     //backgroundColor:"green",
     width: 20,
     height: 35,
