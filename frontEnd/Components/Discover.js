@@ -94,14 +94,7 @@ function Discover(props) {
 
 
 
-  
-
-
-
-
-
-
-  const [eventsWithLocation, setEventsWithLocation] = useState([]);
+const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
