@@ -20,6 +20,7 @@ import Login from './Components/Login'
 import { Ionicons } from '@expo/vector-icons';
 import CreateMyPublicEvent from './Components/CreateMyPublicEvent';
 import CreateMyPrivateEvent from './Components/CreateMyPrivateEvent';
+import ChatScreen from './Components/Chat';
 import * as ImagePicker from 'expo-image-picker';
 import { useIsFocused } from '@react-navigation/native';
 import {
@@ -228,6 +229,8 @@ const [tags, setTags] = useState([]) */
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Header" component={HeaderScreen} />
                 <Stack.Screen name="Settings" component={Settings} />
+                <Stack.Screen name="ChatScreen" component={ChatScreen} />
+
 
 
               </Stack.Navigator>
