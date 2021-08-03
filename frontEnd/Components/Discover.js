@@ -113,7 +113,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
       }
     }
     askPermissions();
-    var ip = '172.17.1.71'
+    var ip = '172.17.1.116'
     props.onSubmitIP(ip);
 
   }, [])
@@ -150,10 +150,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
           setEvents(provisionalEVENTS)
           setInMemory(provisionalEVENTS)
           
-     
-
-
-        
+    
 
       }
       loadData();
@@ -295,22 +292,11 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
       likeColor = "red";
     }
 
-    var styleTags0 = styles.tagsOff
-    var styleTags1 = styles.tagsOff
-    var styleTags2 = styles.tagsOff
+    var tagsForDiscover = [];
+    for (var i=0; i<event.tags.length; i++){
+      tagsForDiscover.push (<Text style={styles.tags}>{event.tags[i]}</Text>)
+    }
 
-    if(event.tags[0] === undefined) {
-      styleTags0 = styles.tagsOff
-    } else {styleTags0 = styles.tags}
-
-    if(event.tags[1] === undefined) {
-      styleTags1 = styles.tagsOff
-    } else {styleTags1 = styles.tags}
-
-
-    if(event.tags[2] === undefined) {
-      styleTags2 = styles.tagsOff
-    } else {styleTags2 = styles.tags}
 
   
 
@@ -405,15 +391,12 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
           
           <Text style={styles.text}>{event.title.toUpperCase()}</Text>
           <Text style={styles.subtext}>{event.desc}</Text>
-          <View style={{ position: "absolute", left: -10, top: -25}}>
-                    <Text style={styleTags0}>{event.tags[0]}</Text>
+
+        <View style={{ position: "absolute", left: -10, top: -80}}>
+        {tagsForDiscover}
         </View>
-        <View style={{ position: "absolute", left: -10, top: -52 }}>
-                    <Text style={styleTags1}>{event.tags[1]}</Text>
-        </View>
-        <View style={{ position: "absolute", left: -10, top: -79 }}>
-                    <Text style={styleTags2}>{event.tags[2]}</Text>
-        </View>
+
+
         </View>
 
         <View

@@ -58,9 +58,9 @@ function Chat(props) {
 
   
  
+  var temp;
 
   useEffect( () => {
-    var temp;
     (async () => {
     const data = await fetch("http://"+props.ip+":3000/get-messages", {
             method: "POST",
@@ -79,7 +79,7 @@ function Chat(props) {
   })();
 
   
-  socket.on('sendMessageFromBack', (message, user, event, date)=> {
+  /* socket.on('sendMessageFromBack', (message, user, event, date)=> {
     console.log('LOOK HERE =>', temp, listMessage)
     if (event == eventId){
    var messageFromSocket = {userId: {_id: user.id, avatar: user.avatar, username: user.pseudo}, eventId: event, content: message, date: date}
@@ -88,14 +88,22 @@ function Chat(props) {
    
  }
    console.log(newMessage)
-  })
+  }) */
 
   }, []);
 
   
   useEffect(() => {
-    console.log('LOOK HERE AGAIN 2 =>', listMessage)
-  }, [listMessage]);
+    socket.on('sendMessageFromBack', (message, user, event, date)=> {
+      console.log('LOOK HERE =>', temp, listMessage)
+      if (event == eventId){
+     var messageFromSocket = {userId: {_id: user.id, avatar: user.avatar, username: user.pseudo}, eventId: event, content: message, date: date}
+     temp.push(messageFromSocket)
+     setListMessage(temp)
+   }
+     console.log(newMessage)
+    })
+    }, [listMessage]);
   
 
   var messagesList = listMessage.map((message, index)=>{
