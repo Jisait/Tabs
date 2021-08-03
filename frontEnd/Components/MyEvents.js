@@ -131,7 +131,7 @@ let myEventsList = wishListContent.map( (event, index) => {
 
   var isConfirmed = false
   var check = event.confirmedParticipants
-
+console.log(event._id)
   
   var result = check.find(element => element == userID);
 
@@ -177,7 +177,9 @@ let myEventsList = wishListContent.map( (event, index) => {
                     <Ionicons name="checkmark-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => addToConfirm(event, isConfirmed)}/>
                     </View>
                     <View style={{position: 'absolute', left: 25, top: 5}}>
-                    <Ionicons name="chatbox-ellipses" size={32} color="black" />
+                    <Ionicons name="chatbox-ellipses" size={32} color="black" onPress={() => props.navigation.navigate('ChatScreen',{
+            eventId: event._id,
+          })}/>
                     </View>
                     </View>
             </View>
