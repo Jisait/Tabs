@@ -293,10 +293,12 @@ function CreateYourPrivateEvent(props) {
     );
   }
 
+
+
   var searchContacts = (value) => {
     const filteredContacts = inMemory.filter((contact) => {
 
-
+      
       let contactLowercase = (
         contact.firstName +
         " " +
@@ -571,10 +573,10 @@ function CreateYourPrivateEvent(props) {
                 data={contacts}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
-                ListEmptyComponent={() => <Text></Text>}
+                ListEmptyComponent={() => <Text>et la ?</Text>}
               /> 
               <View
-                style={{
+              style={{
                   flex: 1,
                   justifyContent: "center",
                   position: "absolute",
@@ -582,7 +584,7 @@ function CreateYourPrivateEvent(props) {
                   left: 40,
                   top: 100,
                   zIndex: 0,
-                }}
+                }} 
               >
              {ContactList} 
 

@@ -87,7 +87,20 @@ function Discover(props) {
   const [wishListContent, setWishListContent] = useState([]);
   const [userID, setUserID] = useState("");
   const [confirmedCheck, setConfirmedCheck] = useState([]);
+  const [inMemory, setInMemory] = useState([]);
   const [byPseudo, setByPseudo] = useState("");
+
+   
+
+
+
+  
+
+
+
+
+
+
   const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
   function financial(x) {
@@ -107,7 +120,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = '192.168.1.63'
+    var ip = '172.17.1.71'
     props.onSubmitIP(ip);
 
   }, [])
@@ -134,7 +147,7 @@ function Discover(props) {
               "km"
             )
           );
-          console.log(i, distanceFromEvent)
+ 
           neweventDATA[i].distance = financial(distanceFromEvent)
           neweventDATA[i].totalParticipants = neweventDATA[i].interestedParticipants.length + neweventDATA[i].confirmedParticipants.length
 
@@ -142,10 +155,11 @@ function Discover(props) {
           
           }
           setEvents(provisionalEVENTS)
-          console.log('EVENTS AVEC DISTANCE', events)
+          setInMemory(provisionalEVENTS)
+          
+     
 
 
-        console.log('resultat BOUCLE de levent', events )
         
 
       }
@@ -181,7 +195,7 @@ function Discover(props) {
       });
     }
 
-    console.log('HOPHOPHOP', eventsWithLocation[1])
+
   }, [isFocused]);
 
 
@@ -191,6 +205,15 @@ function Discover(props) {
     setVisible(!visible);
     setMapContent({ latitude: event.latitude, longitude: event.longitude });
   };
+
+
+
+  var SubmitTokenExist = () => {
+    console.log("111", props.token)
+       if (props.token ===null) {
+        {props.navigation.navigate('Login')}
+       } 
+}
 
 
   var addToWishlist = async (event, isLiked) => {
@@ -223,30 +246,30 @@ function Discover(props) {
 
   var filterByselected = (selectedItem, index) => {
     if (selectedItem == 'Distance'){
-      console.log('BV BG')
+  
       var temp = [... events]
       temp.sort(function(a, b) {return (a.distance - b.distance)});
       setEvents(temp)
     }
     else if(selectedItem == 'Popularity'){
-      console.log('BV BG 2')
+  
       var temp = [... events]
       temp.sort(function(a, b) {return (b.totalParticipants - a.totalParticipants)});
       setEvents(temp)
     }
     else if(selectedItem == 'Date'){
-      console.log('BV BG 3')
+
       var temp = [... events]
       temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
       setEvents(temp)
     }
     else if(selectedItem == 'Preferences'){
-      console.log('BV BG 4')
+
       var temp = [... events];
       var tempResult = [];
-      console.log(props.tags)
+
       for(var i=0; i<temp.length; i++){
-        console.log(i, temp[i].tags.includes(props.tags))
+   
         if (findCommonElements3(temp[i].tags, props.tags)){
         tempResult.push(temp[i])
       }
@@ -255,9 +278,6 @@ function Discover(props) {
     }
   }
   var discoverList;
-
-  useEffect(() => {console.log('USEEFFECT', events)},[events])
-
 
   discoverList = events.map((event, index) => {
     var likeColor = "white";
@@ -282,7 +302,24 @@ function Discover(props) {
       likeColor = "red";
     }
 
+    var styleTags0 = styles.tagsOff
+    var styleTags1 = styles.tagsOff
+    var styleTags2 = styles.tagsOff
 
+    if(event.tags[0] === undefined) {
+      styleTags0 = styles.tagsOff
+    } else {styleTags0 = styles.tags}
+
+    if(event.tags[1] === undefined) {
+      styleTags1 = styles.tagsOff
+    } else {styleTags1 = styles.tags}
+
+
+    if(event.tags[2] === undefined) {
+      styleTags2 = styles.tagsOff
+    } else {styleTags2 = styles.tags}
+
+  
 
     return (
       <View
@@ -316,7 +353,7 @@ function Discover(props) {
         <View style={{ position: "absolute", right: 20, top: 45 }}>
           <FontAwesome
             key={index}
-            onPress={() => addToWishlist(event, isLiked)}
+            onPress={() => {addToWishlist(event, isLiked); SubmitTokenExist()}}
             name="heart"
             size={30}
             color={likeColor}
@@ -332,8 +369,18 @@ function Discover(props) {
 
         <View style={{ position: "absolute", right: 20, top: 80 }}>
           <Text style={styles.participants}>{event.totalParticipants} participants</Text>
+          
         </View>
-
+    {/*     <View style={{ position: "absolute", right: 20, top: 108 }}>
+                    <Text style={styles.tags}>{event.tags[0]}</Text>
+        </View>
+        <View style={{ position: "absolute", right: 20, top: 134 }}>
+                    <Text style={styles.tags}>{event.tags[1]}</Text>
+        </View>
+        <View style={{ position: "absolute", right: 20, top: 160 }}>
+                    <Text style={styles.tags}>{event.tags[2]}</Text>
+        </View>
+ */}
         <View style={{ position: "absolute", left: 150, bottom: 166 }}>
           <FontAwesome name="share-alt" size={26} color="white" />
         </View>
@@ -362,8 +409,18 @@ function Discover(props) {
             top: 0.873 * (6.5 / 10) * screen.height,
           }}
         >
+          
           <Text style={styles.text}>{event.title.toUpperCase()}</Text>
           <Text style={styles.subtext}>{event.desc}</Text>
+          <View style={{ position: "absolute", left: -10, top: -25}}>
+                    <Text style={styleTags0}>{event.tags[0]}</Text>
+        </View>
+        <View style={{ position: "absolute", left: -10, top: -52 }}>
+                    <Text style={styleTags1}>{event.tags[1]}</Text>
+        </View>
+        <View style={{ position: "absolute", left: -10, top: -79 }}>
+                    <Text style={styleTags2}>{event.tags[2]}</Text>
+        </View>
         </View>
 
         <View
@@ -414,39 +471,116 @@ function Discover(props) {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+
+/// searchbypseudo
+
+var searchPseudo = (value) => {
+
+
+  setEvents(inMemory)
+
+    const filteredPseudo = inMemory.filter((event, index) => {
+
+    let pseudoLowercase = (
+      event.admin.username
+    ).toLowerCase();
+    let searchTermLowercase = value.toLowerCase();
+
+      return pseudoLowercase.indexOf(searchTermLowercase) > -1;
+
+    
+  });
+
+  for (var i=0; i < filteredPseudo.length; i++) {
+
+      
+    var index = filteredPseudo.slice(i+1).findIndex(user => user.admin.username === filteredPseudo[i].admin.username)
+    
+    if (index != -1) {filteredPseudo.splice(i, 1)}
+
+  }
+
+  setByPseudo(filteredPseudo);
+   
+};
+
+
+
+var filteredByPseudo = (item) => {
+  
+ var temp = []
+  const SearchByPseudo = events.map((event, index) => {
+    if(event.admin._id === item.admin._id)
+    {temp.push(event)}
+  
+  })
+      
+
+  setEvents(temp)
+}
+
+
+
+if (byPseudo.length > 5) {
+  var renderItem = ({item}) => ( <Text></Text>)
+} else {
+  
+  var renderItem = ({ item }) => (
+   
+    <View style={styles.searchListPseudoBackground}>
+      <Pressable
+          onPress={() => filteredByPseudo(item)} >
+            
+      <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3, marginHorizontal: 9, width: 150}}>
+        <ImageBackground
+      source={{ uri: item.admin.avatar }}
+      imageStyle={{ borderRadius: 50 }}
+      style={styles.imgAvatarSearchList}
+    /> 
+        <Text style={styles.PseudoSearchList}>
+          {item.admin.username}
+        </Text>
+        </View>
+      </Pressable>
+    </View>
+  );
+}
+
+
+
+
+
+
+
+
+
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
       
         <HeaderScreen navigation={props.navigation} />
         <StatusBar backgroundColor="#011520" />
         <View style={styles.searchBarContainer}>
-          <SearchBar
+        <SearchBar
             containerStyle={{
               height: 4,
-              color: "red",
+              color: "black",
               position: "relative",
               backgroundColor: "transparent",
               borderRadius: 30,
-              border: "red",
+              border: "black",
               borderBottomColor: "transparent",
               borderTopColor: "transparent",
               width: (4 / 10) * screen.width,
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
-            inputStyle={{ color: "red", fontSize: 14 }}
+            inputStyle={{ color: "black", fontSize: 14 }}
             placeholder="Add friends..."
-            onChangeText={(value) => setByPseudo(value)}
+            onChangeText={(value) => searchPseudo(value)}  
             clearIcon={false}
-            value={byPseudo}
-          />
+            value={events} 
+          /> 
 
-        {/*   <FlatList
-                style={styles.listPseudo}
-                data={contacts}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                ListEmptyComponent={() => <Text></Text>}
-              /> */}
+            
 
           <Pressable style={{height: 25,
                 color: "red",
@@ -517,6 +651,13 @@ function Discover(props) {
             </View>
           </Pressable>
         </View>
+        <FlatList
+                style={styles.listPseudo}
+                data={byPseudo}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+                ListEmptyComponent={() => <Text></Text>}
+              />  
 
         {/*     <View style={styles.searchList}>
           </View> */}
@@ -526,7 +667,7 @@ function Discover(props) {
           snapToInterval={(7.5 / 10) * screen.height}
           decelerationRate="fast"
         >
-          {discoverList}
+           {discoverList} 
 
           <View style={{
                 height: (1/ 10) * screen.height,
@@ -637,6 +778,19 @@ const styles = StyleSheet.create({
     height: 45,
   },
 
+  imgAvatarSearchList: {
+    width: 22,
+    height: 22,
+    marginRight: 10
+  },
+
+  PseudoSearchList: {
+    fontFamily: "Poppins_500Medium",
+    marginTop: 2,
+    fontSize: 12
+
+  },
+
   imgBackground2: {
     position: "absolute",
     width: "100%",
@@ -662,6 +816,21 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
   },
 
+ tags: {
+    backgroundColor: '#011520', 
+    borderRadius: 20,
+    paddingTop: 2,
+    paddingHorizontal: 10,
+    color: "white",
+    textAlign: "left",
+    fontFamily: "Poppins_500Medium",
+    fontSize: 12
+  },
+
+  tagsOff: {
+ 
+  },
+
   searchBarContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -680,6 +849,9 @@ const styles = StyleSheet.create({
   },
 
   listPseudo: {
+    position: 'absolute',
+    top: 122,
+    left: 40,
     zIndex: 1,
   },
 
@@ -693,9 +865,7 @@ const styles = StyleSheet.create({
 
   searchListPseudoBackground: {
     backgroundColor: "white",
-    borderBottomWidth: 0.5,
-    width: 300,
-    marginHorizontal: 30,
+    
   },
 });
 
