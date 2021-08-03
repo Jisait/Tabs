@@ -157,10 +157,7 @@ function Discover(props) {
           setEvents(provisionalEVENTS)
           setInMemory(provisionalEVENTS)
           
-     
-
-
-        
+    
 
       }
       loadData();
@@ -302,22 +299,11 @@ function Discover(props) {
       likeColor = "red";
     }
 
-    var styleTags0 = styles.tagsOff
-    var styleTags1 = styles.tagsOff
-    var styleTags2 = styles.tagsOff
+    var tagsForDiscover;
+    for (var i=0; i<event.tags.length; i++){
+      tagsForDiscover = <Text style={styles.tags}>{event.tags[i]}</Text>
+    }
 
-    if(event.tags[0] === undefined) {
-      styleTags0 = styles.tagsOff
-    } else {styleTags0 = styles.tags}
-
-    if(event.tags[1] === undefined) {
-      styleTags1 = styles.tagsOff
-    } else {styleTags1 = styles.tags}
-
-
-    if(event.tags[2] === undefined) {
-      styleTags2 = styles.tagsOff
-    } else {styleTags2 = styles.tags}
 
   
 
@@ -412,15 +398,12 @@ function Discover(props) {
           
           <Text style={styles.text}>{event.title.toUpperCase()}</Text>
           <Text style={styles.subtext}>{event.desc}</Text>
-          <View style={{ position: "absolute", left: -10, top: -25}}>
-                    <Text style={styleTags0}>{event.tags[0]}</Text>
+
+        <View style={{ position: "absolute", left: -10, top: -25}}>
+        {tagsForDiscover}
         </View>
-        <View style={{ position: "absolute", left: -10, top: -52 }}>
-                    <Text style={styleTags1}>{event.tags[1]}</Text>
-        </View>
-        <View style={{ position: "absolute", left: -10, top: -79 }}>
-                    <Text style={styleTags2}>{event.tags[2]}</Text>
-        </View>
+
+
         </View>
 
         <View

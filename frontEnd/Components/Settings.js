@@ -54,15 +54,15 @@ function Settings(props) {
   const [newName, setNewName] = useState('')
 
 
-const [sports, setSports] = useState(false);
-const [theatre, setTheatre] = useState(false);
-const [games, setGames] = useState(false);
-const [politics, setPolitics] = useState(false);
-const [music, setMusic] = useState(false);
-const [ecology, setEcology] = useState(false);
-const [fashion, setFashion] = useState(false);
-const [milf, setMilf] = useState(false);
-const [movies, setMovies] = useState(false);
+  const [sports, setSports] = useState(false);
+  const [party, setParty] = useState(false);
+  const [games, setGames] = useState(false);
+  const [politics, setPolitics] = useState(false);
+  const [outdoor, setOutdoor] = useState(false);
+  const [ecology, setEcology] = useState(false);
+  const [indoor, setIndoor] = useState(false);
+  const [culture, setCulture] = useState(false);
+  const [misc, setMisc] = useState(false);
 
 
 
@@ -105,33 +105,33 @@ const [tags, setTags] = useState([])
       }, []);  
 
       useEffect(() => {
-      if (props.tags.some(x => x=='sports')){
+      if (props.tags.some(x => x=='Sports')){
         setSports(true);
       }
-      if (props.tags.some(x => x=='games')){
+      if (props.tags.some(x => x=='Games')){
         setGames(true)
 }
-      if (props.tags.some(x => x=='theatre')){
+      if (props.tags.some(x => x=='Party')){
 
-        setTheatre(true);
+        setParty(true);
 }
-      if (props.tags.some(x => x=='politics')){
+      if (props.tags.some(x => x=='Politics')){
         setPolitics(true);
 }
-     if (props.tags.some(x => x=='music')){
-        setMusic(true);
+     if (props.tags.some(x => x=='Outdoor')){
+        setOutdoor(true);
 }
-      if (props.tags.some(x => x=='ecology')){
+      if (props.tags.some(x => x=='Ecology')){
         setEcology(true);
 }
-        if (props.tags.some(x => x=='fashion')){
-        setFashion(true);
+        if (props.tags.some(x => x=='Indoor')){
+        setIndoor(true);
 }
-        if (props.tags.some(x => x=='MILF')){
-        setMilf(true);
+        if (props.tags.some(x => x=='Culture')){
+        setCulture(true);
 }
-        if (props.tags.some(x => x=='movies')){
-        setMovies(true);
+        if (props.tags.some(x => x=='Misc')){
+        setMisc(true);
 }
 
 setTags(props.tags)
@@ -241,7 +241,7 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
     var handleTags = (tag)=>{
 
       //SPORTS
-        if (tag == 'sports'){
+        if (tag == 'Sports'){
           if (sports == false){
             var temp = tags
             temp.push(tag)
@@ -250,16 +250,15 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'sports')
+            temp = temp.filter(tag => tag !== 'Sports')
             setTags(temp)
             props.onSubmitTags(temp);
           }
           setSports(!sports)
         }
       
-      //THEATRE
-        else if (tag == 'theatre'){
-          if (theatre == false){
+        else if (tag == 'Party'){
+          if (party == false){
             var temp = tags
             temp.push(tag)
             setTags(temp)
@@ -267,17 +266,16 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'theatre')
+            temp = temp.filter(tag => tag !== 'Party')
             setTags(temp)
             props.onSubmitTags(temp);
           }
       
-          setTheatre(!theatre)
+          setParty(!party)
         }
       
-        //MOVIES
-        else if (tag == 'movies'){
-          if (movies == false){
+        else if (tag == 'Culture'){
+          if (culture == false){
             var temp = tags
             temp.push(tag)
             setTags(temp)
@@ -285,16 +283,16 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'movies')
+            temp = temp.filter(tag => tag !== 'Culture')
             setTags(temp)
             props.onSubmitTags(temp);
           }
-          setMovies(!movies)
+          setCulture(!culture)
       
         }
       
         //GAMES
-        else if (tag == 'games'){
+        else if (tag == 'Games'){
           if (games == false){
             var temp = tags
             temp.push(tag)
@@ -303,16 +301,15 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'games')
+            temp = temp.filter(tag => tag !== 'Games')
             setTags(temp)
             props.onSubmitTags(temp);
           }
           setGames(!games)
         }
       
-        //MUSIC
-        else if (tag == 'music'){
-          if (music == false){
+        else if (tag == 'Indoor'){
+          if (indoor == false){
             var temp = tags
             temp.push(tag)
             setTags(temp)
@@ -320,15 +317,15 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'music')
+            temp = temp.filter(tag => tag !== 'Indoor')
             setTags(temp)
             props.onSubmitTags(temp);
           }
-          setMusic(!music)
+          setIndoor(!indoor)
       
         }
-        else if (tag == 'fashion'){
-          if (fashion == false){
+        else if (tag == 'Outdoor'){
+          if (outdoor == false){
             var temp = tags
             temp.push(tag)
             setTags(temp)
@@ -336,14 +333,14 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'fashion')
+            temp = temp.filter(tag => tag !== 'Outdoor')
             setTags(temp)
             props.onSubmitTags(temp);
           }
-          setFashion(!fashion)
+          setOutdoor(!outdoor)
       
         }
-        else if (tag == 'politics'){
+        else if (tag == 'Politics'){
           if (politics == false){
             var temp = tags
             temp.push(tag)
@@ -352,14 +349,14 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'politics')
+            temp = temp.filter(tag => tag !== 'Politics')
             setTags(temp)
             props.onSubmitTags(temp);
           }
           setPolitics(!politics)
       
         }
-        else if (tag == 'ecology'){
+        else if (tag == 'Ecology'){
           if (ecology == false){
             var temp = tags
             temp.push(tag)
@@ -369,15 +366,15 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'ecology')
+            temp = temp.filter(tag => tag !== 'Ecology')
             setTags(temp)
             props.onSubmitTags(temp);
           }
           setEcology(!ecology)
       
         }
-        else if (tag == 'MILF'){
-          if (milf == false){
+        else if (tag == 'Misc'){
+          if (misc == false){
             var temp = tags
             temp.push(tag)
             setTags(temp)
@@ -385,11 +382,11 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
           }
           else{
             var temp = tags
-            temp = temp.filter(tag => tag !== 'MILF')
+            temp = temp.filter(tag => tag !== 'Misc')
             setTags(temp)
             props.onSubmitTags(temp);
           }
-          setMilf(!milf)
+          setMisc(!misc)
         }
       console.log(tags)
       console.log('redux', props.tags)
@@ -448,32 +445,36 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
         <Text style= {styles.userName}>Choose your favorite theme</Text>
 
   <View style= {{border: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 80}}>
+
+
+
       <View style={{flexDirection: 'column', marginBottom: 0}}>
-        <CheckBox
-        title='sports'
-        textStyle={styles.checkBoxText}
-        checked={sports}
-        onPress={() => {handleTags('sports')}}
-        checkedIcon='check-square'
-        uncheckedIcon='square'
-        containerStyle={styles.checkBoxContainer}
-        checkedColor='#FFF1DC'
-        uncheckedColor='white'/>
-          <CheckBox
-      title='theatre'
+        
+      <CheckBox
+      title='Sports'
       textStyle={styles.checkBoxText}
-      checked={theatre}
-      onPress={()=> {handleTags('theatre')}}
+      checked={sports}
+      onPress={() => {handleTags('Sports')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#FFF1DC'
       uncheckedColor='white'/>
       <CheckBox
-      title='movies'
+      title='Party'
       textStyle={styles.checkBoxText}
-      checked={movies}
-      onPress={()=> {handleTags('movies')}}
+      checked={party}
+      onPress={()=> {handleTags('Party')}}
+      checkedIcon='check-square'
+      uncheckedIcon='square'
+      containerStyle={styles.checkBoxContainer}
+      checkedColor='#FFF1DC'
+      uncheckedColor='white'/>
+      <CheckBox
+      title='Misc'
+      textStyle={styles.checkBoxText}
+      checked={misc}
+      onPress={()=> {handleTags('Misc')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
@@ -483,30 +484,30 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
       
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
       <CheckBox
-      title='games'
+      title='Games'
       textStyle={styles.checkBoxText}
       checked={games}
-      onPress={()=> {handleTags('games')}}
+      onPress={()=> {handleTags('Games')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#FFF1DC'
       uncheckedColor='white'/>
       <CheckBox
-      title='music'
+      title='Outdoor'
       textStyle={styles.checkBoxText}
-      checked={music}
-      onPress={()=> {handleTags('music')}}
+      checked={outdoor}
+      onPress={()=> {handleTags('Outdoor')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#FFF1DC'
       uncheckedColor='white'/>
       <CheckBox
-      title='fashion'
+      title='Indoor'
       textStyle={styles.checkBoxText}
-      checked={fashion}
-      onPress={()=> {handleTags('fashion')}}
+      checked={indoor}
+      onPress={()=> {handleTags('Indoor')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
@@ -516,30 +517,30 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
       
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
       <CheckBox
-      title='politics'
+      title='Politics'
       textStyle={styles.checkBoxText}
       checked={politics}
-      onPress={()=> {handleTags('politics')}}
+      onPress={()=> {handleTags('Politics')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#FFF1DC'
       uncheckedColor='white'/>
       <CheckBox
-      title='ecology'
+      title='Ecology'
       textStyle={styles.checkBoxText}
       checked={ecology}
-      onPress={()=> {handleTags('ecology')}}
+      onPress={()=> {handleTags('Ecology')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#FFF1DC'
       uncheckedColor='white'/>
       <CheckBox
-      title='MILF'
+      title='Culture'
       textStyle={styles.checkBoxText}
-      checked={milf}
-      onPress={()=> {handleTags('MILF')}}
+      checked={culture}
+      onPress={()=> {handleTags('Culture')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}

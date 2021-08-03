@@ -204,14 +204,14 @@ if(transformDate !== '1970') {
   // GESTION DES TAGS
   
   const [sports, setSports] = useState(false);
-  const [theatre, setTheatre] = useState(false);
+  const [party, setParty] = useState(false);
   const [games, setGames] = useState(false);
   const [politics, setPolitics] = useState(false);
-  const [music, setMusic] = useState(false);
+  const [outdoor, setOutdoor] = useState(false);
   const [ecology, setEcology] = useState(false);
-  const [fashion, setFashion] = useState(false);
-  const [milf, setMilf] = useState(false);
-  const [movies, setMovies] = useState(false);
+  const [indoor, setIndoor] = useState(false);
+  const [culture, setCulture] = useState(false);
+  const [misc, setMisc] = useState(false);
   
   const [tags, setTags] = useState([])
   
@@ -254,7 +254,7 @@ if(transformDate !== '1970') {
 var handleTags = (tag)=>{
 
 //SPORTS
-  if (tag == 'sports'){
+  if (tag == 'Sports'){
     if (sports == false){
       var temp = tags
       temp.push(tag)
@@ -262,46 +262,46 @@ var handleTags = (tag)=>{
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'sports')
+      temp = temp.filter(tag => tag !== 'Sports')
       setTags(temp)
     }
     setSports(!sports)
   }
 
-//THEATRE
-  else if (tag == 'theatre'){
-    if (theatre == false){
+//PARTY
+  else if (tag == 'Party'){
+    if (party == false){
       var temp = tags
       temp.push(tag)
       setTags(temp)
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'theatre')
+      temp = temp.filter(tag => tag !== 'Party')
       setTags(temp)
     }
 
-    setTheatre(!theatre)
+    setParty(!party)
   }
 
-  //MOVIES
-  else if (tag == 'movies'){
-    if (movies == false){
+  //MISC
+  else if (tag == 'Misc'){
+    if (misc == false){
       var temp = tags
       temp.push(tag)
       setTags(temp)
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'movies')
+      temp = temp.filter(tag => tag !== 'Misc')
       setTags(temp)
     }
-    setMovies(!movies)
+    setMisc(!misc)
 
   }
 
   //GAMES
-  else if (tag == 'games'){
+  else if (tag == 'Games'){
     if (games == false){
       var temp = tags
       temp.push(tag)
@@ -309,42 +309,42 @@ var handleTags = (tag)=>{
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'games')
+      temp = temp.filter(tag => tag !== 'Games')
       setTags(temp)
     }
     setGames(!games)
   }
 
-  //MUSIC
-  else if (tag == 'music'){
-    if (music == false){
+  //OUTDOOR
+  else if (tag == 'Outdoor'){
+    if (outdoor == false){
       var temp = tags
       temp.push(tag)
       setTags(temp)
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'music')
+      temp = temp.filter(tag => tag !== 'Outdoor')
       setTags(temp)
     }
-    setMusic(!music)
+    setOutdoor(!outdoor)
 
   }
-  else if (tag == 'fashion'){
-    if (fashion == false){
+  else if (tag == 'Indoor'){
+    if (indoor == false){
       var temp = tags
       temp.push(tag)
       setTags(temp)
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'fashion')
+      temp = temp.filter(tag => tag !== 'Indoor')
       setTags(temp)
     }
-    setFashion(!fashion)
+    setIndoor(!indoor)
 
   }
-  else if (tag == 'politics'){
+  else if (tag == 'Politics'){
     if (politics == false){
       var temp = tags
       temp.push(tag)
@@ -352,13 +352,13 @@ var handleTags = (tag)=>{
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'politics')
+      temp = temp.filter(tag => tag !== 'Politics')
       setTags(temp)
     }
     setPolitics(!politics)
 
   }
-  else if (tag == 'ecology'){
+  else if (tag == 'Ecology'){
     if (ecology == false){
       var temp = tags
       temp.push(tag)
@@ -366,24 +366,24 @@ var handleTags = (tag)=>{
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'ecology')
+      temp = temp.filter(tag => tag !== 'Ecology')
       setTags(temp)
     }
     setEcology(!ecology)
 
   }
-  else if (tag == 'MILF'){
-    if (milf == false){
+  else if (tag == 'Culture'){
+    if (culture == false){
       var temp = tags
       temp.push(tag)
       setTags(temp)
     }
     else{
       var temp = tags
-      temp = temp.filter(tag => tag !== 'MILF')
+      temp = temp.filter(tag => tag !== 'Culture')
       setTags(temp)
     }
-    setMilf(!milf)
+    setCulture(!culture)
   }
 console.log(tags)
 }
@@ -526,27 +526,27 @@ if (!fontsLoaded) {
       <View style={{flexDirection: 'column', justifyContent: 'space-between', marginBottom: 0}}>
       
       <CheckBox
-      title='sports'
+      title='Sports'
       checked={sports}
-      onPress={() => {handleTags('sports')}}
+      onPress={() => {handleTags('Sports')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='theatre'
-      checked={theatre}
-      onPress={()=> {handleTags('theatre')}}
+      title='Party'
+      checked={party}
+      onPress={()=> {handleTags('Party')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='movies'
-      checked={movies}
-      onPress={()=> {handleTags('movies')}}
+      title='Misc'
+      checked={misc}
+      onPress={()=> {handleTags('Misc')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
@@ -556,27 +556,27 @@ if (!fontsLoaded) {
       
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
       <CheckBox
-      title='games'
+      title='Games'
       checked={games}
-      onPress={()=> {handleTags('games')}}
+      onPress={()=> {handleTags('Games')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='music'
-      checked={music}
-      onPress={()=> {handleTags('music')}}
+      title='Outdoor'
+      checked={outdoor}
+      onPress={()=> {handleTags('Outdoor')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='fashion'
-      checked={fashion}
-      onPress={()=> {handleTags('fashion')}}
+      title='Indoor'
+      checked={indoor}
+      onPress={()=> {handleTags('Indoor')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
@@ -586,27 +586,27 @@ if (!fontsLoaded) {
       
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
       <CheckBox
-      title='politics'
+      title='Politics'
       checked={politics}
-      onPress={()=> {handleTags('politics')}}
+      onPress={()=> {handleTags('Politics')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='ecology'
+      title='Ecology'
       checked={ecology}
-      onPress={()=> {handleTags('ecology')}}
+      onPress={()=> {handleTags('Ecology')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
       checkedColor='#011520'
       uncheckedColor='white'/>
       <CheckBox
-      title='MILF'
-      checked={milf}
-      onPress={()=> {handleTags('MILF')}}
+      title='Culture'
+      checked={culture}
+      onPress={()=> {handleTags('Culture')}}
       checkedIcon='check-square'
       uncheckedIcon='square'
       containerStyle={styles.checkBoxContainer}
