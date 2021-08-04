@@ -159,7 +159,7 @@ console.log(event._id)
              <View style={{position: 'absolute'}}>
                <View style={{flexDirection: 'row'}}>
              <Text style={styles.date}>{event.dateFront}</Text>
-             <Text style={styles.date}>Public Event</Text>
+             <Text style={styles.EventType}>Public Event</Text>
              </View>
              <Text style={styles.title}>{event.title}</Text>
              <Text style={styles.desc}>{event.desc}</Text>
@@ -225,9 +225,9 @@ EventType: {
   color: 'black',
   backgroundColor: 'white',
   fontSize: 12,
-
-  marginRight: 9,
-  textAlign: 'center', 
+  left: 75,
+  top: 4,
+  textAlign: "center"
   },
 
 title: {

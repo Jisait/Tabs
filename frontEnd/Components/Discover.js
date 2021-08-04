@@ -113,7 +113,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
       }
     }
     askPermissions();
-    var ip = '172.17.1.116'
+    var ip = '172.17.1.71'
     props.onSubmitIP(ip);
 
   }, [])
