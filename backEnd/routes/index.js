@@ -185,6 +185,21 @@ router.get('/', function(req, res, next) {
   
     res.json({user})
 })
+
+  //ADD PRIVATE TO WISHLIST
+
+  router.post('/get-myPrivateEvents', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+    var allEvent = await eventsModel.find()
+    var myPrivateEvent = allEvent.filter(x => x.contacts == user.phone)
+
+    console.log("tel", myPrivateEvent)
+
+    res.json({myPrivateEvent})
+  })
+
+
   //REMOVE FROM WISHLIST
   router.post('/remove-from-wishlist', async function(req, res, next){
 
@@ -245,6 +260,7 @@ router.get('/', function(req, res, next) {
           token: uid2(32), 
           username: req.body.username.toLowerCase(),
           avatar: req.body.avatar,
+          phone: req.body.phone,
         })
         var newUser = await newUser.save();
         if (newUser){
@@ -287,23 +303,23 @@ router.get('/', function(req, res, next) {
   //EDIT USER:
 
   router.post('/edit-userAvatar', async function(req, res, next){
-
       var user = await userModel.updateOne({ token: req.body.token},{ avatar: req.body.avatar });
-
-  res.json({user})
-
-  })
+    res.json({user})
+        })
 
   router.post('/edit-userName', async function(req, res, next){
+      var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+    res.json({user})
+        })
 
-    console.log("??", req.body)
-    var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+  
+  //SEARCH BY PSEUDO
 
-    
-
-res.json({user})
-
-})
+  router.post('/searchByPseudo', async function(req, res, next){
+    var user = await userModel.updateOne({ token: req.body.token });
+  
+  res.json({user})
+      })
 
 
   
@@ -311,31 +327,21 @@ res.json({user})
 //MESSAGES ROUTES: 
   //ADD MESSAGE
     router.post('/add-message', async function(req, res, next){
-
-    var user = await userModel.findOne({token: req.body.token});
-
-
-      var newMessage = new messageModel({
-        userId: user._id,
-        eventId: req.body.eventId,
-        content: req.body.content,
+      var newEvent = new eventsModel({
+        publique: req.body.publique,
+        title: req.body.title,
+        desc: req.body.desc,
+        image: req.body.image,
+        address: req.body.address,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
         date: req.body.date,
+        tags: req.body.tags
         })
-        var message = await newMessage.save();
-
-        res.json({message, user})
+        var event = await newEvent.save();
+        res.json({event})
     })
 
-  //GET MESSAGES
-    router.post('/get-messages', async function(req, res, next){
-      var user = await userModel.findOne({token: req.body.token});
-
-      var message = await messageModel.find({eventId: req.body.eventId}).populate('userId');
-  
-  
-  
-          res.json({message, user})
-      })
 
   
 

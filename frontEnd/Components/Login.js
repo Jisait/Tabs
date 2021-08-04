@@ -43,7 +43,7 @@ const [loginType, setLoginType] = useState(true);
 const [signUpEmail, setSignUpEmail] = useState('');
 const [signUpUsername, setSignUpUsername] = useState('');
 const [signUpPassword, setSignUpPassword] = useState('');
-
+const [signUpPhone, setSignUpPhone] = useState('');
 const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
@@ -59,8 +59,6 @@ var avatarList = ['https://upload.wikimedia.org/wikipedia/commons/b/ba/Flower_jt
                     return Math.floor(Math.random() * max);
                   }
               
-/* var avatar = 'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg' */
-
 var avatar = avatarList[getRandomInt(5)]
 
 
@@ -68,11 +66,11 @@ var avatar = avatarList[getRandomInt(5)]
 
 
 
-var handleSubmitSignUp = async (email, username, password, avatar) => {
+var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
     const data = await fetch('http://'+props.ip+':3000/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar
+        body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar+'&phone='+phone
       })
     const body =  await data.json();
 
@@ -224,6 +222,14 @@ else if (loginType == false){
 
       />
 
+        <Input
+        containerStyle={{ marginTop: 0, width: '70%' }}
+        inputStyle={{ marginLeft: 10 }}
+        placeholder='Phone'
+        onChangeText={(val) => setSignUpPhone(val)}
+
+      />
+
 
       <Input
         secureTextEntry={true}
@@ -233,7 +239,7 @@ else if (loginType == false){
         onChangeText={(val) => setSignUpPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>{handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar); toggleOverlaySignUp()}}>
+            <Pressable style={styles.button} onPress={()=>{handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar, signUpPhone); toggleOverlaySignUp()}}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>SIGN UP</Text>
             </Pressable>
 

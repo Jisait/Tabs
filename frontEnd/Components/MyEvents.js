@@ -77,6 +77,15 @@ function ChooseYourEvent(props) {
                     const body =  await data.json();
                     setWishListContent(body.myEvents)
 
+                    const privateData = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+                      method: 'POST', 
+                      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                      body: 'token='+props.token
+                    })
+                   
+                    
+
+
                     const userData = await fetch('http://'+props.ip+':3000/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -84,6 +93,7 @@ function ChooseYourEvent(props) {
                     })
           
                     const dataUser =  await userData.json();
+                    console.log("111",dataUser)
                
                     setUserId(dataUser.user._id)
 
