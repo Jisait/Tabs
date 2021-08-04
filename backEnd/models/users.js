@@ -9,8 +9,9 @@ var userSchema = mongoose.Schema({
   token: String,
   avatar: String,
   phone: String,
-  myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
   verified: Boolean,
+  myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
+  
   });
   
   
