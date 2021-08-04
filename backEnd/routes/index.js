@@ -39,13 +39,12 @@ router.get('/', function(req, res, next) {
       router.post('/add-event', async function(req, res, next){
         console.log(req.body)
 
-        
-
-        const tags = req.body.tags.split(',');
-
         var admin = await userModel.findOne({token: req.body.token});
           
         if (req.body.publique == 'true'){
+        
+        const tags = req.body.tags.split(',');
+        
         var newEvent = new eventsModel({
           admin: admin.id,
           publique: req.body.publique,
@@ -74,7 +73,7 @@ router.get('/', function(req, res, next) {
               latitude: req.body.latitude,
               dateUTC: req.body.dateUTC,
               dateFront: req.body.dateFront,
-              tags: tags,
+            
               contacts: JSON.parse(req.body.contacts)
               })
               var event = await newEvent.save();
@@ -193,12 +192,17 @@ router.get('/', function(req, res, next) {
   router.post('/get-myPrivateEvents', async function(req, res, next){
 
     var user = await userModel.findOne({token: req.body.token});
+   
     var allEvent = await eventsModel.find()
-    var myPrivateEvent = allEvent.filter(x => x.contacts == user.phone)
 
-    console.log("tel", myPrivateEvent)
+var result = []
+for (var i=0; i<allEvent.length; i++) {
 
-    res.json({myPrivateEvent})
+    if (allEvent[i].contacts.some(item => user.phone.includes(item.phone))) {
+      result.push(allEvent[i])
+    }}
+
+    res.json({result})
   })
 
 
@@ -358,9 +362,6 @@ router.get('/', function(req, res, next) {
 
 
   
-
-
-
 
 
 module.exports = router;

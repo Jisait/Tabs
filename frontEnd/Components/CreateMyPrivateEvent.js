@@ -29,7 +29,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Overlay } from "react-native-elements";
 import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -256,6 +256,7 @@ function CreateYourPrivateEvent(props) {
   const [inMemory, setInMemory] = useState([]);
   const [pressItem, setPressItem] = useState([]);
   const [contactsBDD, setContactsBDD] = useState([])
+  const [visible, setVisible] = useState(false);
 
 
 
@@ -279,7 +280,12 @@ function CreateYourPrivateEvent(props) {
       <View style={styles.searchListBackground}>
         <Pressable
           onPress={() => {
-            setPressItem([...pressItem, {firstName : item.firstName, lastName: item.lastName, phone : item.phoneNumbers[0].number }]);
+            var myRegex = /\+33/g;
+            var phoneFormat = item.phoneNumbers[0].number.split(" ").join("")
+            var phoneWithout33 = phoneFormat.replace(myRegex, "0");
+            
+
+            setPressItem([...pressItem, {firstName : item.firstName, lastName: item.lastName, phone : phoneWithout33 }]);
            
             
             setContacts("");
@@ -369,6 +375,7 @@ function CreateYourPrivateEvent(props) {
       if (props.token === null)
     {props.navigation.navigate('Login')}
     else {
+      setVisible(true)
     const data = await fetch("http://"+props.ip+":3000/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -425,6 +432,18 @@ function CreateYourPrivateEvent(props) {
               height: "100%",
             }}
           />
+            <Overlay isVisible={visible}>
+    
+    <View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+    <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
+    <Text style={styles.createTextBold}>Congratulations!</Text>
+    
+    <Text style={styles.createTextConfirm}>Your Event has been send</Text>
+    <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
+    <Text style={styles.text}>Go to home</Text>
+    </Pressable>
+    </View>
+    </Overlay>
 
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             <Text style={styles.createText}>{"create your "}</Text>
@@ -573,7 +592,7 @@ function CreateYourPrivateEvent(props) {
                 data={contacts}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
-                ListEmptyComponent={() => <Text>et la ?</Text>}
+                ListEmptyComponent={() => <Text></Text>}
               /> 
               <View
               style={{

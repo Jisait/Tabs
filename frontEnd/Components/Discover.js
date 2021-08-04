@@ -130,6 +130,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
         const data = await fetch("http://"+props.ip+":3000/get-event");
         var eventData = await data.json();
+      
         var neweventDATA = eventData.events
         var provisionalEVENTS = [];
         for(var i =0; i<neweventDATA.length; i++){
@@ -583,7 +584,7 @@ if (byPseudo.length > 5) {
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
             inputStyle={{ color: "black", fontSize: 14 }}
-            placeholder="Add friends..."
+            placeholder="Search user..."
             onChangeText={(value) => searchPseudo(value)}  
             clearIcon={false}
             value={events} 

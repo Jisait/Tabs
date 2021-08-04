@@ -75,17 +75,25 @@ function ChooseYourEvent(props) {
                       body: 'token='+props.token
                     })
                     const body =  await data.json();
-                    setWishListContent(body.myEvents)
+                    var temp = body.myEvents
+                   
 
-                    const privateData = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+                    const nonPublic = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
                     })
+
+                    const dataPrivate = await nonPublic.json()
+
+                    temp = [...temp, ...dataPrivate.result]
+                    temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
+                    setWishListContent(temp)
+                  
+
+                 
                    
-                    
-
-
+                   
                     const userData = await fetch('http://'+props.ip+':3000/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -125,12 +133,26 @@ function ChooseYourEvent(props) {
     setUserId(user.user)
 
     const data = await fetch('http://'+props.ip+':3000/get-Myevents', {
-    method: 'POST', 
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'token='+props.token
-  })
-  const body =  await data.json();
-  setWishListContent(body.myEvents)
+      method: 'POST', 
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'token='+props.token
+    })
+    const body =  await data.json();
+    var temp = body.myEvents
+   
+
+    const nonPublic = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+      method: 'POST', 
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'token='+props.token
+    })
+
+    const dataPrivate = await nonPublic.json()
+
+    temp = [...temp, ...dataPrivate.result]
+    temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
+    setWishListContent(temp)
+  
   }
   }
             
@@ -153,7 +175,7 @@ console.log(event._id)
                       color: 'white',
                       fontSize: 13,
                       marginTop : 5,
-                      backgroundColor: '#74CC05',
+                      backgroundColor: '#011520',
                       paddingTop: 3,
                       paddingBottom: 3,
                       paddingLeft: 12,
@@ -161,15 +183,27 @@ console.log(event._id)
                       borderRadius: 20}
   }
 
+  var bannerPrivate = <View></View>
+
+  if (event.publique === false) {
+    bannerPrivate = <View>
+    <View style={styles.triangleCorner} />
+    <Text style={styles.EventType}>Private Event</Text>
+  </View>
+}
+  
+
+
     return (
-<View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', margin:(0.1/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+<View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
              <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
             
              </ImageBackground>
              <View style={{position: 'absolute'}}>
                <View style={{flexDirection: 'row'}}>
              <Text style={styles.date}>{event.dateFront}</Text>
-             <Text style={styles.EventType}>Public Event</Text>
+              {bannerPrivate}
+            
              </View>
              <Text style={styles.title}>{event.title}</Text>
              <Text style={styles.desc}>{event.desc}</Text>
@@ -232,21 +266,37 @@ date: {
         },
 
 EventType: {
-  color: 'black',
-  backgroundColor: 'white',
-  fontSize: 12,
-  left: 75,
-  top: 4,
+  color: 'white',
+  backgroundColor: '#EB1F0B',
+  paddingHorizontal : 5,
+  paddingVertical: 2,
+  fontSize: 10,
+  left: 69,
+  top: -5,
   textAlign: "center"
   },
 
 title: {
-  color: '#011520',
+    color: '#011520',
     fontSize: 23,
     marginLeft : (2/10)*screen.width+9,
     fontFamily: 'Poppins_500Medium',
     marginTop: 5,
     },
+
+triangleCorner: {
+  position: 'absolute',
+  right: 0,
+  top: -5,
+  width: 0,
+  height: 0,
+  backgroundColor: "transparent",
+  borderStyle: "solid",
+  borderLeftWidth: 5,
+  borderBottomWidth: 5,
+  borderLeftColor: "transparent",
+  borderBottomColor: "#A11C01",
+},
     
 desc: {
     fontSize: 15,
