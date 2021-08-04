@@ -77,6 +77,15 @@ function ChooseYourEvent(props) {
                     const body =  await data.json();
                     setWishListContent(body.myEvents)
 
+                    const privateData = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+                      method: 'POST', 
+                      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                      body: 'token='+props.token
+                    })
+                   
+                    
+
+
                     const userData = await fetch('http://'+props.ip+':3000/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -84,6 +93,7 @@ function ChooseYourEvent(props) {
                     })
           
                     const dataUser =  await userData.json();
+                    console.log("111",dataUser)
                
                     setUserId(dataUser.user._id)
 
@@ -159,7 +169,7 @@ console.log(event._id)
              <View style={{position: 'absolute'}}>
                <View style={{flexDirection: 'row'}}>
              <Text style={styles.date}>{event.dateFront}</Text>
-             <Text style={styles.date}>Public Event</Text>
+             <Text style={styles.EventType}>Public Event</Text>
              </View>
              <Text style={styles.title}>{event.title}</Text>
              <Text style={styles.desc}>{event.desc}</Text>
@@ -225,9 +235,9 @@ EventType: {
   color: 'black',
   backgroundColor: 'white',
   fontSize: 12,
-
-  marginRight: 9,
-  textAlign: 'center', 
+  left: 75,
+  top: 4,
+  textAlign: "center"
   },
 
 title: {

@@ -39,6 +39,8 @@ router.get('/', function(req, res, next) {
       router.post('/add-event', async function(req, res, next){
         console.log(req.body)
 
+        
+
         const tags = req.body.tags.split(',');
 
         var admin = await userModel.findOne({token: req.body.token});
@@ -60,7 +62,7 @@ router.get('/', function(req, res, next) {
           var event = await newEvent.save();
         }
 
-          else if (req.body.publique == false){
+          else if (req.body.publique == 'false'){
             var newEvent = new eventsModel({
               admin: admin.id,
               publique: req.body.publique,
@@ -185,6 +187,21 @@ router.get('/', function(req, res, next) {
   
     res.json({user})
 })
+
+  //ADD PRIVATE TO WISHLIST
+
+  router.post('/get-myPrivateEvents', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+    var allEvent = await eventsModel.find()
+    var myPrivateEvent = allEvent.filter(x => x.contacts == user.phone)
+
+    console.log("tel", myPrivateEvent)
+
+    res.json({myPrivateEvent})
+  })
+
+
   //REMOVE FROM WISHLIST
   router.post('/remove-from-wishlist', async function(req, res, next){
 
@@ -245,6 +262,8 @@ router.get('/', function(req, res, next) {
           token: uid2(32), 
           username: req.body.username.toLowerCase(),
           avatar: req.body.avatar,
+          phone: req.body.phone,
+          verified: false
         })
         var newUser = await newUser.save();
         if (newUser){
@@ -287,30 +306,30 @@ router.get('/', function(req, res, next) {
   //EDIT USER:
 
   router.post('/edit-userAvatar', async function(req, res, next){
-
       var user = await userModel.updateOne({ token: req.body.token},{ avatar: req.body.avatar });
-
-  res.json({user})
-
-  })
+    res.json({user})
+        })
 
   router.post('/edit-userName', async function(req, res, next){
+      var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+    res.json({user})
+        })
 
-    console.log("??", req.body)
-    var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+  
+  //SEARCH BY PSEUDO
 
-    
-
-res.json({user})
-
-})
+  router.post('/searchByPseudo', async function(req, res, next){
+    var user = await userModel.updateOne({ token: req.body.token });
+  
+  res.json({user})
+      })
 
 
   
 
 //MESSAGES ROUTES: 
   //ADD MESSAGE
-    router.post('/add-message', async function(req, res, next){
+  router.post('/add-message', async function(req, res, next){
 
     var user = await userModel.findOne({token: req.body.token});
 
@@ -336,6 +355,7 @@ res.json({user})
   
           res.json({message, user})
       })
+
 
   
 

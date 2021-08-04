@@ -95,14 +95,7 @@ function Discover(props) {
 
 
 
-  
-
-
-
-
-
-
-  const [eventsWithLocation, setEventsWithLocation] = useState([]);
+const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
@@ -126,7 +119,9 @@ function Discover(props) {
 
   }, [])
 
-  
+  function findCommonElements3(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
+};
 
   useEffect(() => {
     if (isFocused == true) {
@@ -155,6 +150,29 @@ function Discover(props) {
           provisionalEVENTS.push(neweventDATA[i])
           
           }
+          provisionalEVENTS.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
+
+          if(props.tags.length>0){
+            var tempResult = [];
+
+            for(var i=0; i<provisionalEVENTS.length; i++){
+        
+              if (findCommonElements3(provisionalEVENTS[i].tags, props.tags)){
+              tempResult.push(provisionalEVENTS[i])
+            }
+            }
+            tempResult.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
+
+            for(var i=0; i<provisionalEVENTS.length; i++){
+        
+              if (tempResult.includes(provisionalEVENTS[i]) == false){
+              tempResult.push(provisionalEVENTS[i])
+            }
+            }
+
+            provisionalEVENTS = tempResult
+          }
+
           setEvents(provisionalEVENTS)
           setInMemory(provisionalEVENTS)
           
@@ -207,7 +225,6 @@ function Discover(props) {
 
 
   var SubmitTokenExist = () => {
-    console.log("111", props.token)
        if (props.token ===null) {
         {props.navigation.navigate('Login')}
        } 
@@ -236,11 +253,9 @@ function Discover(props) {
     }
   };
 
-  function findCommonElements3(arr1, arr2) {
-    return arr1.some(item => arr2.includes(item))
-};
+ 
   
-  const filters = ["Popularity", "Distance", "Date"]
+  const filters = ["Date", "Popularity", "Distance"]
 
   var filterByselected = (selectedItem, index) => {
     if (selectedItem == 'Distance'){
@@ -261,23 +276,22 @@ function Discover(props) {
       temp.sort(function(a, b) {return new Date(a.dateUTC) - new Date(b.dateUTC);});
       setEvents(temp)
     }
-    else if(selectedItem == 'Preferences'){
-
-      var temp = [... events];
-      var tempResult = [];
-
-      for(var i=0; i<temp.length; i++){
-   
-        if (findCommonElements3(temp[i].tags, props.tags)){
-        tempResult.push(temp[i])
-      }
-      }
-      setEvents(tempResult)
-    }
   }
   var discoverList;
 
+
+
+
   discoverList = events.map((event, index) => {
+    var date1 = new Date()
+    
+
+    var date2 = new Date(event.dateUTC)
+
+    console.log('ICI BG', date1, 'ET LA', date2)
+
+
+    if (event.publique == true && date1<date2){
     var likeColor = "white";
     var checkVisible = { display: "none" };
     var likeVisible = { display: "flex" };
@@ -299,6 +313,12 @@ function Discover(props) {
       isLiked = true;
       likeColor = "red";
     }
+
+    var verifiedTag; 
+    if (event.admin.verified == true){
+      verifiedTag = <FontAwesome key={index} name="check-circle" size={20} color='#89CFF0' />
+    }
+
 
     var tagsForDiscover = [];
     for (var i=0; i<event.tags.length; i++){
@@ -449,11 +469,11 @@ function Discover(props) {
             style={styles.imgAvatar}
           /> 
           
-     <Text style={styles.pseudo}>{event.admin.username}</Text>
+     <Text style={styles.pseudo}>{event.admin.username}&nbsp;&nbsp;{verifiedTag}</Text>
         </View>
       </View>
 
-    );
+    );}
   });
 
 
@@ -551,7 +571,7 @@ if (byPseudo.length > 5) {
         <View style={styles.searchBarContainer}>
         <SearchBar
             containerStyle={{
-              height: 4,
+              height: 6,
               color: "black",
               position: "relative",
               backgroundColor: "transparent",
@@ -559,7 +579,7 @@ if (byPseudo.length > 5) {
               border: "black",
               borderBottomColor: "transparent",
               borderTopColor: "transparent",
-              width: (4 / 10) * screen.width,
+              width: (5 / 10) * screen.width,
             }}
             inputContainerStyle={{ backgroundColor: "transparent", border: 0 }}
             inputStyle={{ color: "black", fontSize: 14 }}
@@ -569,29 +589,11 @@ if (byPseudo.length > 5) {
             value={events} 
           /> 
 
-            
-
-          <Pressable style={{height: 25,
-                color: "red",
-                position: "relative",
-                backgroundColor: "transparent",
-                borderRadius: 0,
-                border: "red",
-                borderBottomColor: "transparent",
-                borderTopColor: "transparent",
-                width: (2/ 10) * screen.width,}}
-                onPress={()=>{filterByselected('Preferences')}}
-                >
-                   <View style={{ marginTop: 13, marginRight: -5 }}>
-                  <Text style={{color: 'grey'}}>Preferences</Text>
-                  </View>
-
-          </Pressable>
 
           <Pressable>
             <View style={{ marginTop: 12, marginRight: -5 }}>
             <SelectDropdown
-            defaultButtonText='filter...'
+            defaultButtonText='Filter by date'
             
               buttonStyle={{
                 
@@ -603,7 +605,7 @@ if (byPseudo.length > 5) {
                 border: "red",
                 borderBottomColor: "transparent",
                 borderTopColor: "transparent",
-                width: (3/ 10) * screen.width,
+                width: (5/ 10) * screen.width,
                
               }}
               buttonTextStyle={{
@@ -648,7 +650,6 @@ if (byPseudo.length > 5) {
                 ListEmptyComponent={() => <Text></Text>}
               />  
 
-        
 
         <ScrollView
           style={{ flex: 1 }}
