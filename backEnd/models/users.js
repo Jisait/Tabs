@@ -8,7 +8,9 @@ var userSchema = mongoose.Schema({
   phone: Number,
   token: String,
   avatar: String,
+  phone: String,
   myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
+  verified: Boolean
   });
   
   var userModel = mongoose.model('users', userSchema);

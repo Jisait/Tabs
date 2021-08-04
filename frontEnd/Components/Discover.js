@@ -25,6 +25,7 @@ import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown';
+import DoubleClick from 'react-native-double-click';
 import {
   useFonts,
   Poppins_100Thin,
@@ -305,9 +306,10 @@ function Discover(props) {
     }
 
 
-  
 
     return (
+      
+      
       <View
         style={{
           flex: 1,
@@ -317,6 +319,8 @@ function Discover(props) {
           paddingTop: 30,
         }}
       >
+
+
         <ImageBackground
           position="relative"
           source={{ uri: event.image }}
@@ -444,9 +448,11 @@ function Discover(props) {
             imageStyle={{ borderRadius: 50 }}
             style={styles.imgAvatar}
           /> 
+          
      <Text style={styles.pseudo}>{event.admin.username}</Text>
         </View>
       </View>
+
     );
   });
 
@@ -642,8 +648,7 @@ if (byPseudo.length > 5) {
                 ListEmptyComponent={() => <Text></Text>}
               />  
 
-        {/*     <View style={styles.searchList}>
-          </View> */}
+        
 
         <ScrollView
           style={{ flex: 1 }}
