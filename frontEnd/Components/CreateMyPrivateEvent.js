@@ -440,7 +440,7 @@ function CreateYourPrivateEvent(props) {
     
     <Text style={styles.createTextConfirm}>Your Event has been send</Text>
     <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
-    <Text style={styles.text}>Go to home</Text>
+    <Text style={styles.textGoToHome}>Go to home</Text>
     </Pressable>
     </View>
     </Overlay>
@@ -724,6 +724,18 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 
+  buttonConfirm: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 2,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0E0812',
+  },
+
   checkBoxContainer: {
     borderColor: "transparent",
     backgroundColor: "transparent",
@@ -753,6 +765,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins_700Bold",
     color: "#FFD99F",
+  },
+
+  textGoToHome: {
+    fontSize: 16,
+    fontFamily: 'Poppins_700Bold',
+    color: '#FFD99F',
   },
 
   createTextBold: {

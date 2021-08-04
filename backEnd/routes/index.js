@@ -196,7 +196,7 @@ router.get('/', function(req, res, next) {
     var user = await userModel.findOne({token: req.body.token});
    
     var allEvent = await eventsModel.find()
-    console.log("te", allEvent.contacts)
+    
 /*     var myPrivateEvent = allEvent.filter(x => x.contacts.phone == user.phone) */
 
 var result = []
