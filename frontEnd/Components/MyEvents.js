@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, Image } from 'react-native';
+import { Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, Image, StatusBar } from 'react-native';
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -186,10 +186,18 @@ console.log(event._id)
   var bannerPrivate = <View></View>
 
   if (event.publique === false) {
-    bannerPrivate = <View>
+    bannerPrivate = <View style={{position:'absolute', left: 220}}>
     <View style={styles.triangleCorner} />
     <Text style={styles.EventType}>Private Event</Text>
   </View>
+}
+
+if (event.publique === true) {
+  bannerPrivate = <View style={{position:'absolute', left: 268}}>
+  <View style={styles.triangleCornerAdmin} />
+  <View style={styles.EventTypeAdmin}>
+    <FontAwesome name="star" size={14} color="#FFEA00" /></View>
+</View>
 }
   
 
@@ -237,6 +245,7 @@ console.log(event._id)
     return (
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
            <HeaderScreen navigation={props.navigation}/>
+           <StatusBar backgroundColor="#011520" />
             <ScrollView style={{flex:1}} snapToInterval={(2/10)*screen.height} decelerationRate='fast'>
              {myEventsList}
              </ScrollView>
@@ -297,6 +306,33 @@ triangleCorner: {
   borderLeftColor: "transparent",
   borderBottomColor: "#A11C01",
 },
+
+triangleCornerAdmin: {
+  position: 'absolute',
+  left: 64,
+  top: -5,
+  width: 0,
+  height: 0,
+  backgroundColor: "transparent",
+  borderStyle: "solid",
+  borderLeftWidth: 5,
+  borderBottomWidth: 5,
+  borderLeftColor: "transparent",
+  borderBottomColor: "#8B8C8E",
+},
+
+
+EventTypeAdmin: {
+  position: 'absolute',
+  color: 'white',
+  backgroundColor: '#011520',
+  paddingHorizontal : 5,
+  paddingVertical: 4,
+  fontSize: 10,
+  left: 69,
+  top: -5,
+  textAlign: "center"
+  },
     
 desc: {
     fontSize: 15,

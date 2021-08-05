@@ -209,6 +209,26 @@ for (var i=0; i<allEvent.length; i++) {
     res.json({result})
   })
 
+    //ADD PRIVATE TO WISHLIST
+
+  router.post('/get-myPrivateEvents', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+   
+    var allEvent = await eventsModel.find()
+    
+/*     var myPrivateEvent = allEvent.filter(x => x.contacts.phone == user.phone) */
+
+var result = []
+for (var i=0; i<allEvent.length; i++) {
+
+    if (allEvent[i].contacts.some(item => user.phone.includes(item.phone))) {
+      result.push(allEvent[i])
+    }}
+
+    res.json({result})
+  })
+
 
   //REMOVE FROM WISHLIST
   router.post('/remove-from-wishlist', async function(req, res, next){

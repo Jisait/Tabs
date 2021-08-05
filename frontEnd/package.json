@@ -34,6 +34,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-cropping": "0.0.4",
+    "react-native-double-click": "^1.0.5",
     "react-native-dropdown-menu": "^2.0.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",

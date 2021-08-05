@@ -11,8 +11,7 @@ var userSchema = mongoose.Schema({
   phone: String,
   verified: Boolean,
   myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'events', confirmed: Boolean}],
-  
-  });
+   });
   
   
   

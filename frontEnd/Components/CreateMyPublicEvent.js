@@ -424,7 +424,7 @@ if (!fontsLoaded) {
     </Pressable>
     </View>
     </Overlay>
-    
+
     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
     <Text style={styles.createText}>
     {'create your '}
@@ -437,7 +437,10 @@ if (!fontsLoaded) {
     </Text>
     </View>
     
+  
+    
     <ScrollView style={{flex:1}}> 
+  
     
     
     <View style={{flex: 1, height: (6.5/10)*screen.height, flexDirection: 'column', width: (9/10)*screen.width, paddingTop: 30}}>

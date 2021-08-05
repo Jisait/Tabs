@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView, StatusBar} from 'react-native';
 import { Button, Input, Overlay, Icon } from 'react-native-elements'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -214,6 +214,7 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
       <View style={{flex:1}}>
 
       <HeaderScreen navigation={props.navigation}/>
+      <StatusBar backgroundColor="#011520" />
       
       <ImageBackground source={{ uri: props.route.params.eventURL }} style={{width: '100%', height: 50,}}>
       <LinearGradient
