@@ -336,6 +336,8 @@ function CreateYourPrivateEvent(props) {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [overlayContent, setOverlayContent] = useState();
+
 
   var handlePublishOnDisco = async (
     title,
@@ -352,7 +354,6 @@ function CreateYourPrivateEvent(props) {
       if (props.token === null)
     {props.navigation.navigate('Login')}
     else {
-      setVisible(true)
     const data = await fetch("http://"+props.ip+":3000/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -379,6 +380,29 @@ function CreateYourPrivateEvent(props) {
         props.token
     });
     const body = await data.json();
+    if (body.okay == true){
+      setOverlayContent(<View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+      <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
+      <Text style={styles.createTextBold}>Congratulations!</Text>
+      
+      <Text style={styles.createTextConfirm}>Your Event has been posted</Text>
+      <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
+      <Text style={styles.textGoToHome}>Go to Discover</Text>
+      </Pressable>
+      </View>)
+    }
+    else{
+      setOverlayContent(<View style={{display: 'flex', alignItems: 'center', height: (2/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+      <Text style={styles.createTextBold}>Warning</Text>
+      
+      <Text style={styles.createTextConfirm}>Please Complete every field</Text>
+      <Pressable style={styles.buttonConfirm} onPress={() => {setVisible(false)}}>
+      <Text style={styles.textGoToHome}>Try Again</Text>
+      </Pressable>
+      </View>)
+    }
+    setVisible(true)
+
   }}
 
   if (image != null) {
@@ -410,16 +434,9 @@ function CreateYourPrivateEvent(props) {
             }}
           />
             <Overlay isVisible={visible}>
+
+            {overlayContent}
     
-    <View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
-    <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
-    <Text style={styles.createTextBold}>Congratulations!</Text>
-    
-    <Text style={styles.createTextConfirm}>Your Event has been send</Text>
-    <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
-    <Text style={styles.textGoToHome}>Go to home</Text>
-    </Pressable>
-    </View>
     </Overlay>
 
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>

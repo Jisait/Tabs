@@ -39,10 +39,16 @@ router.get('/', function(req, res, next) {
       router.post('/add-event', async function(req, res, next){
         console.log(req.body)
 
-        
-
         var admin = await userModel.findOne({token: req.body.token});
-          
+        var erreur;
+        var okay;
+
+        if (req.body.title.trim() == '' || req.body.desc.trim() == '' || req.body.address.trim() == '' || req.body.image.trim() == ''){
+          okay = false;
+          erreur = 'Please complete every field'
+        }
+        else{
+          okay = true;
         if (req.body.publique == 'true'){
         
         const tags = req.body.tags.split(',');
@@ -81,9 +87,9 @@ router.get('/', function(req, res, next) {
               var event = await newEvent.save();
             }
 
-
+}
           
-      res.json({event})
+      res.json({event, erreur, okay})
   })
 
   //UPLOAD PICTURE ON CLOUDINARY
@@ -207,28 +213,6 @@ router.get('/', function(req, res, next) {
     var user = await userModel.findOne({token: req.body.token});
    
     var allEvent = await eventsModel.find()
-    
-/*     var myPrivateEvent = allEvent.filter(x => x.contacts.phone == user.phone) */
-
-var result = []
-for (var i=0; i<allEvent.length; i++) {
-
-    if (allEvent[i].contacts.some(item => user.phone.includes(item.phone))) {
-      result.push(allEvent[i])
-    }}
-
-    res.json({result})
-  })
-
-    //ADD PRIVATE TO WISHLIST
-
-  router.post('/get-myPrivateEvents', async function(req, res, next){
-
-    var user = await userModel.findOne({token: req.body.token});
-   
-    var allEvent = await eventsModel.find()
-    
-/*     var myPrivateEvent = allEvent.filter(x => x.contacts.phone == user.phone) */
 
 var result = []
 for (var i=0; i<allEvent.length; i++) {
@@ -374,27 +358,35 @@ for (var i=0; i<allEvent.length; i++) {
 
 //MESSAGES ROUTES: 
   //ADD MESSAGE
-    router.post('/add-message', async function(req, res, next){
-      var newEvent = new eventsModel({
-        publique: req.body.publique,
-        title: req.body.title,
-        desc: req.body.desc,
-        image: req.body.image,
-        address: req.body.address,
-        longitude: req.body.longitude,
-        latitude: req.body.latitude,
+  router.post('/add-message', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+
+
+      var newMessage = new messageModel({
+        userId: user._id,
+        eventId: req.body.eventId,
+        content: req.body.content,
         date: req.body.date,
-        tags: req.body.tags
         })
-        var event = await newEvent.save();
-        res.json({event})
+        var message = await newMessage.save();
+
+        res.json({message, user})
     })
+
+  //GET MESSAGES
+    router.post('/get-messages', async function(req, res, next){
+      var user = await userModel.findOne({token: req.body.token});
+
+      var message = await messageModel.find({eventId: req.body.eventId}).populate('userId');
+  
+  
+  
+          res.json({message, user})
+      })
 
 
   
-
-
-
 
 
 module.exports = router;

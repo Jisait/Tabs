@@ -108,7 +108,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = "172.17.1.71";
+    var ip = "172.17.1.116";
     props.onSubmitIP(ip);
   }, []);
 
