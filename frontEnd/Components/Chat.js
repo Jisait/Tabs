@@ -1,22 +1,13 @@
 import React, { useState, useEffect, useRef }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
-import { Button, Input, Overlay, Icon } from 'react-native-elements'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {Input, Icon } from 'react-native-elements'
+
 import HeaderScreen from './Header' 
 import { useIsFocused } from "@react-navigation/native";
-import { FontAwesome } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import socketIOClient from "socket.io-client";
-
-
-
 
 import {
   useFonts,
@@ -44,8 +35,6 @@ function Chat(props) {
   var socket = socketIOClient("http://"+props.ip+":3000");
   const scrollViewRef = useRef();
 
-
-  const isFocused = useIsFocused();
 
   const [currentMessage, setCurrentMessage] = useState();
   const [listMessage, setListMessage] = useState([]);
@@ -77,18 +66,6 @@ function Chat(props) {
 
     temp = response.message
   })();
-
-  
-  /* socket.on('sendMessageFromBack', (message, user, event, date)=> {
-    console.log('LOOK HERE =>', temp, listMessage)
-    if (event == eventId){
-   var messageFromSocket = {userId: {_id: user.id, avatar: user.avatar, username: user.pseudo}, eventId: event, content: message, date: date}
-   temp.push(messageFromSocket)
-   setListMessage(temp)
-   
- }
-   console.log(newMessage)
-  }) */
 
   }, []);
 
@@ -141,7 +118,6 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     alignSelf: 'flex-end',    
     borderRadius: 20,
   }} >
-{/*   <Image source={{uri: message.userId.avatar}} style={styles.avatar}/> */}
 
   <Text style={{ fontSize: 16, color: "#fff", }}>{message.content}</Text>
   <View style={styles.rightArrow}></View>
@@ -178,7 +154,6 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
 
   })
 
-  const screen = Dimensions.get("screen");
   
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -271,27 +246,6 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
       
       />
 
-{/*       <Button
-
-      title="Send"
-      Color= '#0078fe'
-      type="outline"
-      onPress={ async ()=> {
-        var date = new Date()
-        console.log('Data to send =>', props.token, currentMessage, props.route.params.eventId, date)
-
-        socket.emit("sendMessage", currentMessage, {id: userId, pseudo: userPseudo, avatar: userAvatar}, props.route.params.eventId, date)
-
-        const data = await fetch("http://"+props.ip+":3000/add-message", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "token=" + props.token + "&content="+currentMessage+"&eventId="+props.route.params.eventId+"&date="+date
-          });
-        setCurrentMessage('');
-      }
-    }
-    /> */}
-
 
     </KeyboardAvoidingView>
     
@@ -303,8 +257,6 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     
   }
 }
-
-const screen = Dimensions.get("screen"); 
 
 const styles = StyleSheet.create({
 
@@ -328,7 +280,6 @@ const styles = StyleSheet.create({
   rightArrow: {
     position: "absolute",
     backgroundColor: "#011520",
-    //backgroundColor:"red",
     width: 20,
     height: 25,
     bottom: 0,
@@ -339,7 +290,6 @@ const styles = StyleSheet.create({
   rightArrowOverlap: {
     position: "absolute",
     backgroundColor: "#FFF1DC",
-    //backgroundColor:"green",
     width: 20,
     height: 35,
     bottom: -6,
@@ -348,11 +298,9 @@ const styles = StyleSheet.create({
     
   },
   
-  /*Arrow head for recevied messages*/
   leftArrow: {
     position: "absolute",
     backgroundColor: "white",
-    //backgroundColor:"red",
     width: 20,
     height: 25,
     bottom: 0,
@@ -363,15 +311,12 @@ const styles = StyleSheet.create({
   leftArrowOverlap: {
     position: "absolute",
     backgroundColor: "#FFF1DC",
-    //backgroundColor:"green",
     width: 20,
     height: 35,
     bottom: -6,
     borderBottomRightRadius: 18,
     left: -20
-    
   },
-  
 });
 
 function mapStateToProps(state) {

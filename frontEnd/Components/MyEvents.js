@@ -61,6 +61,8 @@ function ChooseYourEvent(props) {
             const isFocused = useIsFocused();
             const[wishListContent, setWishListContent] = useState([]);
             const[userID, setUserId] = useState('');
+            const[hosted, setHosted] = useState([]);
+            const[participant, setParticipant] = useState(true)
 
 
 
@@ -104,6 +106,16 @@ function ChooseYourEvent(props) {
                     console.log("111",dataUser)
                
                     setUserId(dataUser.user._id)
+
+                    const hostedData = await fetch('http://'+props.ip+':3000/get-hostedEvents', {
+                      method: 'POST', 
+                      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                      body: 'token='+props.token
+                    })
+          
+                    const dataHosted =  await hostedData.json();
+               
+                    setHosted(dataHosted.hostedEvents)
 
                     
                 }
@@ -155,9 +167,10 @@ function ChooseYourEvent(props) {
   
   }
   }
-            
-
-let myEventsList = wishListContent.map( (event, index) => {
+  
+var myEventsList;
+if (participant == true){
+myEventsList = wishListContent.map( (event, index) => {
   var styleButtons = {display: 'flex'}
   var styleConfirmed = {display: 'none'}
 
@@ -227,18 +240,108 @@ console.log(event._id)
             eventTitle: event.title
           })}/>
                     </View>
+                    
                     </View>
             </View>
             )
     }
-)
+)}
+else{
+  myEventsList = hosted.map( (event, index) => {
+   var styleConfirmed = {display: 'flex',
+    color: 'white',
+    fontSize: 13,
+    marginTop : 5,
+    backgroundColor: '#011520',
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: 20}
 
+    var bannerPrivate = <View></View>
+  
+    if (event.publique === false) {
+      bannerPrivate = <View>
+      <View style={styles.triangleCorner} />
+      <Text style={styles.EventType}>Private Event</Text>
+    </View>
+  }
+    
+      return (
+  <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+               <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
+              
+               </ImageBackground>
+               <View style={{position: 'absolute'}}>
+                 <View style={{flexDirection: 'row'}}>
+               <Text style={styles.date}>{event.dateFront}</Text>
+                {bannerPrivate}
+              
+               </View>
+               <Text style={styles.title}>{event.title}</Text>
+               <Text style={styles.desc}>{event.desc}</Text>
+               
+               
+               </View>
+               <View style={styles.iconContainer}>
+               <View style={{position: 'absolute', right: 20, top: 5}}>
+                    <Text style={styleConfirmed}>Interested : {event.interestedParticipants.length}</Text>
+                </View>
+                <View style={{position: 'absolute', right: 130, top: 5}}>
+                    <Text style={styleConfirmed}>Confirmed : {event.confirmedParticipants.length}</Text>
+                </View>
+                <View style={{position: 'absolute', left: 25, top: 5}}>
+                    <Ionicons name="chatbox-ellipses" size={32} color="black" onPress={() => props.navigation.navigate('ChatScreen',{
+            eventId: event._id,
+            eventURL: event.image,
+            eventTitle: event.title
+          })}/>
+                    </View>
+               </View>
+                      
+</View>
+              )
+      }
+  )
 
+}
+var styleParticipant = {width: (5/ 10) * screen.width, height: (0.55 / 10) * screen.height, display: 'flex', alignItems: 'center', justifyContent: 'center'}
+var styleHost = {width: (5/ 10) * screen.width, height: (0.55 / 10) * screen.height, display: 'flex', alignItems: 'center', justifyContent: 'center'}
+if (participant == true){
+  styleParticipant = {width: (5/ 10) * screen.width, height: (0.55 / 10) * screen.height, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF1DC'}
+}
+else {
+  styleHost  = {width: (5/ 10) * screen.width, height: (0.55 / 10) * screen.height, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF1DC'}
+}
     return (
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
+    
            <HeaderScreen navigation={props.navigation}/>
+           <View style={styles.searchBarContainer}>
+             
+            <Pressable 
+            style={styleParticipant}
+            onPress={() => setParticipant(true)}
+            >
+              <Text>Participating</Text>
+            </Pressable>
+            
+
+            
+              <Pressable 
+              style={styleHost}
+              onPress={() => setParticipant(false)}
+              >
+              <Text>Hosting</Text>
+            </Pressable>
+            
+          </View>
             <ScrollView style={{flex:1}} snapToInterval={(2/10)*screen.height} decelerationRate='fast'>
              {myEventsList}
+             <View style= {{height: (0.5/10)*screen.height}}>
+              </View>
+
              </ScrollView>
         </View>
         
@@ -246,13 +349,19 @@ console.log(event._id)
     );
 
   }
-      
-
-
   
 const screen = Dimensions.get("screen"); 
 
 const styles = StyleSheet.create({
+
+  searchBarContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+
+    backgroundColor: "white",
+    height: (0.55 / 10) * screen.height,
+    width: screen.width,
+  },
 
 date: {
         color: 'black',

@@ -88,6 +88,7 @@ const [tags, setTags] = useState([])
     }) 
   }
 
+var verified={display: 'none'}
 
     useEffect(() => {
       (async () => {
@@ -97,9 +98,10 @@ const [tags, setTags] = useState([])
           body: 'token='+props.token
         })
         const body =  await data.json();
-        console.log("???", body.user.avatar)
+        console.log("???", body.user.verified)
         setAvatar(body.user.avatar)
         setName(body.user.username)
+        verified = {display: 'flex'}
     
           })();
       }, []);  
@@ -418,9 +420,11 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
       <View style= {{justifyContent: 'center', alignItems: 'center'}}>
       <Text style= {styles.title}>My account</Text>
       
-      <Pressable onPress={toggleOverlay}>
-          <Text style= {styles.userName}>{name}</Text>
+      <Pressable onPress={toggleOverlay} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+      <Text style= {styles.userName}>{name}</Text><Text style={verified}><FontAwesome name="check-circle" size={20} color='#89CFF0' /></Text>
+
       </Pressable>
+
       <Overlay style={styles.overlayContainer} isVisible={visible} onBackdropPress={() => {toggleOverlay();changeName()}}>
         <View >
 
@@ -438,11 +442,11 @@ if (image === null) {avatarView = <Image source={{uri: avatar}} style={styles.av
                            {avatarView} 
       <Pressable style={styles.avatarChange} onPress={pickAvatar} ></Pressable>
   </View> 
-        <Text style= {styles.nbreEvent}>Number of event organize : 76</Text>
-        <Text style= {styles.nbreEventPresent}>I've been to 137 events</Text>
+        <Text style= {styles.nbreEvent}>Hosted events: 3</Text>
+        <Text style= {styles.nbreEventPresent}>Attended events: 12</Text>
         <View style= {styles.hairline}></View>
         <Text style= {styles.settingsTitle}>Settings</Text>
-        <Text style= {styles.userName}>Choose your favorite theme</Text>
+        <Text style= {styles.userName}>Choose your favorite themes</Text>
 
   <View style= {{border: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 80}}>
 
@@ -647,7 +651,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Poppins_400Regular',
     fontSize : 20,
-    marginTop: 10
   },
 
   avatar: {

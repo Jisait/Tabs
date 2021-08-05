@@ -25,7 +25,6 @@ import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown';
-import DoubleClick from 'react-native-double-click';
 import {
   useFonts,
   Poppins_100Thin,
@@ -52,11 +51,7 @@ var getDistance = require("getdistance");
 
 function Discover(props) {
   const isFocused = useIsFocused();
-
-  /*   var Event :[{}] */
-
   const screen = Dimensions.get("screen");
-
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
@@ -78,12 +73,10 @@ function Discover(props) {
     Poppins_900Black_Italic,
   });
 
-  const [isLiked, setIsLiked] = useState(false);
   const [events, setEvents] = useState([]);
   const [currentLatitude, setCurrentLatitude] = useState("");
   const [currentLongitude, setCurrentLongitude] = useState("");
   const [visible, setVisible] = useState(false);
-  const [visibleSearch, setVisibleSearch] = useState(false);
   const [mapContent, setMapContent] = useState({ latitude: 0, longitude: 0 });
   const [wishListContent, setWishListContent] = useState([]);
   const [userID, setUserID] = useState("");
@@ -95,7 +88,6 @@ function Discover(props) {
 
 
 
-const [eventsWithLocation, setEventsWithLocation] = useState([]);
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(1);
@@ -114,7 +106,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
       }
     }
     askPermissions();
-    var ip = '172.17.1.116'
+    var ip = '192.168.1.20'
     props.onSubmitIP(ip);
 
   }, [])
@@ -339,6 +331,7 @@ const [eventsWithLocation, setEventsWithLocation] = useState([]);
           width: (9 / 10) * screen.width,
           paddingTop: 30,
         }}
+        key={index}
       >
 
 

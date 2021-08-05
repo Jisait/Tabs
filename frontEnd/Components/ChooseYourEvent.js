@@ -2,12 +2,7 @@ import React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
 import HeaderScreen from './Header' 
 import { } from 'react-native-elements';
-import {  Pressable , Image, Text, View,  StyleSheet, Dimensions, ScrollView, ImageComponent, ImageBackground, StatusBar } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {  Pressable ,  Text, View,  StyleSheet, Dimensions, ImageBackground, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import {
   useFonts,

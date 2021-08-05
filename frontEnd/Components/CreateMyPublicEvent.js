@@ -4,11 +4,7 @@ import HeaderScreen from './Header'
 
 import { Pressable, Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, TextInput, Button, Platform, StatusBar } from 'react-native';
 import { CheckBox, Overlay } from 'react-native-elements';
-import { FontAwesome } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -213,18 +209,7 @@ if(transformDate !== '1970') {
   const [culture, setCulture] = useState(false);
   const [misc, setMisc] = useState(false);
   
-  const [tags, setTags] = useState([])
-  
-
-  
-  /*       useEffect(() => {
-    sports === true ? setTags([...tags, 'sports']) : setTags(currentTag => currentTag.filter(tags => tags !== 'sports'));
-    games === true ? setTags([...tags, 'games']) : setTags(currentTag => currentTag.filter(tags => tags !== 'games'));
-    
-  }, [sports, games]);
-  */
-
-  
+  const [tags, setTags] = useState([]) 
   
   //CREATION DE L'EVENT
   
@@ -622,17 +607,7 @@ if (!fontsLoaded) {
       <Text style={styles.text} onPress={()=>{handlePublishOnDisco(title, desc, imageBDD, frontAddress, longitude, latitude, date, dateFront, tags)}}>POST ON DISCOVER</Text>
       </Pressable>
       </View>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
       
       </ScrollView>
       
