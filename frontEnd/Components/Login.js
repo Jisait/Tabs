@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, } from 'react-native';
+import { Image, Pressable, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { Button, Input, Overlay } from 'react-native-elements'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -48,6 +48,10 @@ const [signUpPhone, setSignUpPhone] = useState('');
 const [signInEmail, setSignInEmail] = useState('');
 const [signInPassword, setSignInPassword] = useState('');
 
+const [overlayIcon, setOverlayIcon] = useState()
+const [overlayContent, setOverlayContent] = useState()
+const [overlayAction, setOverlayAction] = useState()
+
 var avatarList = ['https://upload.wikimedia.org/wikipedia/commons/b/ba/Flower_jtca001.jpg',
                   'https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(webp):focal(1315x541:1317x539)/origin-imgresizer.eurosport.com/2014/08/05/1290094-27794704-2560-1440.jpg',
                   'https://cdn.pixabay.com/photo/2016/12/17/14/33/wave-1913559_960_720.jpg',
@@ -77,10 +81,25 @@ var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
         body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar+'&phone='+phone
       })
     const body =  await data.json();
+    if(body.okay == true){
 
     props.onSubmitToken(body.token)
     AsyncStorage.setItem('token', body.token);
+    setOverlayIcon(<MaterialIcons name="emoji-emotions" size={120} color="green" />)
+    setOverlayContent(<Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>)
+    setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
+    <Text style={styles.textConfirmLogin}>Continue</Text>
+</Pressable>)
+  }
+    else{
+      setOverlayIcon(<MaterialIcons name="mood-bad" size={120} color="red" />)
+      setOverlayContent(<Text style={styles.createTextConfirmLogin}>{body.erreurValue}</Text>)
+      setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false)}}>
+      <Text style={styles.textConfirmLogin}>Try Again</Text>
+  </Pressable>)
 
+    }
+    toggleOverlaySignUp()
     }
 
 var handleSubmitSignIn = async (email, password) => {
@@ -91,9 +110,26 @@ var handleSubmitSignIn = async (email, password) => {
         })
     const body =  await data.json();
 
-    props.onSubmitToken(body.token)
+    if(body.okay == true){
 
-    AsyncStorage.setItem('token', body.token);
+      props.onSubmitToken(body.token)
+      AsyncStorage.setItem('token', body.token);
+      setOverlayIcon(<MaterialIcons name="emoji-emotions" size={120} color="green" />)
+      setOverlayContent(<Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>)
+      setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
+      <Text style={styles.textConfirmLogin}>Continue</Text>
+  </Pressable>)
+
+    }
+      else{
+        setOverlayIcon(<MaterialIcons name="mood-bad" size={120} color="red" />)
+        setOverlayContent(<Text style={styles.createTextConfirmLogin}>{body.erreurValue}</Text>)
+        setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false)}}>
+        <Text style={styles.textConfirmLogin}>Try Again</Text>
+    </Pressable>)
+
+      }
+
     toggleOverlayLogin()
 }
     
@@ -149,8 +185,10 @@ const toggleOverlaySignUp = () => {
                 </ImageBackground>
         </View>
 
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+
         <View style= {{height: (3.5/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
-            
+
               <Input
         containerStyle={{ marginTop: 30, width: '70%' }}
         inputStyle={{ marginLeft: 10 }}
@@ -174,20 +212,21 @@ const toggleOverlaySignUp = () => {
             <Overlay isVisible={visibleLogin}>
     
     <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
-        <Ionicons name="checkmark-circle" size={120} color="green" />
-  
+      {overlayIcon}
+      {overlayContent}
     
-    <Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>
-    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
-        <Text style={styles.textConfirmLogin}>Go back !</Text>
-    </Pressable>
+    
+    {overlayAction}
     </View>
+
 </Overlay>
 
         
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecorationLine: 'underline' }} onPress={() => setLoginType(false)}>Don't have an account? Sign Up</Text>
             
         </View>
+        </KeyboardAvoidingView>
+
 
       </View>
 
@@ -208,6 +247,7 @@ else if (loginType == false){
                 </ImageBackground>
         </View>
         
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
         <View style= {{height: (5.1/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
             
@@ -243,18 +283,16 @@ else if (loginType == false){
         onChangeText={(val) => setSignUpPassword(val)}
       />
 
-            <Pressable style={styles.button} onPress={()=>{handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar, signUpPhone); toggleOverlaySignUp()}}>
+            <Pressable style={styles.button} onPress={()=>handleSubmitSignUp(signUpEmail, signUpUsername, signUpPassword, avatar, signUpPhone)}>
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>SIGN UP</Text>
             </Pressable>
 
             <Overlay isVisible={visibleSignUp}>
     
     <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
-    <Ionicons name="checkmark-circle" size={120} color="green" />
-  
-    
-    <Text style={styles.createTextConfirmLogin}>Welcome !</Text>
-    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false), props.navigation.goBack()}}>
+    {overlayIcon}
+      {overlayContent}
+    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false), overlayAction}}>
         <Text style={styles.textConfirmLogin}>Go back !</Text>
     </Pressable>
     </View>
@@ -264,6 +302,7 @@ else if (loginType == false){
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecoration: 'underline' }} onPress={() => setLoginType(true)}>Already have an account? Login</Text>
             
         </View>
+        </KeyboardAvoidingView>
 
       </View>)
 

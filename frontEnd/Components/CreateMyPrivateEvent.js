@@ -17,18 +17,11 @@ import {
   Dimensions,
   ScrollView,
   TextInput,
-  Button,
   Platform,
   FlatList,
-  ActivityIndicator,
   StatusBar
 } from "react-native";
-import { CheckBox } from "react-native-elements";
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar, Overlay } from "react-native-elements";
 import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
@@ -57,7 +50,6 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
-import ThemedListItem from "react-native-elements/dist/list/ListItem";
 
 function CreateYourPrivateEvent(props) {
   const screen = Dimensions.get("screen");
@@ -339,21 +331,6 @@ function CreateYourPrivateEvent(props) {
       </View>
     );
   });
-
-
-
-/*  useEffect(() => { */
-/*    var mapContactBDD = pressItem.map(contacts => ({firstname: contacts.firstName, lastname: contacts.lastName, phonenumber: contacts.phoneNumbers[0].number}))
-
-
-    setContactsBDD([...contactsBDD, mapContactBDD])
-
-    console.log(contactsBDD) */
-  
-
-/*   }, [pressItem]); */
-
-
 
   //CREATION DE L'EVENT
 

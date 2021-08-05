@@ -26,8 +26,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SelectDropdown from "react-native-select-dropdown";
-
+import SelectDropdown from 'react-native-select-dropdown';
 import {
   useFonts,
   Poppins_100Thin,
@@ -54,11 +53,7 @@ var getDistance = require("getdistance");
 
 function Discover(props) {
   const isFocused = useIsFocused();
-
-  /*   var Event :[{}] */
-
   const screen = Dimensions.get("screen");
-
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
@@ -80,7 +75,6 @@ function Discover(props) {
     Poppins_900Black_Italic,
   });
 
-  const [isLiked, setIsLiked] = useState(false);
   const [events, setEvents] = useState([]);
   const [currentLatitude, setCurrentLatitude] = useState("");
   const [currentLongitude, setCurrentLongitude] = useState("");

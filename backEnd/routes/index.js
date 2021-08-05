@@ -189,6 +189,17 @@ router.get('/', function(req, res, next) {
     res.json({user})
 })
 
+  //GET HOSTED EVENTS:
+  router.post('/get-hostedEvents', async function(req, res, next){
+
+    var user = await userModel.findOne({token: req.body.token});
+   
+    var hostedEvents = await eventsModel.find({admin: user._id})
+
+
+    res.json({hostedEvents})
+  })
+
   //ADD PRIVATE TO WISHLIST
 
   router.post('/get-myPrivateEvents', async function(req, res, next){
@@ -277,10 +288,10 @@ for (var i=0; i<allEvent.length; i++) {
         var okay = false;
         var token;
         if (checkEmail !== null){
-          erreurValue = 'Email Déja Existant';
+          erreurValue = 'Email already exists';
         }
-        else if (req.body.email.trim() == '' || req.body.password.trim() == '' || req.body.username.trim() == ''){
-          erreurValue = 'Entrée Invalide'
+        else if (req.body.email.trim() == '' || req.body.password.trim() == '' || req.body.username.trim() == '' || req.body.phone.trim() == ''){
+          erreurValue = 'Invalid input'
         }
         else {
         var hash = bcrypt.hashSync(req.body.password, 10)
@@ -310,14 +321,14 @@ for (var i=0; i<allEvent.length; i++) {
       var userCheck = await userModel.findOne({email: req.body.email.toLowerCase()});
     
       if (userCheck == undefined){
-        erreurValue = "email n'existe pas"
+        erreurValue = "Email Doesn't exist"
       }
       else if(bcrypt.compareSync(req.body.password, userCheck.password)){
         okay = true;
         token = userCheck.token
       }
       else{
-        erreurValue = "MDP incorrect"
+        erreurValue = "Incorrect Password"
       }
       res.json({okay, erreurValue, token})  
     })
@@ -339,7 +350,13 @@ for (var i=0; i<allEvent.length; i++) {
         })
 
   router.post('/edit-userName', async function(req, res, next){
-      var user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });
+    var user;
+    if (req.body.name.length>0){
+       user = await userModel.updateOne({ token: req.body.token},{ username: req.body.name });}
+
+    else{
+       user = await userModel.findOne({ token: req.body.token})
+    }
     res.json({user})
         })
 
