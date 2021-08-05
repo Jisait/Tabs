@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
-
+import { AntDesign } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -85,14 +85,14 @@ var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
 
     props.onSubmitToken(body.token)
     AsyncStorage.setItem('token', body.token);
-    setOverlayIcon(<MaterialIcons name="emoji-emotions" size={120} color="green" />)
+    setOverlayIcon(<Ionicons name="checkmark-circle" size={120} color="green" />)
     setOverlayContent(<Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>)
     setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
     <Text style={styles.textConfirmLogin}>Continue</Text>
 </Pressable>)
   }
     else{
-      setOverlayIcon(<MaterialIcons name="mood-bad" size={120} color="red" />)
+      setOverlayIcon(<AntDesign name="warning" size={120} color="red" />)
       setOverlayContent(<Text style={styles.createTextConfirmLogin}>{body.erreurValue}</Text>)
       setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false)}}>
       <Text style={styles.textConfirmLogin}>Try Again</Text>
@@ -114,7 +114,7 @@ var handleSubmitSignIn = async (email, password) => {
 
       props.onSubmitToken(body.token)
       AsyncStorage.setItem('token', body.token);
-      setOverlayIcon(<MaterialIcons name="emoji-emotions" size={120} color="green" />)
+      setOverlayIcon(<Ionicons name="checkmark-circle" size={120} color="green" />)
       setOverlayContent(<Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>)
       setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
       <Text style={styles.textConfirmLogin}>Continue</Text>
@@ -122,7 +122,7 @@ var handleSubmitSignIn = async (email, password) => {
 
     }
       else{
-        setOverlayIcon(<MaterialIcons name="mood-bad" size={120} color="red" />)
+        setOverlayIcon(<AntDesign name="warning" size={120} color="red" />)
         setOverlayContent(<Text style={styles.createTextConfirmLogin}>{body.erreurValue}</Text>)
         setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false)}}>
         <Text style={styles.textConfirmLogin}>Try Again</Text>

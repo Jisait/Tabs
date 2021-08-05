@@ -424,7 +424,8 @@ if (!fontsLoaded) {
     
   
     
-    <ScrollView style={{flex:1}}> 
+    <ScrollView style={{flex:1}}
+                showsVerticalScrollIndicator={false}> 
   
     
     

@@ -428,7 +428,8 @@ function CreateYourPrivateEvent(props) {
             <Text style={styles.createText}>{"event "}</Text>
           </View>
 
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }}
+                      showsVerticalScrollIndicator={false}>
             <View
               style={{
                 flex: 1,

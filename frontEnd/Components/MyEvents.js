@@ -205,13 +205,7 @@ console.log(event._id)
   </View>
 }
 
-if (event.publique === true) {
-  bannerPrivate = <View style={{position:'absolute', left: 268}}>
-  <View style={styles.triangleCornerAdmin} />
-  <View style={styles.EventTypeAdmin}>
-    <FontAwesome name="star" size={14} color="#FFEA00" /></View>
-</View>
-}
+
   
 
 
@@ -267,14 +261,7 @@ else{
     paddingRight: 12,
     borderRadius: 20}
 
-    var bannerPrivate = <View></View>
-  
-    if (event.publique === false) {
-      bannerPrivate = <View>
-      <View style={styles.triangleCorner} />
-      <Text style={styles.EventType}>Private Event</Text>
-    </View>
-  }
+
     
       return (
   <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
@@ -284,7 +271,11 @@ else{
                <View style={{position: 'absolute'}}>
                  <View style={{flexDirection: 'row'}}>
                <Text style={styles.date}>{event.dateFront}</Text>
-                {bannerPrivate}
+               <View style={{position:'absolute', left: 268}}>
+                  <View style={styles.triangleCornerAdmin} />
+                  <View style={styles.EventTypeAdmin}>
+                    <FontAwesome name="star" size={14} color="#FFEA00" /></View>
+              </View>
               
                </View>
                <Text style={styles.title}>{event.title}</Text>
@@ -326,13 +317,14 @@ else {
         <View style={{flex:1, alignItems: 'center', backgroundColor: '#FFF1DC'}}>
     
            <HeaderScreen navigation={props.navigation}/>
+           <StatusBar backgroundColor="#011520" />
            <View style={styles.searchBarContainer}>
              
             <Pressable 
             style={styleParticipant}
             onPress={() => setParticipant(true)}
             >
-              <Text>Participating</Text>
+              <Text style={styles.PartiHost}>Participating</Text>
             </Pressable>
             
 
@@ -341,7 +333,7 @@ else {
               style={styleHost}
               onPress={() => setParticipant(false)}
               >
-              <Text>Hosting</Text>
+              <Text style={styles.PartiHost}>Hosting</Text>
             </Pressable>
             
           </View>
@@ -464,7 +456,12 @@ iconContainer: {
     height: '26%', width: '100%',
     backgroundColor: '#FFD99F',
     borderBottomRightRadius: 16
-            }
+            },
+
+  PartiHost:{
+    fontFamily: 'Poppins_500Medium',
+    textTransform: 'uppercase',
+  }
 
 });
 
