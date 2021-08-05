@@ -216,7 +216,9 @@ if(transformDate !== '1970') {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [visible, setVisible] = useState(false);
-  
+
+  const [overlayContent, setOverlayContent] = useState();
+
   
   
   
@@ -225,13 +227,35 @@ if(transformDate !== '1970') {
     if (props.token === null)
     {props.navigation.navigate('Login')}
     else{
-      setVisible(true)
       const data = await fetch('http://'+props.ip+':3000/add-event', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'publique=true&title='+title+'&desc='+desc+'&image='+img+'&address='+frontAddress+'&longitude='+longitude+'&latitude='+latitude+'&dateUTC='+date+'&dateFront='+dateFront+'&tags='+tags+'&token='+props.token
     })
     const body =  await data.json();
+    if (body.okay == true){
+      setOverlayContent(
+        <View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+        <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
+        <Text style={styles.createTextBold}>Congratulations!</Text>
+        
+        <Text style={styles.createTextConfirm}>Your Event has been posted</Text>
+        <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
+        <Text style={styles.text}>Go to home</Text>
+        </Pressable>
+        </View>)
+    }
+    else{
+      setOverlayContent(<View style={{display: 'flex', alignItems: 'center', height: (4/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
+      <Text style={styles.createTextBold}>Warning</Text>
+      
+      <Text style={styles.createTextConfirm}>Please Complete every field</Text>
+      <Pressable style={styles.buttonConfirm} onPress={() => {setVisible(false)}}>
+      <Text style={styles.text}>Try Again</Text>
+      </Pressable>
+      </View>)
+    }
+    setVisible(true)
   }
   
 }
@@ -398,16 +422,7 @@ if (!fontsLoaded) {
     }}/>
     
     <Overlay isVisible={visible}>
-    
-    <View style={{display: 'flex', alignItems: 'center', height: (5/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
-    <Ionicons name="ios-checkmark-circle-outline" size={120} color="#1AC83C" />
-    <Text style={styles.createTextBold}>Congratulations!</Text>
-    
-    <Text style={styles.createTextConfirm}>Your Event has been posted</Text>
-    <Pressable style={styles.buttonConfirm} onPress={() => {props.navigation.navigate('Disco'), setVisible(false)}}>
-    <Text style={styles.text}>Go to home</Text>
-    </Pressable>
-    </View>
+    {overlayContent}
     </Overlay>
 
     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
