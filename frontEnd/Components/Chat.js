@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef }  from 'react';
 import AppLoading from 'expo-app-loading';
-import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { Image, ImageBackground, Text, View,  StyleSheet, Dimensions, ScrollView, KeyboardAvoidingView, StatusBar,} from 'react-native';
 import {Input, Icon } from 'react-native-elements'
 
 import HeaderScreen from './Header' 
@@ -189,6 +189,7 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
       <View style={{flex:1}}>
 
       <HeaderScreen navigation={props.navigation}/>
+      <StatusBar backgroundColor="#011520" />
       
       <ImageBackground source={{ uri: props.route.params.eventURL }} style={{width: '100%', height: 50,}}>
       <LinearGradient

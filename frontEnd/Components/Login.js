@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
+
 import { FontAwesome } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -55,14 +57,17 @@ var avatarList = ['https://upload.wikimedia.org/wikipedia/commons/b/ba/Flower_jt
                   'https://cdn.pixabay.com/photo/2016/12/17/14/33/wave-1913559_960_720.jpg',
                   'https://cdn.laredoute.com/products/1200by1200/5/e/9/5e98a37d79d5a087d803de9a5dcb260c.jpg',
                   'http://lapausephilo.fr/wp-content/uploads/2015/12/A-Matrix-couverture-article-750x422.jpg',
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pirate_Flag_of_Jack_Rackham.svg/800px-Pirate_Flag_of_Jack_Rackham.svg.png'
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pirate_Flag_of_Jack_Rackham.svg/800px-Pirate_Flag_of_Jack_Rackham.svg.png',
+                  'https://media.melty.fr/article-4308009-ajust_1460/media.jpg',
+                  'https://thumbs.dreamstime.com/b/cool-angry-cartoon-monster-vector-halloween-avatar-print-illustration-isolated-110119757.jpg',
+                  'https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1127x833:1129x831)/origin-imgresizer.eurosport.com/2018/10/10/2437853-50655830-2560-1440.jpg'
                   ]
 
   function getRandomInt(max) {
                     return Math.floor(Math.random() * max);
                   }
               
-var avatar = avatarList[getRandomInt(5)]
+var avatar = avatarList[getRandomInt(8)]
 
 
 
@@ -244,7 +249,7 @@ else if (loginType == false){
         
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-        <View style= {{height: (5/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
+        <View style= {{height: (5.1/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
             
         <Input
         containerStyle={{ marginTop: 30, width: '70%' }}
@@ -343,7 +348,7 @@ const styles = StyleSheet.create({
         marginTop: 21
         },
 
-        buttonConfirmlogin: {
+        buttonConfirmLogin: {
           marginTop: 20,
           alignItems: 'center',
           justifyContent: 'center',
