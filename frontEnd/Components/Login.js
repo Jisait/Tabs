@@ -282,17 +282,16 @@ else if (loginType == false){
                     <Text style={{ fontSize: 21, fontFamily: 'Poppins_700Bold', color: '#FFD99F'}}>SIGN UP</Text>
             </Pressable>
 
-            <Overlay isVisible={visibleSignUp}>
+            
+            <Overlay isVisible={visibleLogin}>
     
     <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
-    {overlayIcon}
+      {overlayIcon}
       {overlayContent}
-    <Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false), overlayAction}}>
-        <Text style={styles.textConfirmLogin}>Go back !</Text>
-    </Pressable>
+    {overlayAction}
     </View>
-</Overlay>
 
+</Overlay>
         
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecoration: 'underline' }} onPress={() => setLoginType(true)}>Already have an account? Login</Text>
             
