@@ -210,7 +210,10 @@ console.log(event._id)
 
 
     return (
-<View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+<View 
+style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}
+key={index}
+>
              <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
             
              </ImageBackground>
@@ -230,7 +233,7 @@ console.log(event._id)
                     <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons}/>
                     </View>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
-                    <Text style={styleConfirmed}>Confirmed</Text>
+                    <Text style={styleConfirmed}>You confirmed your presence</Text>
                     </View>
                     <View style={{position: 'absolute', right: 72, top: 5}}>
                     <Ionicons name="checkmark-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => addToConfirm(event, isConfirmed)}/>
@@ -264,7 +267,10 @@ else{
 
     
       return (
-  <View style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}>
+  <View 
+  style= {{height: (2/10)*screen.height, flexDirection: 'column', width: (9.6/10)*screen.width, backgroundColor: 'white', marginHorizontal:(0.1/10)*screen.height, marginVertical:(0.2/10)*screen.height, borderTopLeftRadius: 36, borderBottomRightRadius: 16, position: 'relative'}}
+  key={index}
+  >
                <ImageBackground position= 'relative' source={{uri: event.image}} imageStyle={{ borderTopLeftRadius: 36}} style={ styles.imgBackground }>
               
                </ImageBackground>

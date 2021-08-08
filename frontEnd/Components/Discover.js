@@ -23,7 +23,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown';
@@ -99,7 +98,7 @@ function Discover(props) {
 
   useEffect(() => {
     async function askPermissions() {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
           setCurrentLatitude(location.coords.latitude);
@@ -108,7 +107,7 @@ function Discover(props) {
       }
     }
     askPermissions();
-    var ip = "172.17.1.116";
+    var ip = "192.168.8.29";
     props.onSubmitIP(ip);
   }, []);
 
@@ -365,6 +364,7 @@ function Discover(props) {
             width: (9 / 10) * screen.width,
             paddingTop: 30,
           }}
+          key={index}
         >
           <ImageBackground
             position="relative"
@@ -580,7 +580,7 @@ function Discover(props) {
         <View style={styles.searchBarContainer}>
           <SearchBar
             containerStyle={{
-              height: 6,
+              height: 12,
               color: "black",
               position: "relative",
               backgroundColor: "transparent",

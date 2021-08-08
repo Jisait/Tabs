@@ -1,6 +1,5 @@
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs(['Warning: ...']);
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings([""]);
 import React, { useState, useEffect }  from 'react';
 import { StatusBar } from 'expo-status-bar'
 import AppLoading from 'expo-app-loading';

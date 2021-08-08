@@ -117,7 +117,8 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     maxWidth: '75%',
     alignSelf: 'flex-end',    
     borderRadius: 20,
-  }} >
+  }}
+  key={index} >
 
   <Text style={{ fontSize: 16, color: "#fff", }}>{message.content}</Text>
   <View style={styles.rightArrow}></View>
@@ -139,7 +140,8 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     maxWidth: '75%',
     alignSelf: 'flex-start',
     borderRadius: 20,
-  }} >
+  }} 
+  key={index}>
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
   <Image source={{uri: message.userId.avatar}} style={styles.avatar}/>
   <Text style={{color: 'black', fontSize: 10, fontStyle: 'italic'}}>{message.userId.username}</Text>

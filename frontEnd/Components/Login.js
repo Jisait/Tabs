@@ -87,14 +87,14 @@ var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
     AsyncStorage.setItem('token', body.token);
     setOverlayIcon(<Ionicons name="checkmark-circle" size={120} color="green" />)
     setOverlayContent(<Text style={styles.createTextConfirmLogin}>Good to see you again !</Text>)
-    setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false), props.navigation.goBack()}}>
+    setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false), props.navigation.goBack()}}>
     <Text style={styles.textConfirmLogin}>Continue</Text>
 </Pressable>)
   }
     else{
       setOverlayIcon(<AntDesign name="warning" size={120} color="red" />)
       setOverlayContent(<Text style={styles.createTextConfirmLogin}>{body.erreurValue}</Text>)
-      setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleLogin(false)}}>
+      setOverlayAction(<Pressable style={styles.buttonConfirmLogin} onPress={() => {setVisibleSignUp(false)}}>
       <Text style={styles.textConfirmLogin}>Try Again</Text>
   </Pressable>)
 
@@ -288,7 +288,7 @@ else if (loginType == false){
             </Pressable>
 
             
-            <Overlay isVisible={visibleLogin}>
+            <Overlay isVisible={visibleSignUp}>
     
     <View style={{display: 'flex', alignItems: 'center', height: (3.8/10)*screen.height, width: (7/10)*screen.width, paddingTop: 30, paddingHorizontal: 20, borderRadius: 70}}>
       {overlayIcon}
