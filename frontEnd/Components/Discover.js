@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import AppLoading from "expo-app-loading";
 import {
   Pressable,
-  Image,
   ImageBackground,
   Text,
   View,
@@ -304,6 +303,8 @@ function Discover(props) {
       setEvents(temp);
     }
   };
+  
+
   var discoverList;
 
   discoverList = events.map((event, index) => {

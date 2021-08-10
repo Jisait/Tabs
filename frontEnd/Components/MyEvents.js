@@ -133,6 +133,25 @@ function ChooseYourEvent(props) {
               }
             , [isFocused]); 
 
+var removeFromWishList = async (event, isConfirmed) =>{
+  if(isConfirmed === false){
+    const removeData = await fetch("http://"+props.ip+":3000/remove-from-wishlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "token=" + props.token + "&id=" + event._id,
+    });
+    const removeBody = await removeData.json()  
+
+  const data = await fetch("http://"+props.ip+":3000/get-Myevents", {
+  method: 'POST', 
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: 'token='+props.token
+})
+const body =  await data.json();
+setWishListContent(body.myEvents)
+}
+}
+
   var addToConfirm = async (event, isConfirmed) =>{
     if(isConfirmed === false){
     const userData = await fetch('http://'+props.ip+':3000/add-to-confirm', {
@@ -230,7 +249,7 @@ key={index}
              </View>
                     <View style={styles.iconContainer}>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
-                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons}/>
+                    <Ionicons name="close-circle-outline" size={32} color="#011520" style={styleButtons} onPress={() => removeFromWishList(event, isConfirmed)}/>
                     </View>
                     <View style={{position: 'absolute', right: 22, top: 5}}>
                     <Text style={styleConfirmed}>You confirmed your presence</Text>
