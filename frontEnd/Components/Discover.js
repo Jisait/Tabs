@@ -119,7 +119,7 @@ function Discover(props) {
       async function loadData() {
         // CHANGE POUR TON IP LORS DE RESR
 
-        const data = await fetch("http://" + props.ip + ":3000/get-event");
+        const data = await fetch("https://intense-bayou-90138.herokuapp.com/get-event");
         var eventData = await data.json();
 
         var neweventDATA = eventData.events;
@@ -174,7 +174,7 @@ function Discover(props) {
 
       AsyncStorage.getItem("token", async function (error, token) {
         if (token) {
-          const data = await fetch("http://" + props.ip + ":3000/get-user", {
+          const data = await fetch("https://intense-bayou-90138.herokuapp.com/get-user", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: "token=" + token,
@@ -188,7 +188,7 @@ function Discover(props) {
           setUserID(body.user._id);
 
           const confirmed = await fetch(
-            "http://" + props.ip + ":3000/get-Myevents",
+            "https://intense-bayou-90138.herokuapp.com/get-Myevents",
             {
               method: "POST",
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -257,7 +257,7 @@ function Discover(props) {
 
   var addToWishlist = async (event, isLiked) => {
     if (isLiked === false) {
-      const data = await fetch("http://" + props.ip + ":3000/add-to-wishlist", {
+      const data = await fetch("https://intense-bayou-90138.herokuapp.com/add-to-wishlist", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "token=" + props.token + "&id=" + event._id,
@@ -267,7 +267,7 @@ function Discover(props) {
       setWishListContent(body.user.myEvents);
     } else {
       const data = await fetch(
-        "http://" + props.ip + ":3000/remove-from-wishlist",
+        "https://intense-bayou-90138.herokuapp.com/remove-from-wishlist",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },

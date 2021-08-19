@@ -9,54 +9,12 @@ import HeaderScreen from './Header'
 import { Ionicons } from '@expo/vector-icons'; 
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
-import {
-    useFonts,
-    Poppins_100Thin,
-    Poppins_100Thin_Italic,
-    Poppins_200ExtraLight,
-    Poppins_200ExtraLight_Italic,
-    Poppins_300Light,
-    Poppins_300Light_Italic,
-    Poppins_400Regular,
-    Poppins_400Regular_Italic,
-    Poppins_500Medium,
-    Poppins_500Medium_Italic,
-    Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
-    Poppins_700Bold,
-    Poppins_700Bold_Italic,
-    Poppins_800ExtraBold,
-    Poppins_800ExtraBold_Italic,
-    Poppins_900Black,
-    Poppins_900Black_Italic,
-  } from '@expo-google-fonts/poppins';
-
 
 
 function ChooseYourEvent(props) {
 
     
 
-    let [fontsLoaded] = useFonts({
-        Poppins_100Thin,
-      Poppins_100Thin_Italic,
-      Poppins_200ExtraLight,
-      Poppins_200ExtraLight_Italic,
-      Poppins_300Light,
-      Poppins_300Light_Italic,
-      Poppins_400Regular,
-      Poppins_400Regular_Italic,
-      Poppins_500Medium,
-      Poppins_500Medium_Italic,
-      Poppins_600SemiBold,
-      Poppins_600SemiBold_Italic,
-      Poppins_700Bold,
-      Poppins_700Bold_Italic,
-      Poppins_800ExtraBold,
-      Poppins_800ExtraBold_Italic,
-      Poppins_900Black,
-      Poppins_900Black_Italic,
-      });
 
             const isFocused = useIsFocused();
             const[wishListContent, setWishListContent] = useState([]);
@@ -71,7 +29,7 @@ function ChooseYourEvent(props) {
                 async function loadData(){
                   
 
-                    const data = await fetch('http://'+props.ip+':3000/get-Myevents', {
+                    const data = await fetch('https://intense-bayou-90138.herokuapp.com/get-Myevents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -80,7 +38,7 @@ function ChooseYourEvent(props) {
                     var temp = body.myEvents
                    
 
-                    const nonPublic = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+                    const nonPublic = await fetch('https://intense-bayou-90138.herokuapp.com/get-myPrivateEvents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -96,7 +54,7 @@ function ChooseYourEvent(props) {
                  
                    
                    
-                    const userData = await fetch('http://'+props.ip+':3000/get-user', {
+                    const userData = await fetch('https://intense-bayou-90138.herokuapp.com/get-user', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -107,7 +65,7 @@ function ChooseYourEvent(props) {
                
                     setUserId(dataUser.user._id)
 
-                    const hostedData = await fetch('http://'+props.ip+':3000/get-hostedEvents', {
+                    const hostedData = await fetch('https://intense-bayou-90138.herokuapp.com/get-hostedEvents', {
                       method: 'POST', 
                       headers: {'Content-Type':'application/x-www-form-urlencoded'},
                       body: 'token='+props.token
@@ -135,14 +93,14 @@ function ChooseYourEvent(props) {
 
 var removeFromWishList = async (event, isConfirmed) =>{
   if(isConfirmed === false){
-    const removeData = await fetch("http://"+props.ip+":3000/remove-from-wishlist", {
+    const removeData = await fetch("https://intense-bayou-90138.herokuapp.com/remove-from-wishlist", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: "token=" + props.token + "&id=" + event._id,
     });
     const removeBody = await removeData.json()  
 
-  const data = await fetch("http://"+props.ip+":3000/get-Myevents", {
+  const data = await fetch("https://intense-bayou-90138.herokuapp.com/get-Myevents", {
   method: 'POST', 
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
   body: 'token='+props.token
@@ -154,7 +112,7 @@ setWishListContent(body.myEvents)
 
   var addToConfirm = async (event, isConfirmed) =>{
     if(isConfirmed === false){
-    const userData = await fetch('http://'+props.ip+':3000/add-to-confirm', {
+    const userData = await fetch('https://intense-bayou-90138.herokuapp.com/add-to-confirm', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&id='+event._id
@@ -163,7 +121,7 @@ setWishListContent(body.myEvents)
     
     setUserId(user.user)
 
-    const data = await fetch('http://'+props.ip+':3000/get-Myevents', {
+    const data = await fetch('https://intense-bayou-90138.herokuapp.com/get-Myevents', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'token='+props.token
@@ -172,7 +130,7 @@ setWishListContent(body.myEvents)
     var temp = body.myEvents
    
 
-    const nonPublic = await fetch('http://'+props.ip+':3000/get-myPrivateEvents', {
+    const nonPublic = await fetch('https://intense-bayou-90138.herokuapp.com/get-myPrivateEvents', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'token='+props.token

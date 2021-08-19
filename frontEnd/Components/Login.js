@@ -75,7 +75,7 @@ var avatar = avatarList[getRandomInt(8)]
 
 
 var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
-    const data = await fetch('http://'+props.ip+':3000/sign-up', {
+    const data = await fetch('https://intense-bayou-90138.herokuapp.com/sign-up', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&username='+username+'&password='+password+'&avatar='+avatar+'&phone='+phone
@@ -103,7 +103,7 @@ var handleSubmitSignUp = async (email, username, password, avatar, phone) => {
     }
 
 var handleSubmitSignIn = async (email, password) => {
-    const data = await fetch('http://'+props.ip+':3000/sign-in', {
+    const data = await fetch('https://intense-bayou-90138.herokuapp.com/sign-in', {
         method: 'POST', 
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'email='+email+'&password='+password
@@ -185,7 +185,6 @@ const toggleOverlaySignUp = () => {
                 </ImageBackground>
         </View>
 
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
         <View style= {{height: (3.5/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
 
@@ -225,7 +224,6 @@ const toggleOverlaySignUp = () => {
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecorationLine: 'underline' }} onPress={() => setLoginType(false)}>Don't have an account? Sign Up</Text>
             
         </View>
-        </KeyboardAvoidingView>
 
 
       </View>
@@ -247,7 +245,6 @@ else if (loginType == false){
                 </ImageBackground>
         </View>
         
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
         <View style= {{height: (5.1/10)*screen.height, flexDirection: 'column', alignItems: 'center', width: (7/10)*screen.width, backgroundColor: 'white', margin:(0.3/10)*screen.height, borderRadius: 3}}>
             
@@ -301,7 +298,6 @@ else if (loginType == false){
         <Text style={{color: 'blue', fontSize: 15, marginTop: 20, textDecoration: 'underline' }} onPress={() => setLoginType(true)}>Already have an account? Login</Text>
             
         </View>
-        </KeyboardAvoidingView>
 
       </View>)
 

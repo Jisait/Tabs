@@ -112,7 +112,7 @@ function CreateYourPrivateEvent(props) {
       name: "event_picture.jpg",
     });
 
-    var rawResponse = await fetch("http://"+props.ip+":3000/pictureUpload", {
+    var rawResponse = await fetch("https://intense-bayou-90138.herokuapp.com/pictureUpload", {
       method: "post",
       body: data,
     });
@@ -354,7 +354,7 @@ function CreateYourPrivateEvent(props) {
       if (props.token === null)
     {props.navigation.navigate('Login')}
     else {
-    const data = await fetch("http://"+props.ip+":3000/add-event", {
+    const data = await fetch("https://intense-bayou-90138.herokuapp.com/add-event", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body:

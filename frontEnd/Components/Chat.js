@@ -51,7 +51,7 @@ function Chat(props) {
 
   useEffect( () => {
     (async () => {
-    const data = await fetch("http://"+props.ip+":3000/get-messages", {
+    const data = await fetch("https://intense-bayou-90138.herokuapp.com/get-messages", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: "eventId="+props.route.params.eventId+"&token="+props.token
@@ -237,7 +237,7 @@ var dateFront = selectedMonthName+' '+jour+', '+year+' - '+hour+':'+minutes
     
             socket.emit("sendMessage", currentMessage, {id: userId, pseudo: userPseudo, avatar: userAvatar}, props.route.params.eventId, date)
     
-            const data = await fetch("http://"+props.ip+":3000/add-message", {
+            const data = await fetch("https://intense-bayou-90138.herokuapp.com/add-message", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "token=" + props.token + "&content="+currentMessage+"&eventId="+props.route.params.eventId+"&date="+date

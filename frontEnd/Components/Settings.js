@@ -81,7 +81,7 @@ const [tags, setTags] = useState([])
   };
 
   const changeName = async () => {
-    const dataName = await fetch('http://'+props.ip+':3000/edit-userName', {
+    const dataName = await fetch('https://intense-bayou-90138.herokuapp.com/edit-userName', {
       method: 'POST', 
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'token='+props.token+'&name='+newName
@@ -92,7 +92,7 @@ var verified={display: 'none'}
 
     useEffect(() => {
       (async () => {
-        const data = await fetch('http://'+props.ip+':3000/get-user', {
+        const data = await fetch('https://intense-bayou-90138.herokuapp.com/get-user', {
           method: 'POST', 
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: 'token='+props.token
@@ -179,7 +179,7 @@ console.log(props.tags)
             name: "event_picture.jpg",
           });
           
-          var rawResponse = await fetch("http://"+props.ip+":3000/pictureUpload", {
+          var rawResponse = await fetch("https://intense-bayou-90138.herokuapp.com/pictureUpload", {
           method: "post",
           body: data,
           
@@ -189,7 +189,7 @@ console.log(props.tags)
           console.log('voyons', response.url)
           setAvatar(response.url)
 
-          const dataAvatar = await fetch('http://'+props.ip+':3000/edit-userAvatar', {
+          const dataAvatar = await fetch('https://intense-bayou-90138.herokuapp.com/edit-userAvatar', {
             method: 'POST', 
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'token='+props.token+'&avatar='+response.url
